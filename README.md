@@ -1,13 +1,13 @@
-# Absence of evaluative conditioning with briefly presented conditioned stimuli even at above-chance identification levels
+## Absence of evaluative conditioning with briefly presented conditioned stimuli even at above-chance identification levels
 
-Christoph Stahl, Julia Haaf, and Olivier Corneille
+### Authors: Christoph Stahl, Julia Haaf, and Olivier Corneille
 
-Abstract:
+### Abstract:
 
-  Previous research has claimed that evaluative conditioning (EC) effects
+>  Previous research has claimed that evaluative conditioning (EC) effects
   may obtain in the absence of perceptual identification of conditioned stimuli (CSs).
-  A recent meta-analysis, based on a small body of evidence ($k = 8$ studies), suggested
-  similar effect sizes for supra- and subliminal CSs [@hofmann_evaluative_2010]. We
+  A recent meta-analysis, based on a small body of evidence (*k = 8* studies), suggested
+  similar effect sizes for supra- and subliminal CSs (Hofmann et al., 2010). We
   critically discuss this prior evidence, and then report and discuss six experimental
   studies that investigate EC effects for briefly presented CSs using more stringent
   methods. Across these studies, we varied a number of parameters, namely the CS duration,
@@ -20,4 +20,4 @@ Abstract:
   CSs are not very robust, or are very small, or are limited to specific conditions
   that remain to be identified (or any combination of these).
 
-This repository contains the manuscript, as well as data, code, and materials necessary to reproduce the manuscript.
+This repository contains the manuscript (main.pdf), as well as data, code, and materials necessary to reproduce the manuscript (see main.Rmd).
