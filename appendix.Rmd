@@ -1,0 +1,106 @@
+
+# Appendix
+
+## US images used in Experiments 1-5 (IAPS No.)
+
+```{r 'uslist_exp1'}
+
+uslist1_pos <- paste(sort(subset(us_list_exp1, Val=='Pos', select=IAPS_no)$IAPS_no), collapse=", ")
+uslist1_neg <- paste(sort(subset(us_list_exp1, Val=='Neg', select=IAPS_no)$IAPS_no), collapse=", ")
+
+```
+
+Positive USs: `r uslist1_pos`
+
+Negative USs: `r uslist1_neg`
+
+<!--
+## Nonwords used in Experiments 1-4 (in alphabetical order; [BR] indicates nonwords taken from Brendl et al., 2001; [ST] indicates nonwords taken from Stahl et al., 2009])
+
+Botsy [BR], Botuyn [ST], Frask [BR], Furasti [ST], Hilejin [ST], Hiwawa [ST], Jaciyn [ST], Kiwehon [ST], Larnist [BR], Laumens [BR], Medan [BR], Molkate [BR], Nalber [BR], Noste [BR], Obacu [ST], Permife [BR], Pimuide [ST], Schese [BR], Sleshen [BR], Tewok [ST], Ubajec [ST], Umeuken [BR], Uwimor [ST], Yosud [ST]
+
+## Nonwords used in Experiment 5
+
+uhnong, ikzunt, banzon, doscho, offukt, orsutz, gowann, kibono, muoror, novuui, polust, plonim, raggun, virlog, zefill, oesgubi, ompfing, fehrrid, fanstur, faloilo, godacht, kumutoa, kantikt, misukor, plistuk, stodeen, sebjukt, trupfan, emkruas, baigbur
+
+### Face photographs used in Experiment 5 (examples):
+Mneu01_.bmp
+W03.bmp
+M13.bmp
+M16_.bmp
+Mneu20_.bmp
+Mneu25_.bmp
+PM04.bmp
+W02.bmp
+Mneu11_.bmp
+M07.bmp
+M12.bmp
+M18.bmp
+Mneu24_.bmp
+Mneu04_.bmp
+Mneu18_.bmp
+W04.bmp
+M14.bmp
+M02_.bmp
+W12.bmp
+W15.bmp
+W19.bmp
+Wneu02_.bmp
+W16.bmp
+W17.bmp
+W20.bmp
+W07.bmp
+Wneu01_.bmp
+Mneu05_.bmp
+Wneu05_.bmp
+Wneu03_.bmp
+
+
+### Product pictures used in Experiment 5 (examples):
+cs1.bmp
+cs2.bmp
+cs3.bmp
+cs4.bmp
+cs5.bmp
+cs6.bmp
+cs7neu.bmp
+cs8.bmp
+cs9.bmp
+cs10.bmp
+cs11.bmp
+cs12.bmp
+cs13.bmp
+cs14.bmp
+cs15.bmp
+cs16neu.bmp
+cs17.bmp
+cs18.bmp
+cs19.bmp
+cs20.bmp
+cs21.bmp
+cs22.bmp
+cs23.bmp
+cs24.bmp
+cs25.bmp
+cs26.bmp
+cs27.bmp
+cs28.bmp
+cs29.bmp
+cs30.bmp
+-->
+
+## US images used in Experiment 6 (IAPS No.)
+
+```{r 'uslist_exp6'}
+
+uslist6_pos <- paste(sort(subset(us_list_exp6, Val=='Pos', select=IAPS_no)$IAPS_no), collapse=", ")
+uslist6_neg <- paste(sort(subset(us_list_exp6, Val=='Neg', select=IAPS_no)$IAPS_no), collapse=", ")
+uslist6_neu <- paste(sort(subset(us_list_exp6, Val=='Neu', select=IAPS_no)$IAPS_no), collapse=", ")
+
+```
+
+Positive USs: `r uslist6_pos`
+
+Neutral USs: `r uslist6_neu`
+
+Negative USs: `r uslist6_neg`

@@ -1,0 +1,2310 @@
+
+```{r 'init', warning = FALSE, message = FALSE, echo=FALSE}
+
+if(!require(papaja)){devtools::install_github("crsh/papaja")}
+library(papaja)
+
+source("material/einles.R")
+
+format_p <- function(pval){
+  if (pval < .001) return("p < .001")
+  else if (pval < .01) return(paste0("p = ", round(pval, digits=3)))
+  else return(paste0("p = ", round(pval, digits=2)))
+}
+
+#required libraries
+if(!require(data.table)){install.packages("data.table")}
+library(data.table)
+
+if(!require(ez)){install.packages("ez")}
+library(ez)
+
+if(!require(lsr)){install.packages("lsr")}
+library(lsr)
+
+if(!require("reshape2")){install.packages("reshape2")}
+library("reshape2")
+
+if(!require("Rmisc")){install.packages("Rmisc")}
+library("Rmisc")
+
+if(!require("plotrix")){install.packages("plotrix")}
+library("plotrix")
+
+if(!require("UsingR")){install.packages("UsingR")}
+library("UsingR")
+
+if(!require("BayesFactor")){install.packages("BayesFactor")}
+library(BayesFactor)
+
+```
+
+# Experiment 1
+
+In Experiment 1, CSs were presented for either 30 or 100 ms and paired with multiple USs of the same valence, which were presented as background images during the pairing phase. 
+After the pairing phase, participants evaluated the CSs on rating scales. 
+Participants were asked to pay attention to the briefly presented stimuli in the center of the screen, and to try to identify them. 
+Based on the results of a pre-test, we expected CS identification to be slightly above chance in the short (30ms masked) presentation condition.
+
+In addition to the non-words, we also used words of the German language as CSs. 
+This was done to further reduce the overall difficulty of the task of identifying the briefly flashed stimuli in order to keep up participants' motivation throughout the experiment. The word data are not reported because they are irrelevant for our hypotheses.
+
+```{r 'exp1_prepare', warning = FALSE, message = FALSE, echo=FALSE}
+
+## import raw data:
+# experiment <- "ecosub2b"
+# varnames <- "color cs rep wort istwort istpositiv uspositiv istmaskiert us0 us1 us2 us3 us4 liking0 liking1 liking2 sichtbar_response sichtbar_rt"
+# # pfad = paste("/mnt/nas/labor/daten/", experiment, "/", sep="")
+# pfad = paste("l:/daten/", experiment, "/", sep="") 
+# einles(expname = experiment, pfad = pfad, skips = 599, nrows = 244, vars = varnames, totalrows = 839)
+# data.1 <- read.table(file=paste("data/", "all_", experiment, ".dat", sep=""), header=T)
+
+## load gathered data
+data.1 <- read.table(file="data/data.1.dat", header=T)
+
+#VPN number 2 was a test dataset
+data.1 <- subset(data.1, vpnr!=2)
+
+
+### prepare variables
+data.1$istmaskiert <- factor(data.1$istmaskiert, labels = c("100ms", "30ms"))
+data.1$uspositiv <- factor(data.1$uspositiv, labels = c("neg", "pos"))
+data.1$istwort <- factor(data.1$istwort, labels = c("nonwords", "words"))
+data.1$istpositiv <- factor(data.1$istpositiv, labels = c("non", "pos", "neg"))
+data.1$vpnr <- factor(data.1$vpnr)
+
+### compute N_participants and nCS
+N.and.CS(data.1$vpnr, data.1$cs)
+
+### prepare ratings variable
+dv <- data.frame(data.1$liking0, data.1$liking1, data.1$liking2)
+
+# correlation of dependent variables
+dv.cor <- round(cor(dv), digits=2)
+
+# how much variance is explained by one factor?
+dv.eigen <- eigen(dv.cor)$values
+dv.varexpl <- round(cumsum(dv.eigen/3) * 100, digits = 2)[1]
+
+# compute rating as mean liking
+data.1$rating <- (data.1$liking0 + data.1$liking1 + data.1$liking2)/3
+
+### prepare visibility-correct variables
+
+# was the response in a given trial correct or not?
+data.1$vis.correct <- ifelse(data.1$sichtbar_response == data.1$cs, 1, 0)
+
+### compile to common format
+data.all.1 <- data.frame(exp = 1
+                         , vpnr = data.1$vpnr
+                         , condition = "CS identification"
+                         , cs_duration = data.1$istmaskiert
+                         , masking = "mask"
+                         , us_valence = data.1$uspositiv
+                         , cs_material = data.1$istwort
+                         , rating = data.1$rating
+                         , vis.correct = data.1$vis.correct
+                         , chancelevel = 1/48
+                         , n = N_participants)
+data.all <- data.all.1
+
+# materials
+iaps <- read.csv2("material/iaps.csv", dec=".")
+us_list_exp1 <- read.csv2("material/exp1-5_uslist.csv")
+uslist <- merge(iaps, us_list_exp1, by.x='Nr.', by.y='IAPS_no' )
+uslist_val <- aggregate(PleasureM ~ Val, data = uslist, mean)
+
+```
+
+## Method
+
+### Participants and design
+
+A sample of $N =`r N_participants`$ University of Cologne students from different majors completed the experiment in exchange for either a monetary compensation or partial course credit. 
+Sample size was sufficient to detect small-to-medium effects ($d = .32$) with a power of $1 - \beta = .95$. 
+We realized a 2 (US valence: positive vs. negative) x 2 (CS duration: 30 vs. 100 ms) within-participants design. 
+
+### Materials
+
+As CSs, we used 24 nonwords [taken from @brendl_how_2001; @stahl_respective_2009]. 
+In addition, 24 words were used as motivational stimuli, half being of positive and half of negative valence [taken from @klauer_priming_2007]. 
+As USs, we used 25 positive ($M = `r uslist_val$PleasureM[uslist_val$Val=='Pos']`$) and 25 negative ($M = `r uslist_val$PleasureM[uslist_val$Val=='Neg']`$) IAPS pictures [@lang_international_2008]. 
+A list of IAPS stimuli is given in the Appendix.  
+
+Each CS (and motivational stimulus) was paired with 5 different US images of the same valence.
+Half of each of the sets of CS stimuli (24 nonwords, 12 positive words, 12 negative words) was paired with positive USs and the other half with negative USs; 
+half of each of these sets of pairings was presented in the 100 ms condition, and the other half was presented in the 30 ms condition. 
+Assignment of CS and US stimuli to experimental conditions was randomized for each participant anew. 
+Forward and backward masks were generated randomly from the set of consonants for each presentation trial anew.
+
+### Procedure
+
+The study was administered on a personal computer controlled by software written in C. 
+Participants were seated in a cubicle and told that they would see words and meaningless letter strings (nonwords) very briefly, and that they should try to identify them. 
+They were told that this is a difficult task that requires concentration, and that they would not always be able to identify the word or nonword; 
+in such cases, they were instructed to guess.
+
+We used simultaneous presentation of CS and US. 
+A trial proceeded as follows: 
+First, the US picture was presented for 1500ms, covering the entire screen. 
+Then a small grey rectangle was presented centrally for 500 ms as an attentional cue and replaced by the forward mask, which was presented for another 500 ms and replaced by the CS. 
+In the supraliminal condition, CSs were presented for 100 ms; in the subliminal condition, they were presented for 30 ms. 
+The CS was replaced by a backward mask, which was presented either for 1400 ms (100 ms condition) or 1470 ms (30 ms condition), after which the screen was cleared. 
+The US remained on screen during the entire CS sequence. 
+Total trial duration was 4s. 
+
+Following each CS-US presentation, a list of the 24 words and 24 nonwords was presented on the screen. 
+Participants were instructed to use the computer mouse to click on the word or nonword they had just seen, and to guess if they had not seen anything. 
+The response was followed by an inter-trial interval of 1000 ms before the next trial started. 
+In total, 5 blocks of 48 trials were administered, such that each CS was presented five times (i.e., once with each of five different US images of the same valence).
+
+After the presentation phase, evaluative ratings were collected for all 48 items. 
+Participants were asked to indicate overall impression, attractiveness, and pleasantness on an 8-point rating scale, with higher values reflecting more positive evaluations. 
+Upon completing the evaluative ratings, participants were debriefed, received their compensation, and were dismissed.
+
+
+## Results
+
+Evaluative ratings were highly correlated ($`r min(dv.cor)`<r<`r max(dv.cor[dv.cor<1])`$), and an exploratory factor analysis yielded a single factor which explained $`r dv.varexpl`$ % of the variance. 
+Thus, we used the mean of the three evaluative ratings as the dependent variable. 
+^[We used `r cite_r("./material/r-references.bib")` for analyses and reproducible reporting.]
+
+
+### Visibility
+
+```{r 'exp1_mean_visibility', echo=FALSE, warning=FALSE, message = FALSE}
+
+## only the nonwords are of interest
+data.1 <- subset(data.all.1, cs_material == "nonwords")
+
+#MEAN
+visibility.1 <- round(tapply(data.1$vis.correct
+       , list(data.1$cs_duration)
+       , mean), 2)
+
+#STANDARD DEVIATION
+vis.sd.1 <- round(tapply(data.1$vis.correct
+       , list(data.1$cs_duration)
+       , sd), 3)
+
+#ANOVA with IV CS duration
+glm.mean.vis <- ezANOVA(data = data.1
+                        , dv = vis.correct
+                        , wid = vpnr
+                        , within = .(cs_duration)
+                        , within_full = .(cs_duration, us_valence)
+                        , return_aov = TRUE)
+glm.mean.vis <- apa_print(glm.mean.vis$aov)
+
+#t-Test for chance level for the 30ms masked condition
+csdata.aggr <- aggregate(vis.correct~vpnr
+                         , data=subset(data.1, cs_duration=='30ms')
+                         , FUN = "mean")
+t.abovechance <- t.test(x = csdata.aggr$vis.correct, mu = 1/48)
+t.abovechance.out <- apa_print(t.abovechance)
+
+```
+
+Participants' mean proportions of correct CS identifications were analyzed in a repeated-measures ANOVA with duration (30 vs. 100ms) as the only factor. 
+Mean visibility was affected by presentation duration, `r glm.mean.vis$full$cs_duration`: 
+As illustrated in Figure 1, masked CSs presented for 30ms were identified less often ($M = `r round(visibility.1[2], 3)`$, $SD = `r vis.sd.1[2]`$) than those presented for 100ms ($M = `r round(visibility.1[1], 3)`$, $SD = `r vis.sd.1[1]`$). 
+Identification of masked CSs was better than chance (i.e., chance level: $1/48 = `r 1/48`$), `r t.abovechance.out$full`.
+
+
+### Evaluative conditioning
+
+```{r 'exp1_ec_by_presentation', warning = FALSE, echo=FALSE, message=FALSE}
+
+#MEAN
+istmaskiert.m <- tapply(data.1$rating
+       , list(data.1$cs_duration)
+       , mean)
+
+#STANDARD DEVIATION
+istmaskiert.sd <- tapply(data.1$rating
+       , list(data.1$cs_duration)
+       , sd)
+
+#anova
+ec.duration <- ezANOVA(data = data.1
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence, cs_duration)
+                        , return_aov = TRUE)
+ec.duration <- apa_print(ec.duration$aov)
+
+#t-Test for the 30ms masked condition
+csdata.aggr <- aggregate(rating~vpnr*us_valence
+                         , data=subset(data.1, cs_duration=='30ms')
+                         , FUN = "mean")
+e1.t.30 <- t.test(rating ~ us_valence, data = csdata.aggr, paired = TRUE)
+t.30.out <- apa_print(e1.t.30)
+
+csdata.aggr <- aggregate(rating~vpnr*us_valence
+                         , data=subset(data.1, cs_duration=='100ms')
+                         , FUN = "mean")
+e1.t.100 <- t.test(rating ~ us_valence, data = csdata.aggr, paired = TRUE)
+t.100.out <- apa_print(e1.t.100)
+
+```
+
+Evaluative ratings were analyzed in a repeated-measures ANOVA with factors CS presentation duration (30 vs. 100ms) and US valence (positive, negative).  
+We obtained a main effect of presentation duration, `r ec.duration$full$cs_duration`, 
+but not of US valence, `r ec.duration$full$us_valence`, 
+nor did we obtain an interaction of the two, `r ec.duration$full$us_valence_cs_duration`.
+The significant presentation duration factor reflected a mere-exposure effect: 
+CSs presented for 100ms were evaluated more positively ($M = `r istmaskiert.m[1]`$, $SD = `r istmaskiert.sd[1]`$) than CSs presented for 30 ms ($M = `r istmaskiert.m[2]`$, $SD = `r istmaskiert.sd[2]`$). 
+As depicted in Figure 1, there was no EC effect for nonword CSs presented for 30ms, `r t.30.out$full`,
+nor for CSs presented for 100 ms, `r t.100.out$full`. 
+
+
+## Discussion
+
+First, results showed that participants could identify nonwords above chance level even if they were presented for only 30 ms and masked.
+Although identification performance was low, it was clearly above chance, indicating that, at least, some CSs could be partially identified. 
+Previous work has shown that even clearly subliminal stimuli were able to affect cognitive processes (Van den Bussche et al., 2009), indicating that, under the present slightly supraliminal presentation conditions, an automatic process should be able to operate on the CSs. 
+We conclude that a necessary condition for EC to occur was therefore clearly met.
+
+Experiment 1 failed to yield an EC effect: 
+The evaluation of the CSs did not vary as a function of US valence, even for clearly visible CSs.
+This suggests that EC is less robust and less automatic than is typically assumed:
+EC was not obtained, despite the fact that the experimental paradigm was highly similar to that realized in our earlier studies in which we never failed to obtain EC [e.g., @stahl_respective_2009].
+Interpreting the present findings in light of these earlier results, CS identification appears to be necessary but not sufficient for EC.
+
+This comparison also poses questions as to which aspects of the procedure were detrimental to EC. 
+We suspected that the instructions' focus on the visibility check (e.g., instructions referred to identification of CSs as the main task; 
+USs were characterized as background pictures) may have interfered with a more holistic default processing mode that is thought to be conducive to EC, or with CS-US integration processes. 
+In Experiment 2, we therefore changed three features of the procedure in order to render EC effects more likely: 
+First, participants were instructed to focus on valence; second, USs were no longer described as background pictures but were to be attended.
+Finally, we manipulated the presence versus absence of the identification task to test whether it interfered with EC.
+
+
+# Experiment 2
+
+In Experiment 2, we explored whether EC for 30ms masked stimuli can be found when a valence focus is induced:
+EC effects may depend on an attentional focus on valence during learning [@gast_what_2011]. 
+Experiment 2 also used a different visibility manipulation: 
+Instead of manipulating presentation duration, we kept duration constant at 30 ms and manipulated the presence versus absence of the forward and backward masks.
+
+Importantly, to investigate whether the absence of EC in Experiment 1 was due to the visibility check, we manipulated the presence versus absence of the visibility check.
+Thus, the visibility check served as a manipulation in this experiment, not as manipulation check:
+If it interfered with EC, we should observe an EC effect for 30ms masked stimuli only for participants who did not perform this check during the learning phase.
+
+```{r 'exp2_prepare', warning = FALSE, message = FALSE}
+
+## import raw data:
+# experiment <- "ecosub3"
+# varnames <- "vpnr alter sex hand fach sprache color cs rep wort istwort istpositiv uspositiv istmaskiert us0 us1 us2 us3 us4 liking0 liking1 liking2 valenz_response valenz_rt sichtbar_response sichtbar_korrekt sichtbar_rt"
+# # pfad = paste("/mnt/nas/labor/daten/", experiment, "/", sep="")
+# pfad = paste("L:/daten/", experiment, "/", sep="")
+# einles(expname = experiment, pfad = pfad, skips = 434, nrows = 120, vars = varnames, totalrows = 554)
+# data.2 <- read.table(file=paste("data/", "all_", experiment, ".dat", sep=""), header=T)
+
+## import gathered data
+data.2 <- read.table(file="data/data.2.dat", header=T)
+
+### prepvare variables
+data.2$istmaskiert <- factor(data.2$istmaskiert
+                             , levels=c(0,1)
+                             , labels = c("nomask", "mask"))
+data.2$uspositiv <- factor(data.2$uspositiv
+                           , levels=c(0,1)
+                           , labels = c("neg", "pos"))
+data.2$vpnr <- factor(data.2$vpnr)
+data.2$vischeck <- factor(ifelse(data.2$sichtbar_response == -1
+                                 , "nocheck"
+                                 , "vischeck")) 
+N.and.CS(data.2$vpnr, data.2$cs)
+
+### ratings
+dv <- data.frame(data.2$liking0, data.2$liking1, data.2$liking2)
+#correlation of dependent variables
+dv.cor <- round(cor(dv), digits=2)
+#how much variance is explained by one factor?
+dv.eigen <- eigen(dv.cor)$values
+dv.varexpl <- round(cumsum(dv.eigen/3) * 100, digits = 2)[1]
+# compute mean rating as mean of three liking ratings
+data.2$rating <- (data.2$liking0 + data.2$liking1 + data.2$liking2)/3
+
+### visbility
+data.2$vis.correct <- ifelse(data.2$sichtbar_response == data.2$cs, 1, 0)
+
+### combine
+data.all.2 <- data.frame(exp=2
+                         , vpnr = data.2$vpnr
+                         , condition = data.2$vischeck
+                         , cs_duration = "30ms"
+                         , masking = data.2$istmaskiert
+                         , us_valence = data.2$uspositiv
+                         , cs_material = "nonwords"
+                         , rating = data.2$rating
+                         , vis.correct = data.2$vis.correct
+                         , chancelevel = 1/24
+                         , n = N_participants)
+data.all <- rbind(data.all, data.all.2)
+
+```
+
+## Method
+
+### Participants and design
+
+A total of $N = `r N_participants`$ students who had not participated in any of the other studies were recruited and received either a monetary compensation or partial course credit. 
+We implemented a 2 (US valence: positive vs. negative) x 2 (CS masking: present vs. absent) x 2 (visibility check: present vs. absent), with repeated measures on the first two factors. 
+Half of participants were randomly assigned to the visibility-check condition, the other half did not perform the visibility check. 
+
+### Materials
+
+In Experiment 2, the same 24 nonwords as in Experiment 1 were used as CS (the words were no longer used because identification was clearly above chance in the 30ms condition). 
+Each CS was paired with 5 US images of the same valence. 
+Half of the CS stimuli was paired with positive USs and the other half with negative USs; 
+half of each of these sets of pairings was presented in the visible condition, and the other half was presented in the invisible condition. 
+Forward and backward masks were generated randomly from the set of consonants for each trial anew.
+
+### Procedure
+
+Participants were told that they would see pictures and words from an unknown language. 
+They were told that words would be presented very briefly, and that they would be hidden by random letter strings on some occasions. 
+They were told to attend to pictures and words and that we were interested in their overall impression of both. 
+As an orienting task, we induced a valence focus: 
+After each pairing, participants were asked to indicate whether they had a pleasant or an unpleasant impression of the picture-nonword pair. 
+
+To test whether the visibility check during learning affected EC, it was administered only to one half of participants. 
+These participants were asked to identify the nonword they had just seen by selecting it from a list of all 24 nonwords. 
+For the other half of participants, visibility was never tested, and the next trial commenced after the valence rating.
+
+Trials were similar to Experiment 1, with the exception that presentation duration was constant at 30ms (and the duration of the backward mask was thus constant at 1470ms in the masked condition). 
+Instead of presentation duration, the presence (vs. absence) of forward and backward masks was varied. 
+After each trial, the valence task was presented. 
+In the visibility-check group, it was followed by the visibility task. 
+After an inter-trial interval of 1000ms, the next trial started. In total, 10 blocks of 24 trials were administered (i.e., each CS-US pair was presented twice). 
+^[Due to a programming error, identification performance in the first five blocks was overwritten by the computer program. 
+The remaining data from the second half of the learning phase are therefore a somewhat noisy estimate of overall CS identification performance.
+They may also represent a biased estimate, if CS identification increases over time due to learning, or if it decreases over time due to fatigue or decreasing motivation.
+However, we consider such a bias unlikely because the number of presentations (6 or 12) did not affect CS identification performance in Experiment 6 (see below).]
+After the presentation phase, evaluative ratings were collected for the 24 nonwords as in Experiment 1. 
+
+## Results
+
+Evaluative ratings were highly correlated ($`r min(dv.cor)` < r < `r max(dv.cor[dv.cor<1])`$), and an explorative factor analysis yielded a single factor which explained $`r dv.varexpl` \%$ of the variance. 
+Thus, we used the mean of the three evaluative ratings as the dependent variable.
+
+```{r 'exp2_mean_visibility', echo=FALSE, warning=FALSE, message = FALSE}
+#Using the data from the visibility-check group
+data.2 <- subset(data.all.2, condition == "vischeck")
+
+#MEAN
+visibility.2 <- round(tapply(data.2$vis.correct
+       , list(data.2$masking)
+       , mean), 2)
+
+#STANDARD DEVIATION
+vis.sd.2 <- round(tapply(data.2$vis.correct
+       , list(data.2$masking)
+       , sd), 2)
+
+#ANOVA with IV CS duration
+glm.mean.vis <- ezANOVA(data = data.2
+                        , dv = vis.correct
+                        , wid = vpnr
+                        , within = .(masking)
+                        , within_full = .(masking, us_valence)
+                        , type = 3
+                        , return_aov = TRUE)
+glm.mean.vis <- apa_print(glm.mean.vis$aov)
+
+#t-Test for chance level for the 30ms masked condition
+csdata.aggr <- aggregate(vis.correct~vpnr
+                         , data=subset(data.2, masking=='mask')
+                         , FUN = "mean")
+t.abovechance <- t.test(x = csdata.aggr$vis.correct, mu = 1/24)
+t.abovechance.out <- apa_print(t.abovechance)
+
+```
+
+### Visibility
+
+Using the data from the visibility-check group, mean proportion of correctly identified CSs was analyzed in a repeated-measures ANOVA with masking (mask present vs. absent) as the only factor. 
+The results are illustrated in Figure 1.
+Mean visibility was affected by the mask, `r glm.mean.vis$full$masking`: masked items were identified less often ($M = `r visibility.2[2]`, SD = `r vis.sd.2[2]`$) than unmasked items ($M = `r visibility.2[1]`, SD = `r vis.sd.2[1]`$). 
+Identification of masked CSs was descriptively but only marginally better than chance (chance level: $1/24 = `r 1/24`$), `r t.abovechance.out$full`.
+
+```{r 'exp2_ec_by_presentation', warning = FALSE, echo=FALSE, message=FALSE}
+
+data.2 <- data.all.2
+
+#MEAN
+ec.mean <- round(tapply(data.2$rating
+       , list(data.2$masking, data.2$us_valence)
+       , mean), 2)
+
+ec.mean.me <- round(tapply(data.2$rating
+       , list(data.2$masking)
+       , mean), 2)
+
+#STANDARD DEVIATION
+ec.sd <- round(tapply(data.2$rating
+       , list(data.2$masking, data.2$us_valence)
+       , sd), 2)
+
+ec.sd.me <- round(tapply(data.2$rating
+       , list(data.2$masking)
+       , sd), 2)
+
+#anovas
+ec.duration <- ezANOVA(data = data.2
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence, masking)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE)
+ec.duration <- apa_print(ec.duration$aov)
+
+#split by presentation condition
+duration.2 <- split(data.2, f = data.2$masking)
+
+ec.unmasked <- ezANOVA(data = duration.2$nomask
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE)
+ec.unmasked <- apa_print(ec.unmasked$aov)
+
+ec.masked <- ezANOVA(data = duration.2$mask
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE)
+ec.masked <- apa_print(ec.masked$aov)
+
+```
+
+
+### Evaluative conditioning
+
+Evaluative ratings were analyzed in an ANOVA with visibility-check group as between-participants factor and masking and US valence as repeated-measures factors. 
+The between-participants visibility-check factor was not significant, `r ec.duration$full$condition`, and did not enter any significant interactions. 
+We obtained main effects of masking, `r ec.duration$full$masking`, and of US valence, `r ec.duration$full$us_valence`, as well as an interaction between them, `r ec.duration$full$us_valence_masking`. 
+
+The main effect of masking reflects a mere-exposure effect (i.e., the finding that masked CSs were rated less positively, $M=`r ec.mean.me[2]`$, $SD=`r ec.sd.me[2]`$, than nonmasked CSs, $M=`r ec.mean.me[1]`$, $SD=`r ec.sd.me[1]`$). 
+The main effect of US valence (i.e., the EC effect, reflecting more positive ratings for CSs paired with positive than with negative USs) was qualified by the interaction with masking: 
+An EC effect was obtained for unmasked CSs, `r ec.unmasked$full$us_valence`, but not for masked CSs, `r ec.masked$full$us_valence` (see Figure 1).
+
+## Discussion
+
+In this experiment, visibility was high for unmasked CSs and it approached significance for masked CSs (note here that the power of the visibility test was clearly lower than of the test of the EC effect, as only half of the participants entered this analysis).
+A robust EC effect was obtained for unmasked and clearly visible CSs. 
+In contrast, there was no evidence for EC in the masked condition. 
+Hence, EC seems to vanish when reaching the boundaries of conscious perception. 
+As a further insight, this study reveals that the visibility check/identification task did not affect EC: 
+the two groups had comparable levels of EC for unmasked CSs. 
+Finally, these findings support the view that inducing a valence focus task promotes EC effect for visible CSs.
+
+#Experiment 3
+
+In Experiment 3, we again tried to obtain an EC effect for briefly presented and masked CSs -- that are still identifiable at above-chance levels. 
+We also used this experiment to further examine the role of processing goals in EC by directly manipulating this factor. 
+That an EC effect was obtained under valence instructions in Experiment 2 but was not obtained under identification instructions in Experiment 1 is consistent with the view that EC depends on processing goals [@corneille_beyond_2009; @gast_what_2011]. 
+In sum, Experiment 3 addresses two novel questions: 
+Does EC obtain for masked CSs of short duration that reach the conscious perception threshold? 
+And, if it does so, does this effect depend on processing goals activated prior to the learning phase?
+Experiment 3 tests these hypotheses by comparing the valence-focus instruction to a brightness-judgment orienting task. 
+In the brightness-focus condition, we eliminated the valence-processing requirement of the orienting task while maintaining the requirement that attention be directed toward the CS and US.
+
+
+```{r 'exp3_prepare', warning = FALSE, message = FALSE}
+
+## import raw data:
+# experiment <- "ecosub4rep"
+# varnames <- "vpnr group alter sex hand fach sprache color cs rep wort istwort istpositiv uspositiv istmaskiert us0 us1 us2 us3 us4 liking0 liking1 liking2 valenz_response valenz_rt sichtbar_response_pos sichtbar_response sichtbar_response_text sichtbar_korrekt sichtbar_rt"
+# pfad = paste("l:/daten/", experiment, "/", sep="")
+# einles(expname = experiment, pfad = pfad, skips = 422, nrows = 240, vars = varnames, totalrows = 662)
+# data.3 <- read.table(file=paste("data/", "all_", experiment, ".dat", sep=""), header=T)
+
+## import gathered data
+data.3 <- read.table(file="data/data.3.dat", header=T)
+
+# prepare variables
+data.3$istmaskiert <- factor(data.3$istmaskiert, labels = c("nomask", "mask"))
+data.3$uspositiv <- factor(data.3$uspositiv, labels = c("neg", "pos"))
+#Which group has the valence focus and which one the brightness focus?
+data.3$group <- factor(data.3$group, labels = c("valence", "brightness"))
+N.and.CS(data.3$vpnr, data.3$cs)
+
+# ratings
+dv <- data.frame(data.3$liking0, data.3$liking1, data.3$liking2)
+#correlation of dependent variables
+dv.cor <- cor(dv)
+#how much variance is explained by one factor?
+dv.eigen <- eigen(dv.cor)$values
+dv.varexpl <- round(cumsum(dv.eigen/3) * 100, digits = 2)[1]
+data.3$rating <- (data.3$liking0 + data.3$liking1 + data.3$liking2)/3
+
+# visibility
+data.3$vis.correct <- ifelse(data.3$sichtbar_response == data.3$cs, 1, 0)
+
+# combine
+data.all.3 <- data.frame(exp=3
+                         , vpnr=data.3$vpnr
+                         , condition=data.3$group
+                         , cs_duration="30ms"
+                         , masking=data.3$istmaskiert
+                         , us_valence=data.3$uspositiv
+                         , cs_material="nonwords"
+                         , rating=data.3$rating
+                         , vis.correct=data.3$vis.correct
+                         , chancelevel=1/24
+                         , n=N_participants)
+data.all <- rbind(data.all, data.all.3)
+
+```
+
+## Method
+
+### Participants and design
+
+For Experiment 3, $N=`r N_participants`$ students who had not participated in any of the other studies were recruited; they received either a monetary compensation or partial course credit. 
+We implemented a 2 (US valence: positive vs. negative) x 2 (CS masking: present vs. absent) x 2 (orienting task: valence vs. brightness) design, with repeated measures on the first two factors. 
+Half of participants were randomly assigned to the valence orienting task, the other half performed the brightness orienting task. 
+
+### Materials and procedure
+
+The same materials were used as in Experiment 2.  
+Procedure was largely identical to that used in Experiment 2, with the following exceptions: 
+Participants were told to attend to the picture-word pair and that we were interested in their 'perceptual impression'. 
+Half of participants performed the valence-focus task (i.e., after each pairing, they were asked to indicate whether they had a 'pleasant' or an 'unpleasant' impression of the stimulus pair). 
+The other half performed a brightness task: They were asked to indicate whether their impression of the pair was better described as 'bright' or as 'dark'. 
+After the perceptual-impression orienting task, all participants were asked, on every trial, to identify the nonword they had seen by selecting it from a list of all `r nCS` nonwords. 
+
+## Results
+
+Evaluative ratings were highly correlated ($`r min(dv.cor)`<r<`r max(dv.cor[dv.cor<1])`$), and an exploratory factor analysis yielded a single factor which explained $`r dv.varexpl`$ % of the variance. 
+Thus, we again used the mean of the three evaluative ratings as the dependent variable.
+
+### Visibility
+
+```{r 'exp3_mean_visibility', echo=FALSE, warning=FALSE, message = FALSE}
+
+data.3 <- data.all.3
+
+#MEAN
+visibility.3 <- tapply(data.3$vis.correct
+       , list(data.3$masking)
+       , mean)
+data.3 <- subset(data.all.3, condition=='valence')
+visibility.3v <- tapply(data.3$vis.correct
+       , list(data.3$masking)
+       , mean)
+data.3 <- subset(data.all.3, condition=='brightness')
+visibility.3b <- tapply(data.3$vis.correct
+       , list(data.3$masking)
+       , mean)
+
+#STANDARD DEVIATION
+data.3 <- data.all.3
+visibility.sd.3 <- tapply(data.3$vis.correct
+       , list(data.3$masking)
+       , sd)
+data.3 <- subset(data.all.3, condition=='valence')
+vis.sd.3v <- tapply(data.3$vis.correct
+       , list(data.3$masking)
+       , sd)
+data.3 <- subset(data.all.3, condition=='brightness')
+vis.sd.3b <- tapply(data.3$vis.correct
+       , list(data.3$masking)
+       , sd)
+
+#ANOVA with IV CS duration and orienting task
+data.3 <- data.all.3
+glm.mean.vis <- ezANOVA(data = data.3
+                        , dv = vis.correct
+                        , wid = vpnr
+                        , within = .(masking)
+                        , within_full = .(masking, us_valence)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE)
+glm.mean.vis <- apa_print(glm.mean.vis$aov)
+
+
+#t-Tests for chance level for the 30ms masked conditions
+csdata.aggr <- aggregate(vis.correct~vpnr
+                         , data=subset(data.3
+                                       , condition=='valence' 
+                                       & masking=='mask')
+                         , FUN = "mean")
+t.abovechance <- t.test(x = csdata.aggr$vis.correct, mu = 1/24)
+t.abovechance.val <- apa_print(t.abovechance)
+
+csdata.aggr <- aggregate(vis.correct~vpnr
+                         , data=subset(data.3
+                                       , condition=='brightness' 
+                                       & masking=='mask')
+                         , FUN = "mean")
+t.abovechance <- t.test(x = csdata.aggr$vis.correct, mu = 1/24)
+t.abovechance.bri <- apa_print(t.abovechance)
+
+```
+
+Mean proportion of correct CS identifications was analyzed in a masking (mask present vs. absent) by orienting task (valence vs. brightness) ANOVA with repeated measures on the first factor. 
+Mean visibility was affected by the mask, `r glm.mean.vis$full$masking`, but neither by orienting task, `r glm.mean.vis$full$condition`, nor the interaction, `r glm.mean.vis$full$condition_masking`. 
+The main effect of masking is illustrated in Figure 1; it reflected the fact that masked CSs were identified less often ($M = `r round(visibility.3[2],2)`, SD = `r visibility.sd.3[2]`$) than non-masked CSs ($M = `r round(visibility.3[1],2)`, SD = `r round(visibility.sd.3[1],2)`$).
+In both groups, identification of masked CSs was above chance (i.e., valence-focus: `r t.abovechance.val$full`; brightness-focus: `r t.abovechance.bri$full`).
+
+```{r 'exp3_ec_by_presentation', warning = FALSE}
+
+#MEAN
+ec.mean <- tapply(data.3$rating
+       , list(data.3$masking, data.3$us_valence)
+       , mean)
+
+ec.mean.me <- tapply(data.3$rating
+       , list(data.3$masking)
+       , mean)
+
+#STANDARD DEVIATION
+ec.sd <- tapply(data.3$rating
+       , list(data.3$masking, data.3$us_valence)
+       , sd)
+
+ec.sd.me <- tapply(data.3$rating
+       , list(data.3$masking)
+       , sd)
+
+#ANOVA
+ec.duration <- ezANOVA(data = data.3
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence, masking)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE )
+ec.duration <- apa_print(ec.duration$aov)
+
+# split by masking
+ismasked <- split(data.3, f = data.3$masking)
+
+ec.unmasked <- ezANOVA(data = ismasked$nomask
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE )
+ec.unmasked <- apa_print(ec.unmasked$aov)
+
+ec.masked <- ezANOVA(data = ismasked$mask
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE )
+ec.masked <- apa_print(ec.masked$aov)
+
+#split also by group
+ismasked_by_group <- split(ismasked$mask, f=ismasked$mask$condition)
+ec.masked.v <- ezANOVA(data = ismasked_by_group$valence
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence)
+                        , type = 3
+                        , return_aov = TRUE )
+ec.masked.v <- apa_print(ec.masked.v$aov)
+
+ec.masked.b <- ezANOVA(data = ismasked_by_group$brightness
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence)
+                        , type = 3
+                        , return_aov = TRUE )
+ec.masked.b <- apa_print(ec.masked.b$aov)
+
+ismasked <- split(data.3[data.3$condition=='valence',], f = data.3[data.3$condition=='valence',]$masking)
+duration.3v <- ismasked
+
+ismasked <- split(data.3[data.3$condition=='brightness',], f = data.3[data.3$condition=='brightness',]$masking)
+duration.3b <- ismasked
+
+```
+
+### Evaluative conditioning
+
+Evaluative ratings were analyzed in an ANOVA with orienting task as between-participants factor and CS presentation as well as US valence as repeated-measures factors. 
+The between-participants orienting-task factor was not significant and did not enter any interactions, $F \le 1.02$. 
+We obtained main effects of masking, `r ec.duration$full$masking`, and of US valence, `r ec.duration$full$us_valence`, as well as an interaction between them, `r ec.duration$full$us_valence_masking`. 
+
+The main effect of masking reflects a mere-exposure effect (i.e., the finding that masked CSs, $M=`r ec.mean.me[2]`, SD=`r ec.sd.me[2]`$, were rated less positively than unmasked CSs, $M=`r ec.mean.me[1]`, SD=`r ec.sd.me[1]`$). 
+The main effect of US valence (i.e., the EC effect, reflecting more positive ratings for CSs paired with positive than with negative USs) was qualified by the interaction with masking: 
+As shown in Figure 1, an EC effect was obtained for unmasked CSs, `r ec.unmasked$full$us_valence`, but not for masked CSs, `r ec.masked$full$us_valence`.
+The lack of an EC effect for masked CSs also holds when analyzed separately for the orientation task groups (valence: `r ec.masked.v$full$us_valence`; brightness: `r ec.masked.b$full$us_valence`).
+
+## Discussion 
+
+The brightness task was successful in inducing an EC effect for unmasked CSs. 
+We replicated the finding that EC does not occur under conditions of reduced identification: 
+Whereas EC was observed for unmasked stimuli, we did not find EC for masked stimuli. 
+The type of learning instruction did not matter: Identical patterns were obtained under both intentional (valence) and incidental (brightness) orientation conditions.
+
+In the next study, we attempted to further generalize the findings to the visibility manipulation used in Experiment 1 (i.e., by manipulating presentation duration instead of masking). 
+We also attempted to reduce the potential for interference with EC introduced by the orienting task: 
+By manipulating the presence versus absence of a response requirement in the orienting task, we investigated whether requiring an orienting response during learning disrupts EC in the present paradigm.
+
+
+# Experiment 4
+
+In Experiment 4, we tested whether the above findings can be replicated when visibility is not manipulated via masking but via presentation duration: 
+Here, the CSs were presented for either 30, 50, or 100 ms, and all CSs were masked. 
+In addition, we investigated whether EC is disrupted by a response in the orienting task (or whether it depends on such a response): 
+In this study, all participants were instructed to form an impression of the brightness of the stimuli, with one half reporting their impression after each trial, and the other half never being asked to report their impression.
+
+```{r 'exp4_prepare', warning = FALSE, message = FALSE, echo=FALSE}
+
+## import raw data
+# experiment <- "ecosub5rep"
+# pfad = paste("l:/daten/", experiment, "/", sep="")
+# varnames <- "vpnr group alter sex hand fach sprache color cs rep wort istwort istpositiv uspositiv istmaskiert us0 us1 us2 us3 us4 liking0 liking1 liking2 valenz_response valenz_rt sichtbar_response_pos sichtbar_response sichtbar_response_text sichtbar_korrekt sichtbar_rt"
+# einles(expname = experiment, pfad = pfad, skips = 422, nrows = 240, vars = varnames, totalrows = 662, filetype="^[0-9]{1,2}.dat$")
+# data.4 <- read.table(file=paste("data/", "all_", experiment, ".dat", sep=""), header=T)
+
+#read gathered data
+data.4 <- read.table(file="data/data.4.dat", header=T)
+
+#factors: duration of CS (within) x US valence (within) x response on orienting task (between)
+data.4$istmaskiert <- factor(data.4$istmaskiert, labels = c("30ms", "50ms", "100ms"))
+data.4$uspositiv <- factor(data.4$uspositiv, labels = c("neg", "pos"))
+
+#In this study, all participants were instructed to form an impression of the brightness 
+#of the stimuli, with one half indicating their impression after each trial, whereas 
+#the other half was never asked to indicate their impression.
+data.4$group <- factor(data.4$group, labels = c("response", "noresponse"))
+
+N.and.CS(data.4$vpnr, data.4$cs)
+
+# ratings
+dv <- data.frame(data.4$liking0, data.4$liking1, data.4$liking2)
+#correlation of dependent variables
+dv.cor <- cor(dv)
+#how much variance is explained by one factor?
+dv.eigen <- eigen(dv.cor)$values
+dv.varexpl <- round(cumsum(dv.eigen/3) * 100, digits = 2)[1]
+data.4$rating <- (data.4$liking0 + data.4$liking1 + data.4$liking2)/3
+
+# visibility
+data.4$vis.correct <- ifelse(data.4$sichtbar_response == data.4$cs, 1, 0)
+
+# gather
+data.all.4 <- data.frame(exp=4
+                         , vpnr=data.4$vpnr
+                         , condition=data.4$group
+                         , cs_duration=data.4$istmaskiert
+                         , masking="mask"
+                         , us_valence=data.4$uspositiv
+                         , cs_material="nonwords"
+                         , rating=data.4$rating
+                         , vis.correct=data.4$vis.correct
+                         , chancelevel=1/24
+                         , n=N_participants)
+data.all <- rbind(data.all, data.all.4)
+
+```
+
+## Method
+
+### Participants and design
+
+For this study, $N=`r N_participants`$ participants were recruited from the same population who had not taken part in any of the other studies reported herein; participation was compensated by a small monetary amount or partial course credit. 
+We implemented a 2 (US valence: positive vs. negative) x 3 (CS duration: 30ms, 50ms, 100ms) x 2 (orienting response: present vs. absent) design with repeated measures on the first two factors. 
+Half of participants were randomly assigned to the orienting-response condition, the other half did not give responses in the brightness orienting task. 
+
+### Materials and procedure
+
+The same nonwords (CSs) and IAPS pictures (USs) were used as in Experiments 1-3.  
+The same procedure was used as in Experiment 3, with the following exceptions: 
+First, all participants performed the brightness task, whereas only one half gave a brightness judgment after each trial, while the other half was instructed to perform but not to report any brightness judgments.
+Second, CS stimuli were always masked.
+As in Experiment 3, the CS identification task was administered to all participants. 
+Breaks were introduced after each block of 40 trials to allow participants to rest and to remind them of the brightness task. 
+
+## Results
+
+Evaluative ratings were highly correlated ($`r min(dv.cor)`<r<`r max(dv.cor[dv.cor<1])`$), and an exploratory factor analysis yielded a single factor which explained $`r dv.varexpl`$ % of the variance. 
+Thus, we again used the mean of the three evaluative ratings as the dependent variable.
+
+
+```{r 'exp4_mean_visibility', warning = FALSE, message = FALSE, echo=FALSE, cache=FALSE}
+
+#mean and SD
+data.4 <- subset(data.all.4, condition=='response')
+visibility.4br <- tapply(data.4$vis.correct
+       , list(data.4$cs_duration)
+       , mean)
+vis.sd.4br <- tapply(data.4$vis.correct
+       , list(data.4$cs_duration)
+       , sd)
+
+data.4 <- subset(data.all.4, condition=='noresponse')
+visibility.4bnr <- tapply(data.4$vis.correct
+       , list(data.4$cs_duration)
+       , mean)
+vis.sd.4bnr <- tapply(data.4$vis.correct
+       , list(data.4$cs_duration)
+       , sd)
+
+data.4 <- data.all.4
+visibility.4 <- tapply(data.4$vis.correct
+       , list(data.4$cs_duration)
+       , mean)
+visibility.sd.4 <- tapply(data.4$vis.correct
+       , list(data.4$cs_duration)
+       , sd)
+
+#ANOVA with IV CS duration and orienting task
+glm.mean.vis <- ezANOVA(data = data.4
+                        , dv = vis.correct
+                        , wid = vpnr
+                        , within = .(cs_duration)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE
+                        , within_full = .(cs_duration, us_valence))
+glm.mean.vis <- apa_print(glm.mean.vis$aov)
+
+#t-Test for chance level
+csdata.aggr <- aggregate(vis.correct~vpnr
+                         , data=subset(data.4
+                                       , condition=='response' 
+                                       & cs_duration=='30ms')
+                         , FUN = "mean")
+t.abovechance <- t.test(x = csdata.aggr$vis.correct, mu = 1/24)
+t.abovechance.resp <- apa_print(t.abovechance)
+
+csdata.aggr <- aggregate(vis.correct~vpnr
+                         , data=subset(data.4
+                                       , condition=='noresponse' 
+                                       & cs_duration=='30ms')
+                         , FUN = "mean")
+t.abovechance <- t.test(x = csdata.aggr$vis.correct, mu = 1/24)
+t.abovechance.noresp <- apa_print(t.abovechance)
+
+```
+
+### Visibility
+
+Participants' mean proportion of correctly identified CSs was analyzed in a CS duration (30, 50, 100 ms) by orienting response (present vs. absent) ANOVA with repeated measures on the first factor. 
+Results are depicted in Figure 2.
+Mean visibility was affected by duration, `r glm.mean.vis$full$cs_duration`, but not by orienting response, `r glm.mean.vis$full$condition`, nor their interaction, `r glm.mean.vis$full$condition_cs_duration`.
+Masked CSs presented for 30ms were identified in less than one out of ten trials ($M=`r round(visibility.4[1],2)`, SD=`r round(visibility.sd.4[1],2)`$), reflecting above-chance (i.e., $1/24=`r 1/24`$) performance in both the response-present and response-absent groups (`r t.abovechance.resp$stat`, and `r t.abovechance.noresp$stat`, respectively).
+The CSs presented for 50ms were identified in one out of four trials ($M=`r visibility.4[2]`, SD=`r visibility.sd.4[2]`$), 
+and those presented for 100 ms were identified in approximately four out of five trials ($M=`r visibility.4[3]`, SD=`r visibility.sd.4[3]`$).
+
+```{r 'exp4_ec_by_presentation', warning = FALSE, message = FALSE, echo=FALSE}
+
+#MEAN
+ec.mean <- tapply(data.4$rating
+       , list(data.4$cs_duration, data.4$us_valence)
+       , mean)
+
+ec.mean.me <- tapply(data.4$rating
+       , list(data.4$cs_duration)
+       , mean)
+
+#STANDARD DEVIATION
+ec.sd <- tapply(data.4$rating
+       , list(data.4$cs_duration, data.4$us_valence)
+       , sd)
+
+ec.sd.me <- tapply(data.4$rating
+       , list(data.4$cs_duration)
+       , sd)
+
+# anova
+ec.duration <- ezANOVA(data = data.4
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence, cs_duration)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE  )
+ec.duration <- apa_print(ec.duration$aov)
+
+#split by cs duration
+ismasked <- split(data.4, f = data.4$cs_duration)
+
+ec.30 <- ezANOVA(data = ismasked$'30ms'
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE )
+ec.30 <- apa_print(ec.30$aov)
+
+ec.50 <- ezANOVA(data = ismasked$'50ms'
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE )
+ec.50 <- apa_print(ec.50$aov)
+
+ec.100 <- ezANOVA(data = ismasked$'100ms'
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence)
+                        , between = condition
+                        , type = 3
+                        , return_aov = TRUE )
+ec.100 <- apa_print(ec.100$aov)
+
+```
+
+### Evaluative conditioning
+
+Evaluative ratings were analyzed in an ANOVA with orienting response as between-participants factor and CS presentation as well as US valence as repeated-measures factors. 
+We obtained a main effect of CS presentation, `r ec.duration$full$cs_duration`,
+a non-significant effect of US valence, `r ec.duration$full$us_valence`, 
+as well as their significant interaction, `r ec.duration$full$us_valence_cs_duration`. 
+The presence vs. absence of an orienting response did not affect ratings, `r ec.duration$full$condition`, nor did it interact with US valence, `r ec.duration$full$condition_us_valence`, or CS duration, `r ec.duration$full$condition_cs_duration`; the three-way interaction was also not significant, `r ec.duration$full$condition_us_valence_cs_duration`.
+
+The main effect of CS presentation reflects a mere-exposure effect: CSs presented for 30 and 50 ms ($M=`r ec.mean.me[1]`, SD=`r ec.sd.me[1]`$, and $M=`r ec.mean.me[2]`, SD=`r ec.sd.me[2]`$, respectively) were rated less positively than CSs presented for 100 ms ($M=`r ec.mean.me[3]`, SD=`r ec.sd.me[3]`$). 
+The main effect of US valence (i.e., the EC effect) was qualified by the interaction with CS presentation: 
+As can be seen in Figure 2, an EC effect was obtained only for CSs presented for 100 ms, `r ec.100$full$us_valence`, but not for CSs presented for 30 ms, `r ec.30$full$us_valence`, or 50 ms, `r ec.50$full$us_valence`. 
+
+## Discussion 
+
+We again obtained EC effects only for clearly visible CSs but failed to find EC for briefly presented CSs. 
+This extends our previous findings, which relied on manipulations of the presence versus absence of a mask, to a manipulation of CS duration when all stimuli were masked. 
+Contrasting the notion that a response in the orienting task interferes with EC, we found no effect of the presence versus absence of the response requirement in the orientation task on visibility or EC.
+Given this finding, it is likely that orienting responses did not interfere with visibility or EC effects in the present studies.
+
+#Experiment 5
+
+In Experiment 5, we attempted to replicate and extend the previous findings to different stimulus materials. 
+So far, the stimuli used as CSs were taken from the same set of nonwords. 
+Here, we used a different set of nonwords, and we additionally used faces (e.g., Hütter et al., 2012) and product images (e.g., Pleyers et al., 2007) as CSs. 
+We realized the conditions used in Experiment 1 but also included longer presentation conditions that more closely resemble those realized in previous EC research.
+Participants viewed nonwords, faces, and products for either 30, 100, or 1000 ms; all CSs were masked. 
+
+```{r 'exp5_prepare', warning = FALSE, message = FALSE}
+
+## import raw data
+# experiment <- "ecosub7"
+# varnames <- "vpnr alter sex hand color sprache fach blocknr csnr sb_optionen0 wort material istwort uspositiv csduration q1_response q1_rt q2_response q2_rt bewert_response bewert_rt us sb_korrekt_response sb_response sb_korrekt sb_rt muell"
+# pfad = paste("l:/daten/", experiment, "/", sep="")
+# einles(expname = experiment, pfad = pfad, skips = 676, nrows = 288, vars = varnames, totalrows = 1056)
+# data.5 <- read.table(file=paste("data/", "all_", experiment, ".dat", sep=""), header=T)
+
+# read gathered data
+data.5 <- read.table(file="data/data.5.dat", header=T)
+
+#factors: duration of CS (within) x US valence (within) x response on orienting task (between)
+data.5$csduration <- factor(data.5$csduration, labels = c("30ms", "100ms", "1000ms"))
+data.5$uspositiv <- factor(data.5$uspositiv, labels = c("neg", "pos"))
+data.5$material <- factor(data.5$material, labels = c("nonwords", "photos", "products"))
+
+##Descriptive statistics
+N.and.CS(data.5$vpnr, data.5$csnr)
+
+# visibility
+data.5$vis.correct <- data.5$sb_korrekt
+
+# gather
+data.all.5 <- data.frame(exp=5
+                         , vpnr=data.5$vpnr
+                         , condition="CS identification"
+                         , cs_duration=data.5$csduration
+                         , masking="mask"
+                         , us_valence=data.5$uspositiv
+                         , cs_material=data.5$material
+                         , rating=data.5$bewert_response
+                         , vis.correct=data.5$vis.correct
+                         , chancelevel=1/12
+                         , n=N_participants)
+data.all <- rbind(data.all, data.all.5)
+
+```
+
+## Method
+
+### Participants and design
+
+For Experiment 5, $N=`r N_participants`$ University of Cologne students were recruited in exchange for either a monetary compensation or partial course credit. 
+We ensured that none of the participants took part in a previous study of this experimental line within the last year.
+We implemented a 3 (CS presentation duration: 30, 100, 1000 ms) by 3 (material: nonwords, faces, product images) by 2 (US valence: positive vs. negative) repeated-measures design. 
+
+### Materials
+
+We used a different set of 24 pronouncable nonwords that were generated from entries of the CELEX database by replacing the vowels; 24 faces were taken from previous work [e.g., @hutter_dissociating_2012]; 24 unknown product images were generated from existing but unfamiliar products by erasing brand names and logos. 
+Contrast settings for all stimuli were adjusted and pretested in order to obtain low visibility in the 30ms condition but high visibility in the 100ms condition. 
+The same IAPS pictures (USs) were used as in the previous experiments.
+Each of the 72 CSs was paired with 4 different USs of the same valence, resulting in a learning phase of 4 blocks of 72 trials each.
+
+### Procedure
+
+Participants were instructed to attend to and try to identify the centrally presented CS stimulus. 
+As in Experiment 1, they did not receive specific instructions regarding the background pictures (USs). 
+All participants performed the identification task on all trials in which they were to select the CS from a list of 12 options (taken from the same set as the CS on that trial). 
+In contrast to previous experiments, CS stimuli were only post-masked in this study (with post-mask duration computed as 1500 ms minus CS duration; the US, presented in the background, served as a pre-mask), and a single evaluative rating was collected on a continuous scale that was internally coded as ranging from -100 to +100.
+
+## Results
+
+```{r 'exp5_mean_visibility', warning = FALSE, message = FALSE}
+
+#MEAN and SD
+
+data.5 <- subset(data.all.5, cs_material=='photos')
+visibility.5fac <- tapply(data.5$vis.correct
+       , list(data.5$cs_duration)
+       , mean)
+vis.sd.5fac <- tapply(data.5$vis.correct
+       , list(data.5$cs_duration)
+       , sd)
+
+data.5 <- subset(data.all.5, cs_material=='nonwords')
+visibility.5non <- tapply(data.5$vis.correct
+       , list(data.5$cs_duration)
+       , mean)
+vis.sd.5non <- tapply(data.5$vis.correct
+       , list(data.5$cs_duration)
+       , sd)
+
+data.5 <- subset(data.all.5, cs_material=='products')
+visibility.5pro <- tapply(data.5$vis.correct
+       , list(data.5$cs_duration)
+       , mean)
+vis.sd.5pro <- tapply(data.5$vis.correct
+       , list(data.5$cs_duration)
+       , sd)
+
+data.5 <- data.all.5
+
+visibility.5 <- tapply(data.5$vis.correct
+       , list(data.5$cs_duration)
+       , mean)
+
+vis.mean.mat <- tapply(data.5$vis.correct
+       , list(data.5$cs_material)
+       , mean)
+
+vis.mean.mat.me <- tapply(data.5$vis.correct
+       , list(data.5$cs_material, data.5$cs_duration)
+       , mean)
+
+vis.sd.5 <- tapply(data.5$vis.correct
+       , list(data.5$cs_duration)
+       , sd)
+
+vis.sd.mat <- tapply(data.5$vis.correct
+       , list(data.5$cs_material)
+       , sd)
+
+vis.sd.mat.me <- tapply(data.5$vis.correct
+       , list(data.5$cs_material, data.5$cs_duration)
+       , sd)
+
+#ANOVA with IV CS duration and orienting task
+glm.mean.vis <- ezANOVA(data = data.5
+                        , dv = vis.correct
+                        , wid = vpnr
+                        , within = .(cs_duration, cs_material)
+                        , within_full = .(cs_duration, cs_material, us_valence)
+                        , type = 3
+                        , return_aov = TRUE )
+glm.mean.vis <- apa_print(glm.mean.vis$aov)
+
+#t-Test for chance level
+csdata.aggr <- aggregate(vis.correct~vpnr
+                         , data=subset(data.5
+                                       , cs_duration=='30ms')
+                         , FUN = "mean")
+t.abovechance <- t.test(x = csdata.aggr$vis.correct, mu = 1/12)
+t.abovechance.out <- apa_print(t.abovechance)
+
+```
+
+### Visibility
+
+Mean proportion of correctly identified CSs was analyzed in a CS duration (30, 100, 1000 ms) by material (nonword, face, product) repeated-measures ANOVA. 
+Mean visibility was affected by duration, `r glm.mean.vis$full$cs_duration`,
+and by material, `r glm.mean.vis$full$cs_material`,
+as well as their interaction, `r glm.mean.vis$full$cs_duration_cs_material`.
+
+The main effect of duration is illustrated in Figure 2; it reflects the finding that the CSs presented for 30ms were identified less frequently ($M=`r visibility.5[1]`, SD=`r vis.sd.5[1]`$) than those presented for 100ms ($M=`r visibility.5[2]`, SD=`r vis.sd.5[2]`$) and those presented for 1000 ms ($M=`r visibility.5[3]`, SD=`r vis.sd.5[3]`$). 
+The main effect of material reflects the fact that faces ($M=`r vis.mean.mat[2]`, SD=`r vis.sd.mat[2]`$) were better identified than the other two materials (nonwords: $M=`r vis.mean.mat[1]`, SD=`r vis.sd.mat[1]`$, products: $M=`r vis.mean.mat[3]`, SD=`r vis.sd.mat[3]`$). 
+The interaction reflected the finding that this face advantage was especially prominent in the 30ms condition (faces: $M=`r vis.mean.mat.me[2,1]`$, nonwords: $M=`r vis.mean.mat.me[1,1]`$, products: $M=`r vis.mean.mat.me[3,1]`$),
+and attenuated in the 100ms (faces: $M=`r vis.mean.mat.me[2,2]`$, nonwords: $M=`r vis.mean.mat.me[1,2]`$, products: $M=`r vis.mean.mat.me[3,2]`$) and 1000ms conditions (faces: $M=`r vis.mean.mat.me[2,3]`$, nonwords: $M=`r vis.mean.mat.me[1,3]`$, products: $M=`r vis.mean.mat.me[3,3]`$).  
+CS identification was above chance (i.e., $1/12=`r 1/12`$) even in the 30ms condition, `r t.abovechance.out$full`, and this was true across all materials (all $p<.001$).
+
+
+```{r 'exp5_ec_by_presentation', warning = FALSE, message = FALSE}
+
+#MEAN and SD
+ec.mean.mat <- tapply(data.5$rating
+       , list(data.5$cs_material)
+       , mean)
+
+ec.mean.mat.me <- tapply(data.5$rating
+       , list(data.5$cs_material, data.5$cs_duration)
+       , mean)
+
+ec.sd.mat <- tapply(data.5$rating
+       , list(data.5$cs_material)
+       , sd)
+
+ec.sd.mat.me <- tapply(data.5$rating
+       , list(data.5$cs_material, data.5$cs_duration)
+       , sd)
+
+# anova
+ec.duration <- ezANOVA(data = data.5
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence, cs_duration, cs_material)
+                        , type = 3
+                        , return_aov = TRUE)
+ec.duration <- apa_print(ec.duration$aov)
+
+#split by cs duration
+duration <- split(data.5, f = data.5$cs_duration)
+
+ec.30 <- ezANOVA(data = duration$'30ms'
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence,cs_material)
+                        , type = 3
+                        , return_aov = TRUE)
+ec.30 <- apa_print(ec.30$aov)
+
+ec.100 <- ezANOVA(data = duration$'100ms'
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence,cs_material)
+                        , type = 3
+                        , return_aov = TRUE)
+ec.100 <- apa_print(ec.100$aov)
+
+ec.1000 <- ezANOVA(data = duration$'1000ms'
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence,cs_material)
+                        , type = 3
+                        , return_aov = TRUE)
+ec.1000 <- apa_print(ec.1000$aov)
+
+```
+
+### Evaluative conditioning
+
+Evaluative ratings were analyzed in an ANOVA with CS duration, material, and US valence as repeated-measures factors. 
+We obtained main effects of US valence (i.e., an EC effect), `r ec.duration$full$us_valence`, 
+and of material, `r ec.duration$full$cs_material`,
+but not of CS duration, `r ec.duration$full$cs_duration`.
+As illustrated in Figure 2, the EC effect was qualified by an interaction with CS duration, `r ec.duration$full$us_valence_cs_duration`: 
+An EC effect was obtained only for CSs presented for 1000 ms, `r ec.1000$full$us_valence`, 
+but not for CSs presented for 30 ms, `r ec.30$full$us_valence`, or 100 ms, `r ec.100$full$us_valence`.
+The EC effect was not modified by the material factor.
+
+The main effect of material reflects the fact that, overall, products ($M=`r ec.mean.mat[3]`, SD=`r ec.sd.mat[3]`$) were rated more positively than faces ($M=`r ec.mean.mat[2]`, SD=`r ec.sd.mat[2]`$), which were in turn rated more positively than nonwords ($M=`r ec.mean.mat[1]`, SD=`r ec.sd.mat[1]`$).
+The two-way interaction between material and CS duration, `r ec.duration$ful$cs_duration_cs_material`,
+was also significant and reflected the finding that the preference differences across levels of the material factor were attenuated in the 30ms condition in which the latter two materials were evaluated similarly (faces: $M=`r ec.mean.mat.me[2,1]`, SD=`r ec.sd.mat.me[2,1]`$, nonwords: $M=`r ec.mean.mat.me[1,1]`, SD=`r ec.sd.mat.me[1,1]`$). 
+ 
+## Discussion
+
+The absence of EC for subliminal CSs was replicated for a different set of nonwords, as well as extended to faces and product images. 
+CS visibility was greater in this study due to the different presentation conditions (i.e., images instead of words, pixel pattern masks instead of random consonant strings, only backward-masking); 
+however, there were again no EC effects in the 30ms and 100ms conditions. 
+
+Under similar conditions as in Experiment 1, Experiment 5 obtained an EC effect for CSs presented for longer durations (i.e., 1000ms) that are typical of EC studies.
+The study therefore replicates the finding from Experiment 1 that, when participants are instructed to focus on CS identification, the valence of irrelevant background pictures is not automatically registered and associated with CSs, even if those CSs are clearly visible in many cases (i.e., in the 100ms condition). 
+This finding suggests that CS identifiation is not sufficient for EC to occur under incidental learning conditions, but that some minimal amount of attentional processing to the USs is necessary.
+
+#Experiment 6
+
+In a final study, we attempted to realize an incidental learning situation similar to the surveillance paradigm by @olson_implicit_2001. 
+In this paradigm, participants are typically told to view a (supposedly random) stream of stimuli and are instructed to pay attention to the identity of all of the stimuli. 
+This is an incidental learning instruction in that it does not focus on valence or on pairings, but it ensures that both CS and US stimuli are attended. 
+In this paradigm, EC effects have repeatedly been obtained in the absence of memory for CS-US pairings, and the authors interpret these findings as the result of an implicit-misattribution process by which US valence is misattributed to the CS [@jones_evaluative_2010].
+According to this account, an unaware EC-effect should occur when source confusability for the evaluative response on the US is maximized, 
+and procedural features thought to maximise source confusability (and, by implication, an unaware EC effect) are simultaneous presentation onset of CS and US, spatial contiguity or proximity of CS and US, the pairing of a CS with (a sufficient number of) different USs, and high CS (relative to US) salience. 
+In Experiment 6, we focused participants' attention on both the CS and the US by asking them to identify the CS on some trials and to identify the US on other trials, with participants not knowing until after the trial which stimulus they would have to identify. 
+We also realized a common presentation onset of CS and US.
+To increase CS salience, participants were asked to attend to the CS, which was presented centrally and cued by the forward mask.
+CS and US stimuli were approximately of the same size (which should also increase CS saliency compared to the previous experiments). 
+As in previous studies, we paired each CS with several different USs of the same valence.
+<!--If implicit misattribution can operate on subliminal CSs, it should be under these conditions.-->
+
+```{r 'exp6_prepare'}
+## import raw data
+#experiment = "ecosub9"
+# ## Output file format changed for this experiment because we switched from programming in C to [OpenSesame](http://osdoc.cogsci.nl/).
+#einles_6()
+# data.6 <- read.csv(file="data/ecosub9_alldata.csv", row.names=NULL)
+
+## read data
+data.6 <- read.csv(file="data/data.6.csv", row.names=NULL)
+
+N.and.CS(data.6$vpnr, data.6$cs_filename)
+#table(data.6$usval, data.6$cs_duration)
+#table(data.6$usval, data.6$cs_duration,data.6$vpnr)
+# each vp had 336 trials; of these, there were 96 fillers with neutral CSs
+# of the remaining 240 critical trials, each vp had 144 30ms trials, and 48 each of 100ms and 900ms (half with pos US, half with neg US)
+# a given CS was paired (with an US of the same valence) either 6x (8 CSs; 4pos, 4 neg) or 12x (16 CSs: 8 pos, 8 neg)
+
+data.6 <- subset(data.6, usval!="neu")
+
+# determine number of pairings
+data.6.repeat <- aggregate(data.6$vis_response, by = list(data.6$vpnr, data.6$cs_filename), FUN=length)
+data.6 <- merge(x=as.data.frame(data.6), y=as.data.frame(data.6.repeat), by.x=c("vpnr","cs_filename"), by.y=c("Group.1", "Group.2"))
+data.6$n_paar <- as.factor(data.6$x)
+
+# 4 item types: 30ms/6x, 30ms/12x, 100ms/12x, 900ms/12x
+data.6$cstype <- 0
+data.6$cstype <- ifelse(test = data.6$cs_duration==30 & data.6$n_paar=="6", yes = '30ms/6', no=data.6$cstype)
+data.6$cstype <- ifelse(test = data.6$cs_duration==30 & data.6$n_paar=="12", yes = '30ms/12', no=data.6$cstype)
+data.6$cstype <- ifelse(test = data.6$cs_duration==100, yes = '100ms', no=data.6$cstype)
+data.6$cstype <- ifelse(test = data.6$cs_duration==900, yes = '900ms', no=data.6$cstype)
+data.6$cstype <- as.factor(data.6$cstype)
+
+data.6$cs_duration <- factor(data.6$cs_duration, levels=c("30","100","900"), labels = c("30ms", "100ms", "900ms"))
+
+# visibility
+data.6$vis.correct <- ifelse(as.character(data.6$cs_filename)==as.character(data.6$vis_response), 1, 0)
+
+# gather
+data.all.6 <- data.frame(exp=6
+                         , vpnr=data.6$vpnr
+                         , condition=data.6$cstype
+                         , cs_duration=data.6$cs_duration
+                         , masking="mask"
+                         , us_valence=data.6$usval
+                         , cs_material="products"
+                         , rating=data.6$eval_rating
+                         , vis.correct=data.6$vis.correct
+                         , chancelevel=1/6
+                         , n=N_participants)
+data.all <- rbind(data.all, data.all.6)
+
+# materials
+iaps <- read.csv2("material/iaps.csv", dec=".")
+us_list_exp6 <- read.csv2("material/ecosub9_uslist.csv")
+uslist <- merge(iaps, us_list_exp6, by.x='Nr.', by.y='IAPS_no' )
+uslist_val <- aggregate(PleasureM~Val, data=uslist, mean)
+uslist_aro <- aggregate(ArousalM~Val, data=uslist, mean)
+
+```
+
+## Method
+
+### Participants and design
+
+A total of $N=`r N_participants`$ students who had not participated in one of the other studies within the last year participated in the experiment and received either a monetary compensation or partial course credit. 
+We implemented a 2 (US valence: positive vs. negative) x 4 (CS-duration: 30ms/6 pairings, 30ms/12 pairings, 100ms, 900ms) repeated-measures design, with a third factor (repetition: 6 vs. 12 CS presentations) nested in the 30ms CS-duration condition.
+
+### Materials and procedure
+
+This study was implemented using the OpenSesame software [@mathot_opensesame:_2011].
+We used the product pictures from Experiment 5 as CSs. 
+The same IAPS pictures (USs) were used as in the previous experiments, but we added positive ($M = `r uslist_val$PleasureM[uslist_val$Val=='Pos']`$), negative ($M = `r uslist_val$PleasureM[uslist_val$Val=='Neg']`$), and neutral ($M = `r uslist_val$PleasureM[uslist_val$Val=='Neu']`$) IAPS pictures to the US set (see Appendix), for a total of 36 USs at each valence level. 
+The USs elicited moderate levels of arousal (i.e., between 4 and 5 on a scale ranging from 2 to 7); this was comparable for positive ($M = `r uslist_aro$ArousalM[uslist_aro$Val=='Neu']`$) and negative USs ($M = `r uslist_aro$ArousalM[uslist_aro$Val=='Neu']`$), but somewhat lower for neutral USs ($M = `r uslist_aro$ArousalM[uslist_aro$Val=='Neu']`$).
+
+Participants were instructed to attend to and try to identify the pictures, and were told to focus initially on the briefly presented central stimulus (CS). 
+On the trials with a valent (positive or negative) US, they were later asked to select the CS from a list of six options. 
+In about one third of trials, CSs were presented with neutral USs; in these trials, participants were asked to identify the US from a list of six options at the end of the trial. 
+According to @jones_evaluative_2010, five pairings of a CS with different USs may not be sufficient to produce an unaware EC-effect. 
+Therefore, we manipulated the number of pairings for a given CS: Of the 16 CSs which were presented for a duration of 30ms, eight were paired with six different USs during learning (i.e., 48 trials), and another eight CSs were paired with 12 USs (i.e., 96 trials). 
+In addition, there were four CSs (two for each US valence) that were presented for 100ms and 900ms, respectively; each was paired with 12 USs (resulting in another 96 trials).
+This also implies that, assuming comparable variability, statistical power was greater for detecting EC effects for the (larger number of) briefly presented CSs than for the (smaller number of) CSs presented for longer durations.
+
+Each trial consisted of the presentation of CS and US with a common onset, and the identification task in which either CS or US had to be identified. 
+In total, there were 336 trials, divided into six blocks of 56 trials each. 
+In between blocks, participants were asked to take a break and to press a key to resume the experiment as soon as they were ready.
+After the presentation phase, evaluative ratings were collected on a continuous scale ranging from ‘very unpleasant' (-100) to ‘very pleasant' (+100).
+
+## Results
+
+```{r 'exp6_mean_visibility', warning=FALSE, message=FALSE, echo=FALSE}
+
+data.6 <- data.all.6
+
+#MEAN
+visibility.6 <- tapply(data.6$vis.correct
+       , list(data.6$condition)
+       , mean)
+
+#STANDARD DEVIATION
+vis.sd.6 <- tapply(data.6$vis.correct
+       , list(data.6$condition)
+       , sd)
+
+#ANOVA with IV CS type
+glm.mean.vis <- ezANOVA(data = data.6
+                        , dv = vis.correct
+                        , wid = vpnr
+                        , within = .(condition)
+                        , within_full = .(condition, us_valence)
+                        , type = 3
+                        , return_aov = TRUE)
+glm.mean.vis <- apa_print(glm.mean.vis$aov)
+
+#t-Test for chance level
+csdata.aggr <- aggregate(vis.correct~vpnr
+                         , data=subset(data.6
+                                       , condition=='30ms/6')
+                         , FUN = "mean")
+t.abovechance <- t.test(x = csdata.aggr$vis.correct, mu = 1/6)
+t.abovechance.1 <- apa_print(t.abovechance)
+
+#t-Test for chance level
+csdata.aggr <- aggregate(vis.correct~vpnr
+                         , data=subset(data.6
+                                       , condition=='30ms/12')
+                         , FUN = "mean")
+t.abovechance <- t.test(x = csdata.aggr$vis.correct, mu = 1/6)
+t.abovechance.2 <- apa_print(t.abovechance)
+
+```
+
+### Visibility
+
+Mean proportion of correct CS identifications was analyzed in an ANOVA with CS type (30ms/6 pairings, 30ms/12 pairings, 100ms, 900ms) as repeated-measures factor.
+Figure 2 shows that, as expected, mean visibility was affected by CS duration, `r glm.mean.vis$full$condition`.
+The identification performance for briefly presented (i.e., 30ms) CSs was clearly above chance (chance-level: 1/6) and comparable for the CSs with 6 pairings, `r t.abovechance.1$full`, and those with 12 pairings, `r t.abovechance.2$full`, indicating that increasing the number of CS-US pairings did not affect CS identification.
+CS identification was very good in the 100ms condition ($M=`r visibility.6[1]`, SD=`r vis.sd.6[1]`$) and almost perfect in the 900ms condition ($M=`r visibility.6[4]`, SD=`r vis.sd.6[4]`$).
+
+```{r 'exp6_ec_by_presentation', warning=FALSE, message=FALSE, echo=FALSE}
+
+#MEAN
+ec.mean <- tapply(data.6$rating
+       , list(data.6$condition, data.6$us_valence)
+       , mean)
+
+ec.mean.me <- tapply(data.6$rating
+       , list(data.6$condition)
+       , mean)
+
+ec.mean.6 <- tapply(data.6$rating
+       , list(data.6$us_valence)
+       , mean)
+
+#STANDARD DEVIATION
+ec.sd <- tapply(data.6$rating
+       , list(data.6$condition, data.6$us_valence)
+       , sd)
+
+ec.sd.me <- tapply(data.6$rating
+       , list(data.6$condition)
+       , sd)
+
+ec.sd.6 <- tapply(data.6$rating
+       , list(data.6$us_valence)
+       , sd)
+
+# anova
+ec.duration <- ezANOVA(data = data.6
+                        , dv = rating
+                        , wid = .(vpnr)
+                        , within = .(us_valence, condition)
+                        , type = 3
+                        , return_aov = TRUE  )
+ec.duration <- apa_print(ec.duration$aov)
+
+# anova 30ms
+ec.30 <- ezANOVA(data = subset(data.6, condition=='30ms/6' | condition=='30ms/12')
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence, condition)
+                        , type = 3
+                        , return_aov = TRUE  )
+ec.30 <- apa_print(ec.30$aov)
+
+# anova >30ms 
+ec.g30 <- ezANOVA(data = subset(data.6, condition=='100ms' | condition=='900ms')
+                        , dv = rating
+                        , wid = vpnr
+                        , within = .(us_valence, condition)
+                        , type = 3
+                        , return_aov = TRUE  )
+ec.g30 <- apa_print(ec.g30$aov)
+
+```
+
+### Evaluative conditioning
+
+Evaluative ratings were analyzed in an ANOVA with CS type (30ms/6 pairings, 30ms/12 pairings, 100ms, 900ms) and US valence as repeated-measures factors. 
+We obtained a main effect of CS type, `r ec.duration$full$condition`, 
+but only a non-significant tendency toward an effect for US valence, `r ec.duration$full$us_valence` (see Figure 2).
+The EC effect also did not interact with CS type, `r ec.duration$full$us_valence_condition`. 
+The main effect of CS type can be interpreted as a mere-exposure effect: 
+Briefly presented CSs (30ms/6 pairings: $M=`r ec.mean.me[3]`, SD=`r ec.sd.me[3]`$, 30ms/12 pairings: $M=`r ec.mean.me[2]`, SD=`r ec.sd.me[2]`$) were evaluated less positively than clearly visible items (100ms: $M=`r ec.mean.me[1]`, SD=`r ec.sd.me[1]`$; 900ms: $M=`r ec.mean.me[4]`, SD=`r ec.sd.me[4]`$).
+CS evaluations tended to vary as a function of the valence of the US (positive: $M=`r ec.mean.6[3]`, SD=`r ec.sd.6[3]`$; negative: $M=`r ec.mean.6[1]`, SD=`r ec.sd.6[1]`$).
+
+Replicating previous findings, there was again a significant EC effect for CSs presented for longer durations (100 or 900ms), `r ec.g30$full$us_valence`, but no EC effect for briefly presented CSs (30ms, 6 or 12 pairings), `r ec.30$full$us_valence`.
+
+## Discussion
+
+Experiment 6 realized an incidental-learning paradigm for which EC effects in the absence of awareness (assessed as memory for CS-US pairings) have been repeatedly reported.
+Using this paradigm, we investigated the notion that the processes underlying such unaware EC effects are also responsible for EC under subliminal presentation conditions.
+Replicating previous findings in the present study, we obtained small EC effects for longer CS presentation durations.
+However, we again failed to obtain an EC effect for briefly presented and masked CSs.
+
+```{r 'prepare aggregated data', eval=TRUE, warning=FALSE}
+
+# omit word data from exp.1
+data.all <- subset(data.all, cs_material!="words")
+# omit the condition from exp2 without vischeck info
+data.all <- subset(data.all, condition!="nocheck")
+
+#aggregate vis.correct and rating (m, sd) of all experiments by exp, condition, cs_duration, masking, cs_material
+m.agg <- aggregate(cbind(vis.correct, rating, chancelevel, n) ~ exp + condition + cs_duration + masking + cs_material
+                   , data = data.all, FUN = "mean")
+names(m.agg)[6] <- "vis.correct.m"
+names(m.agg)[7] <- "rating.m"
+sd.agg <- aggregate(cbind(vis.correct, rating) ~ exp + condition + cs_duration + masking + cs_material
+                    , data = data.all, FUN = "sd")
+names(sd.agg)[6] <- "vis.correct.sd"
+names(sd.agg)[7] <- "rating.sd"
+data.agg <- merge(m.agg, sd.agg, by=c("exp", "condition",  "cs_duration", "masking", "cs_material"))
+
+# compute effect sizes for the EC effect in all conditions in all experiments
+for(i in 1:length(data.agg$exp)){
+
+    # prepare data subset: mean ratings by vpnr and us_valence, for the given condition
+    rate <- aggregate(rating ~ vpnr + us_valence
+                      , data = subset(data.all
+                                    , exp == data.agg$exp[i] 
+                                    & condition == data.agg$condition[i]
+                                    & cs_duration == data.agg$cs_duration[i]
+                                    & masking == data.agg$masking[i]
+                                    & cs_material == data.agg$cs_material[i]
+                                    )
+                      , FUN = mean)
+
+    # compute t test
+    t <- t.test(rating ~ us_valence, data = rate, paired = TRUE)
+    p <- t$p.value
+    n <- t$parameter + 1
+
+    # compute EC effect size (paired)
+    pos <- subset(rate, us_valence == "pos")$rating
+    neg <- subset(rate, us_valence == "neg")$rating
+    #cohens.D <- cohensD(x = pos, y = neg, method = "paired")
+    # add negative sign if required (i.e., if t-test results in neg. t)
+    #if(t$statistic>0) cohens.D <- -cohens.D
+    
+    # function cohensD computes d_Z which is affected by the correlation between measurements
+    # we compute the variant d_av which is not affected by the correlation
+    s.diff <- sd(pos-neg)
+    s.within <- s.diff/sqrt(2*(1-cor(pos, neg)))
+    #cd.Z <- (mean(pos) - mean(neg))/s.diff
+    cd.av <- (mean(pos) - mean(neg))/s.within
+
+    # compute variance of EC effect size, cohens.D.var
+    # Borenstein:
+    #cd.av.var <- (2*(1-cor(pos, neg))) * ((1/n) + (cd.av^2)/(2*n))
+    # nakagawa:
+    cd.av.var <- (2*(1-cor(pos, neg)))/n + (cd.av^2)/(2*(n-1))
+    
+    # compute cohen's h for identification performance (see Cohen 1992, A Power Primer)
+    cohens.h <- asin(data.agg$vis.correct.m[i]) - asin(data.agg$chancelevel[i])
+    cohens.h.var <- 1/n + 1/n
+    # alternative: a Cohens d for a one-sample t-test
+    #cdvis.av <- (data.agg$vis.correct.m[i] - data.agg$chancelevel[i])/data.agg$vis.correct.sd[i]
+    #cdvis.av.var <-  (2*(1-cor(pos, neg)))/n + (cd.av.var^2)/(2*(n-1))
+    
+    # collect results
+    data.agg$EC.cohens.D[i] = cd.av
+    data.agg$EC.cohens.D.var[i] = cd.av.var
+    data.agg$ID.cohens.h[i] = cohens.h
+    data.agg$ID.cohens.h.var[i] = cohens.h.var    
+    data.agg$t[i] = t$statistic
+    data.agg$p[i] = p
+    data.agg$n_cond[i] = n
+}
+
+## condition labels for plots
+data.agg$condition_label <- as.character(data.agg$condition)
+data.agg$condition_label[data.agg$exp==2] <- 'valence focus'
+data.agg$condition_label[data.agg$exp==2&data.agg$masking=='nomask'] <- 'nomask, valence focus'
+data.agg$condition_label[data.agg$exp==3&data.agg$condition=='valence'] <- 'valence focus'
+data.agg$condition_label[data.agg$exp==3&data.agg$condition=='brightness'] <- 'brightness focus'
+data.agg$condition_label[data.agg$exp==3&data.agg$masking=='nomask'] <- paste0('nomask, ', data.agg$condition_label[data.agg$exp==3&data.agg$masking=='nomask'])
+data.agg$condition_label[data.agg$exp==4&data.agg$condition=='response'] <- 'brightness/response'
+data.agg$condition_label[data.agg$exp==4&data.agg$condition=='noresponse'] <- 'brightness/no response'
+data.agg$condition_label[data.agg$exp==5&data.agg$cs_material=='nonwords'] <- 'nonwords'
+data.agg$condition_label[data.agg$exp==5&data.agg$cs_material=='photos'] <- 'faces'
+data.agg$condition_label[data.agg$exp==5&data.agg$cs_material=='products'] <- 'products'
+data.agg$condition_label[data.agg$exp==5] <- paste0('CS identification, ', data.agg$condition_label[data.agg$exp==5])
+data.agg$condition_label[data.agg$exp==6] <- 'CS/US identification'
+data.agg$condition_label[data.agg$exp==6&data.agg$condition=='30ms/6'] <- 'CS/US identification (6)'
+data.agg$condition_label[data.agg$exp==6&data.agg$condition=='30ms/12'] <- 'CS/US identification (12)'
+data.agg$studylabels <- ''
+data.agg$studylabels <- paste('Exp.', data.agg$exp, ', ',
+  data.agg$cs_duration, ', ',
+  data.agg$condition_label, sep="")
+
+## groups of conditions for meta-analysis
+v <- 'Long/unmasked CSs'
+n <- 'Brief/masked CSs'
+data.agg$group <- v
+data.agg$group[data.agg$cs_duration == '30ms' & data.agg$masking == 'mask'] <- n
+data.agg$group[data.agg$cs_duration == '50ms'] <- n
+
+```
+
+```{r 'fig_each_exp_1', fig.width=6, fig.height=8, fig.cap="EC effects (left panels, a) and visibility (right panels, b) for Experiments 1-3. Violin plots (background) show EC effects for individual participants (i.e., the width of the violin plot reflects the density of the distribution of EC effects). Group means (and 95% CIs) are superimposed in black."}
+
+par(mfrow = c(3, 2))
+
+## exp1
+
+# plot ec
+durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data.1, FUN= mean)
+durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+ncond <- length(unique(durationdata$condition))
+par(mar=c(3,4,3,1))
+par(las = 1)
+simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
+  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
+  , border = c(gray(0.6), gray(0.3)), ylim = c(-3,3))
+title(main = "1a")
+
+abline(h = 0, col = "gray70")
+mtext("EC Effect", side=2, line=2.5, las = 3)
+conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+
+plotCI(1:ncond, conf[,2], ui = conf[,1], li = conf[,3]
+       , add = TRUE, pch = 19, lwd = 1.2, main = "1a")
+
+# plot visibility
+visdata <- aggregate(vis.correct~vpnr+cs_duration, data=data.1, FUN= mean)
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms"))
+visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
+conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+ 
+par(mar=c(3,1,3,4))
+
+plot(x = 1:ncond, conf[,2], main = "1b"
+  , type = "l", col = c(gray(0.6), gray(0.2)), pch = 21, bg = c(gray(0.7), gray(0.3)), bty = "n"
+  , ylab = "", xlab = "", yaxt = "n", xaxt = "n", xlim = c(.5, ncond + .5), ylim = c(0, 1))
+
+axis(1, at = seq(1, ncond, 1), labels = levels(durationdata$condition))
+abline(h = 1/48, col = "gray70")
+
+axis(4, at = seq(0, 1 , .2), las = 2)
+mtext("Accuracy", side=4, line=2.5, las = 3)
+plotCI(1:ncond, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2)
+
+## exp2
+data.2 <- data.all.2
+
+offset=.075
+
+# plot ec violin for all conditions
+durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.2, FUN= mean)
+durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+ncond <- length(unique(durationdata$condition))
+par(mar=c(3,4,3,1))
+par(las = 1)
+simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
+  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
+  , border = c(gray(0.6), gray(0.3)), ylim = c(-3,3))
+title(main = "2a")
+
+abline(h = 0, col = "gray70")
+mtext("EC Effect", side=2, line=2.5, las = 3)
+
+# Ci only for one
+durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.2, subset=data.2$condition=="vischeck", FUN= mean)
+durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+conf <- tapply(durationdata$ec, durationdata$condition, CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+
+plotCI(x=1:ncond-offset, y=conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2)
+
+durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.2, subset=data.2$condition=="nocheck", FUN= mean)
+durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 17, lwd = 1.2)
+
+# plot visibility
+visdata <- aggregate(vis.correct~vpnr+masking, data=data.2, subset=data.2$condition=="vischeck", FUN= mean)
+visdata$condition <- factor(visdata$masking, levels = c("mask", "nomask"))
+visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
+conf <- tapply(visdata$vis.correct, visdata$condition, CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+ 
+par(mar=c(3,1,3,4))
+
+plot(x = 1:ncond, conf[,2], main = "2b"
+  , type = "l", col = c(gray(0.6), gray(0.2)), pch = 21, bg = c(gray(0.7), gray(0.3)), bty = "n"
+  , ylab = "", xlab = "", yaxt = "n", xaxt = "n", xlim = c(.5, ncond + .5), ylim = c(0, 1))
+
+axis(1, at = seq(1, ncond, 1), labels = levels(durationdata$condition))
+abline(h = 1/24, col = "gray70")
+
+axis(4, at = seq(0, 1 , .2), las = 2)
+mtext("Accuracy", side=4, line=2.5, las = 3)
+plotCI(1:ncond, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2)
+
+legend("topleft", legend=c("Visibility check", "No visibility check"), pch=c(19,17), bty="n")
+
+## exp3
+
+offset=.075
+
+# plot ec violin for all
+durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.3, FUN= mean)
+durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+ncond <- length(unique(durationdata$condition))
+par(mar=c(3,4,3,1))
+par(las = 1)
+simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
+  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
+  , border = c(gray(0.6), gray(0.3)), ylim = c(-3,3))
+title(main = "3a")
+
+abline(h = 0, col = "gray70")
+mtext("EC Effect", side=2, line=2.5, las = 3)
+
+# ci only for one condition
+durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.3, subset=data.3$condition=="valence", FUN= mean)
+durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2)
+
+# and the other
+durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.3, subset=data.3$condition=="brightness", FUN= mean)
+durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 17, lwd = 1.2)
+
+# plot visibility
+visdata <- aggregate(vis.correct~vpnr+masking, data=data.3, subset=data.3$condition=='valence', FUN= mean)
+visdata$condition <- factor(visdata$masking, levels = c("mask", "nomask"))
+visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
+conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+ 
+par(mar=c(3,1,3,4))
+
+plot(x = 1:ncond-offset, conf[,2], main = "3b"
+  , type = "l", bty = "n"
+  , ylab = "", xlab = "", yaxt = "n", xaxt = "n", xlim = c(.5, ncond + .5), ylim = c(0, 1))
+
+axis(1, at = seq(1, ncond, 1), labels = levels(durationdata$condition))
+abline(h = 1/24, col = "gray70")
+
+axis(4, at = seq(0, 1 , .2), las = 2)
+mtext("Accuracy", side=4, line=2.5, las = 3)
+plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2, gap=TRUE)
+
+#2nd condition
+visdata <- aggregate(vis.correct~vpnr+masking, data=data.3,
+                     subset=data.3$condition=='brightness', FUN= mean)
+visdata$condition <- factor(visdata$masking, levels = c("mask", "nomask"))
+visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
+conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+lines(x = 1:ncond+offset, y=conf[,2], lty=2)
+plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 17, lwd = 1.2, gap=TRUE)
+
+# solid/circles=valence, dashed/triangles=brightness
+legend("topleft", legend=c("Valence focus", "Brightness focus"), pch=c(19,17), bty="n")
+
+```
+
+```{r 'fig_each_exp_2', fig.width=6, fig.height=8, fig.cap="EC effects (left panels, a) and visibility (right panels, b) for Experiments 4-6. Violin plots (background) show EC effects for individual participants (i.e., the width of the violin plot reflects the density of the distribution of EC effects). Group means (and 95% CIs) are superimposed in black."}
+par(mfrow = c(3, 2))
+## exp4
+
+offset=.075
+
+# plot ec violin for all
+durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.4, FUN= mean)
+durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "50ms", "100ms"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+ncond <- length(unique(durationdata$condition))
+par(mar=c(3,4,3,1))
+par(las = 1)
+simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
+  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
+  , border = c(gray(0.6), gray(0.3)), ylim = c(-3,3))
+title(main = "4a")
+
+abline(h = 0, col = "gray70")
+mtext("EC Effect", side=2, line=2.5, las = 3)
+
+durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.4, subset=data.4$condition=="response", FUN= mean)
+durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "50ms", "100ms"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2)
+
+# ec 2nd condition
+durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.4, subset=data.4$condition=="noresponse", FUN= mean)
+durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "50ms", "100ms"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 17, lwd = 1.2)
+
+
+# plot visibility
+visdata <- aggregate(vis.correct~vpnr+cs_duration, data=data.4, subset=data.4$condition=="response", FUN= mean)
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "50ms", "100ms"))
+visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
+conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+ 
+par(mar=c(3,1,3,4))
+
+plot(x = 1:ncond-offset, conf[,2], main = "4b"
+  , type = "l", bty = "n"
+  , ylab = "", xlab = "", yaxt = "n", xaxt = "n", xlim = c(.5, ncond + .5), ylim = c(0, 1))
+
+axis(1, at = seq(1, ncond, 1), labels = levels(durationdata$condition))
+abline(h = 1/24, col = "gray70")
+
+axis(4, at = seq(0, 1 , .2), las = 2)
+mtext("Accuracy", side=4, line=2.5, las = 3)
+plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2, gap=TRUE)
+
+
+#vis 2nd condition
+visdata <- aggregate(vis.correct~vpnr+cs_duration, data=data.4, subset=data.4$condition=="noresponse", FUN= mean)
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "50ms", "100ms"))
+visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
+conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+lines(x = 1:ncond+offset, y=conf[,2], lty=2)
+plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 17, lwd = 1.2, gap=TRUE)
+
+# solid/circles=response, dashed/triangles=noresponse
+legend("topleft", legend=c("With orienting response", "Without orienting response"), pch=c(19,17), bty="n")
+
+## exp5
+
+offset=.15
+
+# plot ec
+durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.5, FUN= mean)
+durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+ncond <- length(unique(durationdata$condition))
+par(mar=c(3,4,3,1))
+par(las = 1)
+simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
+  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
+  , border = c(gray(0.6), gray(0.3)), ylim = c(-50,50))
+title(main = "5a")
+
+abline(h = 0, col = "gray70")
+mtext("EC Effect", side=2, line=2.5, las = 3)
+
+durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.5, subset=data.5$cs_material=="nonwords", FUN= mean)
+durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+
+plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2)
+
+#ec 2nd
+durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.5, subset=data.5$cs_material=="photos", FUN= mean)
+durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 17, lwd = 1.2)
+
+
+#ec 3rd
+durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.5, subset=data.5$cs_material=="products", FUN= mean)
+durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+durationdata$ec <- durationdata$pos - durationdata$neg
+conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+plotCI(1:ncond, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 15, lwd = 1.2)
+
+
+# plot visibility
+
+visdata <- aggregate(vis.correct~vpnr + cs_duration, data=data.5, subset=data.5$cs_material=="nonwords", FUN= mean)
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
+conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+ 
+par(mar=c(3,1,3,4))
+
+plot(x = 1:ncond+offset, conf[,2], main = "5b"
+  , type = "l", bty = "n"
+  , ylab = "", xlab = "", yaxt = "n", xaxt = "n", xlim = c(.5, ncond + .5), ylim = c(0, 1))
+
+axis(1, at = seq(1, ncond, 1), labels = levels(durationdata$condition))
+abline(h = 1/12, col = "gray70")
+
+axis(4, at = seq(0, 1 , .2), las = 2)
+mtext("Accuracy", side=4, line=2.5, las = 3)
+plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2, gap=TRUE)
+
+
+# 2nd condition: faces
+visdata <- aggregate(vis.correct~vpnr + cs_duration, data=data.5, subset=data.5$cs_material=="photos", FUN= mean)
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
+conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+lines(x = 1:ncond-offset, y=conf[,2], lty=2)
+plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 17, lwd = 1.2, gap=TRUE)
+
+# 3nd condition: products
+visdata <- aggregate(vis.correct~vpnr + cs_duration, data=data.5, subset=data.5$cs_material=="products", FUN= mean)
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
+conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+lines(x = 1:ncond, y=conf[,2], lty="dotdash")
+plotCI(1:ncond, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 15, lwd = 1.2, gap=TRUE)
+
+# solid/circles=response, dashed/triangles=noresponse
+legend("topleft", legend=c("Faces", "Products", "Nonwords"),  pch=c(17, 15, 19), bty="n")
+
+## exp6
+
+# plot ec
+durationdata <- aggregate(rating ~ vpnr + us_valence + condition, data=data.6, FUN= mean)
+durationdata <- dcast(durationdata, vpnr + condition ~ us_valence)
+durationdata$condition <- relevel(durationdata$condition, "30ms/12")
+durationdata$condition <- relevel(durationdata$condition, "30ms/6")
+durationdata$ec <- durationdata$pos - durationdata$neg
+ncond <- length(unique(durationdata$condition))
+par(mar=c(3,4,3,1))
+par(las = 1)
+simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
+  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
+  , border = c(gray(0.6), gray(0.3)), ylim = c(-6,6))
+title(main = "6a")
+
+abline(h = 0, col = "gray70")
+mtext("EC Effect", side=2, line=2.5, las = 3)
+conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+
+plotCI(1:ncond, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2)
+
+# plot visibility
+visdata <- aggregate(vis.correct~vpnr+condition, data=data.6, FUN= mean)
+#visdata$condition <- factor(visdata$masking, levels = c("mask", "nomask"))
+visdata$condition <- relevel(visdata$condition, "30ms/12")
+visdata$condition <- relevel(visdata$condition, "30ms/6") 
+conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
+conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
+ 
+par(mar=c(3,1,3,4))
+
+plot(x = 1:ncond, conf[,2], main = "6b"
+  , type = "l", col = c(gray(0.6), gray(0.2)), pch = 21, bg = c(gray(0.7), gray(0.3)), bty = "n"
+  , ylab = "", xlab = "", yaxt = "n", xaxt = "n", xlim = c(.5, ncond + .5), ylim = c(0, 1))
+
+axis(1, at = seq(1, ncond, 1), labels = levels(durationdata$condition))
+abline(h = 1/6, col = "gray70")
+
+axis(4, at = seq(0, 1 , .2), las = 2)
+mtext("Accuracy", side=4, line=2.5, las = 3)
+plotCI(1:ncond, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2)
+
+```
+
+# Complementary insights from a joint analysis
+
+Across six experiments, we did not find any evidence for an EC effect for briefly presented and masked CSs.
+Perhaps, then, EC effects under those presentation conditions are smaller than expected. 
+In this case, each individual study may have been underpowered, but a meta-analysis may be able to detect such smaller effects.
+To address this possibility, we report the results of a set of joint analyses of the data from all experiments.
+In a first section, we address the concern that the lack of EC may have been based on a lack of statistical power.
+Second, we conducted a random-effects meta-analysis of the EC effects obtained in each of the 27 experimental conditions realized in the present study.
+Third, we depict the EC- and CS-identification effects as a function of CS presentation duration, to illustrate the relative sensitivity of both effects to (increases in) presentation duration.
+We also show the EC effect as a function of the CS identification effect, to illustrate how non-zero EC effect sizes depend on clearly above-chance CS identification effects.
+
+## Interpretability of the null finding of no EC for brief and masked CSs
+
+It could be argued that the article's central finding is based on a null effect (i.e., the absence of EC under suboptimal presentation conditions). 
+Actually, the central finding relates to the presence of significant interactions: Where EC was obtained under conditions that made it possible for participants to consciously process the CS-US pairings, it consistently vanished when approaching conscious perception boundaries by using a masking procedure or by reducing CS presentation duration.
+In addition, CS identification was significantly above chance in almost all the experiments reported here, such that presentation conditions allowed for a detectable amount of cognitive processing of the CSs.
+Finally, the lack of an EC effect cannot be attributed to a lack of statistical power, as each of the individual experiments reported here was highly powered. 
+The present study in fact had adequate statistical power to test the hypothesis that EC is independent of conscious awareness, which implies that the size of the effect should not be modulated by awareness of CSs. 
+The power to detect an effect of the size suggested by the @hofmann_evaluative_2010 meta-analysis (i.e., $d = 0.46$) was high in every single study (i.e., $1 - \beta \ge .95$). 
+The present designs further demonstrated its sufficient power by obtaining significant EC effects in the long/unmasked presentation conditions that were often smaller than .46 (see below for a meta-analysis).
+Thus, if an EC effect of comparable magnitude would also have occurred under suboptimal presentation conditions, we would have detected it in the present studies.
+We can therefore conclude at this point that EC effects were at least reduced under the suboptimal viewing conditions we realized. 
+
+```{r 'bayesfactors', echo=FALSE, warning=FALSE}
+# compute meta-analytic BF:
+ts.agg <- data.agg$t[data.agg$group==n]
+Ns.agg <- data.agg$n_cond[data.agg$group==n]
+
+metat <- meta.ttestBF(t = ts.agg, n1 = Ns.agg, nullInterval = c(0, Inf))
+metat_small <- meta.ttestBF(t = ts.agg, n1 = Ns.agg, nullInterval = c(0, Inf), rscale = .2)
+metat_wide <- meta.ttestBF(t = ts.agg, n1 = Ns.agg, nullInterval = c(0, Inf), rscale = "wide")
+```
+
+Another way of addressing this statistical issue is to compute a Bayes-factor analysis that allows quantifying the evidence for the null hypothesis.
+Bayes factors are ratios relating the evidence of two hypotheses:
+They indicate how much more likely the data are under one hypothesis -- the null hypothesis of zero subliminal EC effect -- when compared to an alternative hypothesis -- a medium-sized EC effect greater than zero. ^[We used a one-sided Cauchy distribution with scale parameter of .71, as recommended by @rouder_bayesian_2009.
+The Bayes factor depend on the exact choice of the alternative model (i.e., on the assumptions about the range of plausible effect sizes and their respective probability densities). 
+We have chosen a standard alternative model for which effect sizes are most likely to vary between 0 and .71, with larger effect sizes increasingly unlikely to occur. 
+Different assumptions do not change the substantive conclusions: 
+Even with an alternative that strongly favors small effects (i.e., a scale parameter of .2), the Bayes factor still substantially favors the null hypothesis, $BF_{01} = `r 1/exp(metat_small@bayesFactor$bf[1])`$.
+With an alternative favoring larger effects (i.e., a scale parameter of 1), the Bayes factor is even more strongly in favor of the null hypothesis, $BF_{01} = `r 1/exp(metat_wide@bayesFactor$bf[1])`$.]
+A meta-analytic Bayes factor which combines the evidence of the brief presentation conditions of all studies yielded considerable support for the null hypothesis of no subliminal EC: 
+The Bayes factor $BF_{01} = `r 1/exp(metat@bayesFactor$bf[1])`$ states that the data are about `r round(1/exp(metat@bayesFactor$bf[1]))` times more likely under the null hypothesis.
+This means that the results modify the prior odds in favor of the null hypothesis (i.e., no subliminal EC) over the alternative hypothesis (i.e., subliminal EC) by this factor; in other words, the present evidence should lead us to considerably strengthen our belief in the null hypothesis.
+
+The second critical question was whether there would still be evidence for (smaller) EC even under suboptimal viewing conditions.
+If we reject the notion that EC effects are independent of awareness, EC effects may be weaker under suboptimal presentation conditions, and small effects could have gone undetected in the present study. 
+Sensitivity power analyses showed that, based on the $N = `r 131+62+57+52+61+60`$ participants across Experiments 1-6, and assuming $\alpha=\beta=.05$, the present study was able to detect effects as small as $d=0.16$. 
+<!--gpower, ttest(dependent), sensitivity, on-tailed; resulting dz is equivalent to a Cohen's d of the same magnitude if the correlation between measurements is a plausible r=.5 -->
+Taken together, power analyses showed that the present studies could reliably detect not only the expected effects of medium size that were obtained by the meta-analysis (Hofmann et al., 2010), but also much smaller effects. 
+Of course, subliminal EC effects of an even smaller size (i.e., $d < .16$) may have gone undetected, and more powerful designs would be necessary to investigate such small effects. 
+Foreshadowing the results of a meta-analysis of the present findings, which indicated a weighted mean EC effect of zero for briefly presented and masked CSs, it is however unclear whether such high-power efforts would be worthwhile.
+
+```{r 'visibility meta-analysis', warning=FALSE}
+library('meta')
+library('metafor')
+
+## overall
+metaID <- meta::metagen(TE=data.agg$ID.cohens.h, seTE=sqrt(data.agg$ID.cohens.h.var), studlab=data.agg$studylabels)
+
+## by duration
+metaIDduration <- meta::metagen(TE=data.agg$ID.cohens.h, seTE=sqrt(data.agg$ID.cohens.h.var), studlab=data.agg$studylabels, byvar=data.agg$group)
+```
+
+## A meta-analysis of EC effects
+
+```{r 'meta_analysis', fig.width=7, fig.height=7, warning=FALSE}
+## overall
+metaEC <- meta::metagen(TE=data.agg$EC.cohens.D, seTE=sqrt(data.agg$EC.cohens.D.var), studlab=data.agg$studylabels)
+
+metaEC_p <- format_p(pchisq(q = metaEC$Q, df = metaEC$df.Q, lower.tail = FALSE))
+
+## by duration
+metaECduration <- meta::metagen(TE=data.agg$EC.cohens.D, seTE=sqrt(data.agg$EC.cohens.D.var), studlab=data.agg$studylabels, byvar=data.agg$group)
+
+metaECduration_short_p <- format_p(pchisq(
+    q = metaECduration$Q.w[2]
+    , df=metaECduration$k.w[2]-1
+    , lower.tail = FALSE))
+metaECduration_long_p <- format_p(pchisq(
+    q = metaECduration$Q.w[1]
+    , df=metaECduration$k.w[1]-1
+    , lower.tail = FALSE))
+```
+
+We conducted a random-effects meta-analysis of the EC effects obtained in all experimental conditions across Experiments 1-6.
+^[We included all 27 conditions despite the fact that this introduced some dependency across conditions due to the within-subject nature of some of the experimental manipulations. 
+We believe this dependency is unlikely to affect the substantial conclusions drawn from the meta-analytic results.]
+As a measure for the magnitude of the EC effect, we computed Cohen's $d$ for each condition.
+^[We repeated the analyses reported below with different variants of computing the effect sizes measure (i.e., using the standard deviation of the raw scores versus the standard deviation of the difference scores).
+The pattern of results was not affected by the choice of measure.]
+The mean EC effect size was $d=`r metaEC$TE.random`$ (with a 95% CI ranging from `r metaEC$lower.random` to `r metaEC$upper.random`); 
+however, there was substantial heterogeneity across effect sizes ($Q=`r metaEC$Q`, df=`r metaEC$df.Q`, `r metaEC_p`$).
+We therefore included CS presentation condition as a moderator and computed separate estimates for subgroups of EC effects for briefly presented and masked CSs, comparing them to those for CSs presented for longer durations and/or non-masked.
+
+### The moderating role of CS presentation
+
+For briefly presented and masked CSs, the mean EC effect size was practically zero, $d=`r metaECduration$TE.random.w[2]`$ (95% CI: `r metaECduration$lower.random.w[2]`, `r metaECduration$upper.random.w[2]`), and the effect sizes in this subgroup were homogeneous ($Q=`r metaECduration$Q.w[2]`, df=`r metaECduration$k.w[2]-1`, `r metaECduration_short_p`$).
+For longer presentations, the EC effect size was of medium size, $d=`r metaECduration$TE.random.w[1]`$ (95% CI: `r metaECduration$lower.random.w[1]`, `r metaECduration$upper.random.w[1]`), more comparable to the effects reported in the @hofmann_evaluative_2010 meta-analysis (i.e., $.46<d<.49$).
+Because the EC effect varied substantially across the long/unmasked conditions ($Q=`r metaECduration$Q.w[1]`, df=`r metaECduration$k.w[1]-1`, `r metaECduration_long_p`$), we included orientation task as a moderator for this subset of effects.
+
+```{r 'meta-analysis by orientation', fig.width=8, fig.height=8, fig.cap="Meta-analysis of EC effects in the present study (homogeneous subsets)"}
+## by presentation and orientation; divide long-presentation into pair-focus (exp. 2, 3, 4) vs. rest
+v1 <- 'Long/unmasked CS; Attend individual CS (US)'
+v2 <- 'Long/unmasked CS; Attend CS-US pair'
+data.agg$dur_orient[data.agg$group==n] <- n
+data.agg$dur_orient[data.agg$group==v] <- v1
+data.agg$dur_orient[data.agg$group==v & data.agg$exp==2] <- v2
+data.agg$dur_orient[data.agg$group==v & data.agg$exp==3] <- v2
+data.agg$dur_orient[data.agg$group==v & data.agg$exp==4] <- v2
+data.agg$dur_orient <- as.factor(data.agg$dur_orient)
+data.agg$dur_orient <- relevel(data.agg$dur_orient, v1)
+data.agg$dur_orient <- relevel(data.agg$dur_orient, n)
+
+# only supraliminal with valence focus
+supra_val <- data.agg[data.agg$group==v & data.agg$condition_label=='nomask, valence focus',]
+metaEC.supra_val <- meta::metagen(TE=supra_val$EC.cohens.D, seTE=sqrt(supra_val$EC.cohens.D.var), studlab=supra_val$studylabels)
+
+# only supraliminal with brightness focus
+supra_bri <- data.agg[data.agg$group==v & (data.agg$condition_label=='nomask, brightness focus' | data.agg$condition_label=='brightness/response' | data.agg$condition_label=='brightness/no response'),]
+metaEC.supra_bri <- meta::metagen(TE=supra_bri$EC.cohens.D, seTE=sqrt(supra_bri$EC.cohens.D.var), studlab=supra_bri$studylabels)
+
+# only supraliminal with CS/US focus
+supra_csus <- data.agg[data.agg$group==v & data.agg$exp==6,]
+metaEC.supra_csus <- meta::metagen(TE=supra_csus$EC.cohens.D, seTE=sqrt(supra_csus$EC.cohens.D.var), studlab=supra_csus$studylabels)
+
+# only supraliminal with CS-only focus
+supra_cs <- data.agg[data.agg$group==v & (data.agg$exp==1 | data.agg$exp==5),]
+metaEC.supra_cs <- meta::metagen(TE=supra_cs$EC.cohens.D, seTE=sqrt(supra_cs$EC.cohens.D.var), studlab=supra_cs$studylabels)
+
+## by orientation, only longer duration conditions
+longer <- data.agg[data.agg$group!=n,]
+longer$dur_orient <- droplevels(longer$dur_orient)
+metaECorientation <- meta::metagen(TE=longer$EC.cohens.D, seTE=sqrt(longer$EC.cohens.D.var), studlab=longer$studylabels, byvar=longer$dur_orient)
+
+# all studies by duration (and orientation)
+metaECdur_orient <- meta::metagen(TE=data.agg$EC.cohens.D, seTE=sqrt(data.agg$EC.cohens.D.var), studlab=data.agg$studylabels, byvar=data.agg$dur_orient)
+
+# p values for homogeneity tests
+metaEC_intent_p <- format_p(pchisq(q = metaECorientation$Q.w[2], df = metaECorientation$k.w[2]-1, lower.tail = FALSE))
+metaEC_incid_p <- format_p(pchisq(q = metaECorientation$Q.w[1],  df = metaECorientation$k.w[1]-1, lower.tail = FALSE))
+
+# forest plot
+meta::forest(metaECdur_orient, bylab=TRUE, print.byvar=FALSE, weight="random", ref=0, hetstat=FALSE, comb.random=TRUE,comb.fixed=FALSE,leftlabs=c("Study", "EC (d)", "95% CI"),leftcols=c("studlab","effect","ci"), rightcols=FALSE, overall=FALSE)
+
+# ec mean effects for plots
+EC.30ms.masked <- data.agg[data.agg$cs_duration=='30ms' & data.agg$group==n,]
+meta.30ms.masked <- meta::metagen(TE=EC.30ms.masked$EC.cohens.D, seTE=sqrt(EC.30ms.masked$EC.cohens.D.var), studlab=EC.30ms.masked$studylabels)
+
+EC.50ms.masked <- data.agg[data.agg$cs_duration=='50ms' & data.agg$group==n,]
+meta.50ms.masked <- meta::metagen(TE=EC.50ms.masked$EC.cohens.D, seTE=sqrt(EC.50ms.masked$EC.cohens.D.var), studlab=EC.50ms.masked$studylabels)
+
+EC.100ms.masked <- data.agg[data.agg$cs_duration=='100ms' & data.agg$group==v,]
+meta.100ms.masked <- meta::metagen(TE=EC.100ms.masked$EC.cohens.D, seTE=sqrt(EC.100ms.masked$EC.cohens.D.var), studlab=EC.100ms.masked$studylabels)
+
+EC.1000ms.masked <- data.agg[(data.agg$cs_duration=='900ms' | data.agg$cs_duration=='1000ms') & data.agg$group==v,]
+meta.1000ms.masked <- meta::metagen(TE=EC.1000ms.masked$EC.cohens.D, seTE=sqrt(EC.1000ms.masked$EC.cohens.D.var), studlab=EC.1000ms.masked$studylabels)
+
+EC.30ms.unmasked <- data.agg[data.agg$cs_duration=='30ms' & data.agg$group==v,]
+meta.30ms.unmasked <- meta::metagen(TE=EC.30ms.unmasked$EC.cohens.D, seTE=sqrt(EC.30ms.unmasked$EC.cohens.D.var), studlab=EC.30ms.unmasked$studylabels)
+
+# ID mean effects for plots
+meta.30ms.masked.id <- meta::metagen(TE=EC.30ms.masked$ID.cohens.h, seTE=sqrt(EC.30ms.masked$ID.cohens.h.var), studlab=EC.30ms.masked$studylabels)
+
+meta.50ms.masked.id <- meta::metagen(TE=EC.50ms.masked$ID.cohens.h, seTE=sqrt(EC.50ms.masked$ID.cohens.h.var), studlab=EC.50ms.masked$studylabels)
+
+meta.100ms.masked.id <- meta::metagen(TE=EC.100ms.masked$ID.cohens.h, seTE=sqrt(EC.100ms.masked$ID.cohens.h.var), studlab=EC.100ms.masked$studylabels)
+
+meta.1000ms.masked.id <- meta::metagen(TE=EC.1000ms.masked$ID.cohens.h, seTE=sqrt(EC.1000ms.masked$ID.cohens.h.var), studlab=EC.1000ms.masked$studylabels)
+
+meta.30ms.unmasked.id <- meta::metagen(TE=EC.30ms.unmasked$ID.cohens.h, seTE=sqrt(EC.30ms.unmasked$ID.cohens.h.var), studlab=EC.30ms.unmasked$studylabels)
+```
+
+### A moderating role of orientation task
+
+The heterogeneity in longer/unmasked presentation conditions points to potential moderating effects of orienting task. We compared EC effects from intentional learning conditions -- in which attention was directed toward the CS-US pair (i.e., the valence and brightness focus conditions) -- to EC effects from incidental learning conditions in which participants' main orienting task was to identify the CSs.
+
+Under intentional learning conditions (i.e., for attended CS-US pairs) the mean EC effect size was medium-to-large, $d=`r metaECorientation$TE.random.w[2]`$ (95% CI: `r metaECorientation$lower.random.w[2]`, `r metaECorientation$upper.random.w[2]`); there was no evidence that the effect sizes in this subgroup were heterogeneous ($Q=`r metaECorientation$Q.w[2]`, df=`r metaECorientation$k.w[2]-1`, `r metaEC_intent_p`$).
+In contrast, the mean incidental EC effect size (obtained under CS-identification orientation conditions) was small, $d=`r metaECorientation$TE.random.w[1]`$ (95% CI: `r metaECorientation$lower.random.w[1]`, `r metaECorientation$upper.random.w[1]`); the effect sizes in this subgroup were also homogeneous ($Q=`r metaECorientation$Q.w[1]`, df=`r metaECorientation$k.w[1]-1`, `r metaEC_incid_p`$).
+
+Taken together, EC effects were zero for subliminal (i.e., brief and masked) CS presentations; 
+they were small for supraliminal CSs under incidental learning conditions (i.e., when participants attended only to individual CS/US stimuli);
+and they were medium-to-large for supraliminal CSs under more intentional learning conditions (i.e., when participants attended to CS-US pairs). 
+Figure 3 summarizes the EC effects for the three homogeneous subgroups identified in the meta-analysis.
+
+## EC and CS identification as a function of CS presentation duration
+
+One way to analyze whether EC effects can obtain in the absence of awareness is to investigate whether they occur in the absence of CS visibility.
+Figure 4 plots CS identification and EC effects (as well as their meta-analytic means and 95% CIs) as a function of CS presentation duration; it illustrates the point(s) on the duration axis at which EC and identification begin to exhibit non-zero effect sizes.
+If EC effects require little or no conscious CS visibility, then EC effect sizes should be greater than those for CS identification, especially at brief presentation durations.
+In particular, EC effect sizes should be greater than zero when CS visibility is zero.
+In contrast, if EC requires CSs to be consciously visible as a necessary precondition, then EC effect sizes should be smaller than those for CS identification.
+Results support the later possibility: 
+CS identification was above chance already at 30ms, and clearly so at 100ms, showing large effects.
+In contrast, EC effects were zero at 30ms, and were only small at 100ms.
+Figure 4 shows that, across all levels of CS presentation duration, EC effect sizes were consistently smaller than those for CS identification, supporting the second interpretation.
+
+```{r 'fig1_ec_effects', fig.width=6, fig.height=4, fig.cap="CS identification (circles; solid line) and EC effects (triangles; dashed line) by CS duration. Symbols represent effects of individual studies; lines represent meta-analytic means (and 95% CIs). Brief non-masked presentation conditions ($k=3$) are not depicted."}
+
+subset.data <- subset(data.agg, masking != "nomask")
+subset.data$cs_duration <- as.numeric(substr( as.character(subset.data$cs_duration), 0, nchar(as.character(subset.data$cs_duration))-2))
+subset.data$cs_duration <- ifelse(subset.data$cs_duration>900, 900, subset.data$cs_duration)
+jitter <- -log(4)
+plot(x = subset.data$cs_duration+jitter, y = subset.data$ID.cohens.h, pch = 16
+     , xlab = "CS presentation duration (log ms)"
+     , ylab = "Effect size (d)"
+     , log="x"
+     , ylim=c(-0.2,1.5)
+     , xaxt="n"
+     , bty="n"
+)
+axis(1, at=c(30, 50, 100, 900), labels=c("30", "50", "100", expression(phantom(0)>=900)))
+abline(h=0, lty='dotted')
+points(x = subset.data$cs_duration-jitter, y = subset.data$EC.cohens.D, pch = 2)
+durs <- c(30, 50, 100, 900)
+
+# compile meta-analytic means and CIs from subgroup meta-analyses, for EC and ID
+d.mean <- c(meta.30ms.masked$TE.random
+            , meta.50ms.masked$TE.random
+            , meta.100ms.masked$TE.random
+            , meta.1000ms.masked$TE.random
+            , meta.30ms.unmasked$TE.random)
+d.ci.lower <- c(meta.30ms.masked$lower.random
+            , meta.50ms.masked$lower.random
+            , meta.100ms.masked$lower.random
+            , meta.1000ms.masked$lower.random
+            , meta.30ms.unmasked$lower.random)
+d.ci.upper <- c(meta.30ms.masked$upper.random
+            , meta.50ms.masked$upper.random
+            , meta.100ms.masked$upper.random
+            , meta.1000ms.masked$upper.random
+            , meta.30ms.unmasked$upper.random)
+
+vis.mean <- c(meta.30ms.masked.id$TE.random
+            , meta.50ms.masked.id$TE.random
+            , meta.100ms.masked.id$TE.random
+            , meta.1000ms.masked.id$TE.random
+            , meta.30ms.unmasked.id$TE.random)
+vis.ci.lower <- c(meta.30ms.masked.id$lower.random
+            , meta.50ms.masked.id$lower.random
+            , meta.100ms.masked.id$lower.random
+            , meta.1000ms.masked.id$lower.random
+            , meta.30ms.unmasked.id$lower.random)
+vis.ci.upper <- c(meta.30ms.masked.id$upper.random
+            , meta.50ms.masked.id$upper.random
+            , meta.100ms.masked.id$upper.random
+            , meta.1000ms.masked.id$upper.random
+            , meta.30ms.unmasked.id$upper.random)
+
+# draw meta-analytic means for EC effect (d)
+lines(x = durs-jitter, y = d.mean[-5], lty=2, lwd=2)
+
+# draw meta-analytic means for CS visibility (ID, h)
+lines(x = durs+jitter, y = vis.mean[-5], lty=1, lwd=2)
+
+# draw meta-analytic 95% CI error bars for EC
+arrows(x0 = durs-jitter, 
+       y0 = d.mean[-5],
+       x1 = durs-jitter,
+       y1 = d.ci.lower[-5],
+       length=0.05, angle=90, code=3, lty=1)
+arrows(x0 = durs-jitter, 
+       y0 = d.mean[-5],
+       x1 = durs-jitter,
+       y1 = d.ci.upper[-5],
+       length=0.05, angle=90, code=3, lty=1)
+
+# draw meta-analytic 95% CI error bars for ID
+arrows(x0 = durs+jitter, 
+       y0 = vis.mean[-5],
+       x1 = durs+jitter,
+       y1 = vis.ci.lower[-5],
+       length=0.05, angle=90, code=3, lty=1)
+arrows(x0 = durs+jitter, 
+       y0 = vis.mean[-5],
+       x1 = durs+jitter,
+       y1 = vis.ci.upper[-5],
+       length=0.05, angle=90, code=3, lty=1)
+```
+
+## EC effect sizes as a function of identification effect sizes
+
+Another way to investigate whether EC effects are due to an awareness-independent process is to plot EC effects as a function of the awareness measure (i.e., CS identification) as in Figure 5 [see also @schmidt_criteria_2006].
+If the process underlying EC effects is independent of awareness, a single-dissociation pattern might be expected: EC effects (of varying sizes) should be observed at zero levels of awareness; in other words, we should observe data points on the upper left side of the plot along the y-axis.
+Figure 5 shows that this dual-process prediction was not confirmed: 
+nonzero EC effects were obtained only in the presence of medium-to-large CS identification effects.
+
+Another possible dissociation that could show up in this plot is the sensitivity dissociation [@schmidt_criteria_2006].
+It assumes that the CS identification task is more sensitive to conscious processing than the EC effect.
+If this assumption holds, we can conclude that EC operates independently of conscious CS identification if EC effects are of greater magnitude than the respective CS identification effects. 
+^[Such a comparison only makes sense if both effects are expressed in the same metric; as a caveat, although we have computed comparable effect size metrics, they are not strictly identical, and Cohen's $h$ can sometimes be difficult to interpret (e.g., perfect CS identification performance is equivalent to $h=1.05$ given a chance level of $1/2$, and to $h=1.4$ given a chance level of $1/6$).]
+In the figure, such a dissociation would be reflected by data points that lie above the main diagonal.
+Whereas some data points from individual experimental conditions seem to suggest that there is such evidence, all meta-analytic mean effect sizes lie below the main diagonal, indicating the absence of a sensitivity dissociation.
+
+To summarize, we have investigated the relation between conscious CS identification and EC effects in qualitative manner.
+Dual-process theories of evaluative learning predict that EC effects are possible in the absence of awareness.
+Contrasting this prediction, both figures show that EC effects depend on above-chance visibility of CS stimuli -- in fact, above-chance visibility is necessary yet insufficient for EC.
+
+```{r 'fig2_state_trace_plot', fig.width=6, fig.height=4, fig.cap="EC effects as a function of CS visibility (with meta-analytic means and 95% CIs; squares: 30ms; diamonds: 50ms; triangles: 100ms; circles: 900/1000ms; crosses: 30ms non-masked)."}
+
+# EC effect sizes as a function of identification effect sizes (with meta-analytic means and 95% CIs)
+
+# compile subsets
+thirty <- subset(data.agg, cs_duration == '30ms' & masking != "nomask")
+fifty <- subset(data.agg, cs_duration == '50ms')
+thousand <- subset(data.agg, cs_duration == '1000ms' | cs_duration == '900ms')
+hundred <- subset(data.agg, cs_duration == '100ms')
+unmasked <- subset(data.agg, masking == "nomask")
+
+plot(x = data.agg$ID.cohens.h
+     , y = data.agg$EC.cohens.D
+     , col = 0, xlim=c(-.1,1.6), ylim=c(-.1,1.6)
+     , xlab = "CS identification (Cohen's h)"
+     , ylab = "EC effect (Cohen's d)"
+     , bty="n"
+     )
+abline(h=0, lty='dotted')
+abline(v=0, lty='dotted')
+abline(a=0, b=1, lty='dotted')
+
+points(thirty$ID.cohens.h, thirty$EC.cohens.D, pch = 0)
+
+points(fifty$ID.cohens.h, fifty$EC.cohens.D, pch = 5)
+
+points(hundred$ID.cohens.h, hundred$EC.cohens.D, pch = 2)
+
+points(thousand$ID.cohens.h, thousand$EC.cohens.D, pch = 1)
+
+points(unmasked$ID.cohens.h, unmasked$EC.cohens.D, pch = 4)
+
+points(vis.mean
+       , d.mean
+       , col = "black"
+       , pch = c(15, 18, 17, 16, 8)
+       , lwd=2, cex=1.5
+       )
+
+# meta-analytic 95% CI error bars for EC
+arrows(x0 = vis.mean, y0 = d.mean,
+       x1 = vis.mean, y1 = d.ci.lower,
+       length=0.05, angle=90, code=3, lty=1)
+arrows(x0 = vis.mean, y0 = d.mean,
+       x1 = vis.mean, y1 = d.ci.upper,
+       length=0.05, angle=90, code=3, lty=1)
+
+# meta-analytic 95% CI error bars for ID
+arrows(x0 = vis.mean, y0 = d.mean,
+       x1 = vis.ci.lower, y1 = d.mean,
+       length=0.05, angle=90, code=3, lty=1)
+arrows(x0 = vis.mean, y0 = d.mean,
+       x1 = vis.ci.upper, y1 = d.mean,
+       length=0.05, angle=90, code=3, lty=1)
+
+
+```
+
+
+
+
+

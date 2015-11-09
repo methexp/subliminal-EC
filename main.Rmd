@@ -1,0 +1,124 @@
+---
+title: Absence of evaluative conditioning with briefly presented conditioned stimuli even at above-chance identification levels
+author:
+- address: Herbert-Lewin-Str. 2, D-50931 Cologne, Germany
+  affiliation: 1
+  corresponding: yes
+  email: christoph.stahl@uni-koeln.de
+  name: Christoph Stahl
+- affiliation: 1
+  name: Julia Haaf
+- affiliation: 2
+  name: Olivier Corneille
+affiliation:
+- id: 1
+  institution: University of Cologne
+- id: 2
+  institution: Université Catholique du Louvain
+output:
+  pdf_document: papaja::apa6_pdf
+  html_document: default
+  word_document: papaja::apa6_word
+class: man
+figsintext: no
+keep_tex: yes
+keywords: attitude acquisition, implicit learning, evaluative conditioning, automaticity,
+  awareness
+lang: american
+lineno: no
+note: "WORD COUNT: 17917\n\n
+  Christoph Stahl and Julia Haaf, Department of Psychology, University of Cologne.
+  Olivier Corneille, Faculté de psychologie et des sciences de l'éducation, Université
+  catholique de Louvain. Julia Haaf is now at the University of Missouri.\n\nCS, JH,
+  and OC planned the research and wrote the article. CS and JH implemented the studies
+  and analyzed results. \n\nThe research reported in this article was supported by
+  DFG grant 1269/3-1 to Christoph Stahl.\n"
+bibliography:
+- ./material/r-references.bib
+- ./material/methexp.bib
+
+shorttitle: Absence of EC with briefly presented CSs
+abstract: Previous research has claimed that evaluative conditioning (EC) effects
+  may obtain in the absence of perceptual identification of conditioned stimuli (CSs).
+  A recent meta-analysis, based on a small body of evidence ($k = 8$ studies), suggested
+  similar effect sizes for supra- and subliminal CSs [@hofmann_evaluative_2010]. We
+  critically discuss this prior evidence, and then report and discuss six experimental
+  studies that investigate EC effects for briefly presented CSs using more stringent
+  methods. Across these studies, we varied a number of parameters, namely the CS duration,
+  the presence or absence of a masking procedure, the presence or absence of a visibility
+  check, the CSs type, and the orienting instructions communicated to participants.
+  Across studies, we were consistently unable to obtain evidence for briefly presented
+  and masked EC effects. In most studies, this pattern was observed despite above-chance
+  identification of the CSs. A meta-analysis conducted across the 27 experimental
+  conditions supports the conclusion that EC effects for briefly presented and masked
+  CSs are not very robust, or are very small, or are limited to specific conditions
+  that remain to be identified (or any combination of these).
+---
+
+
+```{r message = FALSE, warning = FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+knitr::opts_chunk$set(autodep = FALSE)
+knitr::opts_chunk$set(cache = FALSE)
+library("papaja")
+apa_prepare_doc() # Prepare document for rendering
+```
+
+```{r 'intro', child="introduction.Rmd"}
+```
+
+```{r 'method', child="method.Rmd"}
+```
+
+```{r 'discussion', child="discussion.Rmd"}
+```
+
+\clearpage
+
+```{r 'appendix', child="appendix.Rmd"}
+```
+
+
+\clearpage
+
+# References
+
+```{r 'references', warning=FALSE}
+#r_refs(file = "r-references.bib")
+ 
+fetch_zotero_refs <- function(collectionURL, APIkey, bib_name){
+
+  # load list of entry keys (no limit)
+  tmp_keys_file <- paste(sample(c(letters, LETTERS, 0:9), size = 32, replace = TRUE), collapse = "")
+  x <- paste0(collectionURL, "/items?format=keys")
+  x <- paste0(x, "&key=", APIkey)
+  downloader::download(url=x, destfile=tmp_keys_file)
+
+  # count number of entries in the collection
+  no_keys <- read.csv(tmp_keys_file, header=FALSE)
+  no_batches <- 1 + length(no_keys[,1]) %/% 100
+
+  # download bibtex for all entries in 100er packages
+  tmp_bib_file <- paste(sample(c(letters, LETTERS, 0:9), size = 32, replace = TRUE), collapse = "")
+  for(i in 1:no_batches){
+    y <- paste0(collectionURL, "/items?format=bibtex")
+    y <- paste0(y, "&limit=100&start=", (i-1)*100)
+    y <- paste0(y, "&key=", APIkey)
+    downloader::download(y, destfile = tmp_bib_file, quiet = TRUE, mode="a")
+  }
+
+  # write to final bib file
+  bib_file <- readLines(tmp_bib_file, warn = FALSE)
+  writeLines(bib_file, bib_name)
+  file.remove(tmp_bib_file)
+  file.remove(tmp_keys_file)
+  invisible(0)
+}
+
+#fetch_zotero_refs(collectionURL="https://api.zotero.org/groups/237543", APIkey="y1AbK4Y9HK2HPVaL4o4GCcau", bib_name="methexp.bib")
+
+```
+
+\setlength{\parindent}{-0.5in}
+\setlength{\leftskip}{0.5in}
+\setlength{\parskip}{8pt}
