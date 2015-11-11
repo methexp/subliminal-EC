@@ -20,4 +20,4 @@
   CSs are not very robust, or are very small, or are limited to specific conditions
   that remain to be identified (or any combination of these).
 
-This repository contains the manuscript (main.pdf), as well as data, code, and materials necessary to reproduce the manuscript (see main.Rmd).
+This repository contains the <b>manuscript (main.pdf, <a href="http://github.com/methexp/subliminal-EC/raw/master/main.pdf">click here to download</a>)</b>, as well as data, code, and materials necessary to reproduce the manuscript (<a href="https://github.com/methexp/subliminal-EC/archive/master.zip">download entire project</a> and open main.Rmd in RStudio).
