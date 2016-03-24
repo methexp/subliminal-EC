@@ -1,263 +1,184 @@
+Evaluative conditioning (EC) consists in an evaluative change in a generally affectively neutral conditioned stimulus (CS) following its pairing with an unconditioned (positive or negative) stimulus (US). 
+A question that has fueled heated debates in EC research is whether EC effects may emerge without participants’ CS-US contingency awareness. 
+The latter question, in addition to bearing important practical implications (e.g., subliminal adversising), is of paramount theoretical importance for dual models of attitudes acquisition, which propose that non-propositional processes contribute to attitude acquisition in EC procedures [e.g., @gawronski_associative_2006]. 
+Because the role of propositional processes may hardly be ruled out under conscious CS-US processing conditions, compelling evidence for a second, non-propositional, attitude acquisition route requires demonstrating EC effects in the absence of awareness [for recent discussion, see @gawronski_what_2012; @sweldens_role_2014]. 
+Perhaps more secondarily, EC effects obtained in the absence of awareness would allow ruling out experimental demand interpretations of these effects, therefore contributing to their theoretical validity.
+Finally, it is noteworthy that the question whether EC occurs in the absence of awareness is also of major theoretical importance for theories of human learning in general, as EC is one of only few examples in which dissociations have been claimed between learning and conscious awareness [for reviews, see @lovibond_role_2002; @mitchell_propositional_2009]. 
 
-A ubiquitous feature of human cognition is that we constantly evaluate the objects of our thoughts. 
-It is therefore important to ask about the determinants of these evaluations, and to investigate the processes by which evaluations are learned. 
-Evaluative conditioning (EC) is one of the mechanisms by which preferences are thought to be acquired: 
-The pairing of an initially neutral conditioned stimulus (CS) with an unconditioned stimulus (US) that is evaluated positively (negatively) affects subsequent evaluations of the CS to be more positive (negative) [@de_houwer_conceptual_2007].
-
-In dual-process theories of attitude learning, EC has been characterized as an automatic process, with one of its central features being the independence of awareness of the CS-US pairing during acquisition [@gawronski_associative_2006]. 
-The question whether EC can in fact occur in the absence of awareness is of great theoretical importance for theories of human learning, as EC is one of only few examples in which dissociations have been claimed between learning and conscious awareness [for reviews, see @lovibond_role_2002; @mitchell_propositional_2009].
-
-In the absence of precise theoretical statements regarding the specific set of conditions under which automaticity conditions EC may occur [@moors_automaticity:_2006], the role of awareness of the CS-US pairings in EC may be investigated by different means. 
-Previous work has often focused on using measures of memory for the CS-US pairing, collected after the learning phase, as a proxy for awareness at learning. 
-Although the latter memory-based and correlational approach showed important recent developments [@hutter_dissociating_2012], it is not without problems [for a discussion, see @gawronski_what_2012; @sweldens_role_2014]. 
+The role of awareness of CS-US pairings in EC may be investigated by different means. 
+Previous work has often focused on using measures of memory for CS-US pairings, collected after the learning phase, as a proxy for awareness at learning. 
+Although the latter memory-based and correlational approach showed important recent developments  [e.g., @hutter_dissociating_2012], it is not without problems [for a discussion, see @gawronski_what_2012; @sweldens_role_2014]. 
 
 Another approach consisted of manipulating awareness at encoding by interfering with the explicit encoding of the stimuli (CS or US). 
-In the latter context, the interfering role of attentional load at encoding [@pleyers_evaluative_2009; @dedonder_evaluative_2010] and the use of parafoveal CS-US presentations [@dedonder_overcoming_2013] were examined. 
+In the latter context, the interfering role of attentional load at encoding  [@davies_evidence_2012;@pleyers_evaluative_2009; @dedonder_evaluative_2010;@kattner_revisiting_2012] and the use of parafoveal CS-US presentations [@dedonder_overcoming_2013] were examined. 
 Again, however, the latter work faced interpretational limitations [for a recent discussion, see @sweldens_role_2014]. 
-In the present study, we manipulated awareness of CSs by varying stimulus strength via mode of presentation: Awareness of CSs was reduced or eliminated by presenting them very briefly and in between masks. 
+In the present study, we manipulated awareness of CSs by varying stimulus strength via mode of presentation.
 
-## Dual-process theories
+## Determinants of awareness 
 
-Cognitive models of attitude formation have classically proposed that people may come to like or dislike attitude objects through a diversity of mechanisms. 
-The Elaboration Likelihood Model [ELM; @petty_elaboration_1986] posited a diversity of processes lying along a continuum of cognitive elaboration, going from the simplest mechanisms (mere exposure and evaluative conditioning) to the most demanding ones (careful, effortful, time-consuming scrutiny of arguments strength). 
-Chaiken [-@chaiken_heuristic_1987] departed from the latter ELM model by assuming that heuristic and systematic processing may occur in parallel. 
-Both of these very influential and useful models assumed that a greater elaboration of information about the attitude object would generally require more time, motivation, and resources.
-
-The idea of a dual and possibly parallel processing of information in attitude formation was further stimulated by the rise of indirect attitudes measures. 
-If one adopts the view that direct (e.g., explicit evaluative ratings on a likert-type scale) and indirect [e.g., the affective priming task; @fazio_automatic_1986; the IAT; @greenwald_measuring_1998] evaluative measures tap into separate representations in memory, then the question arises where these representations come from. 
-The dual-process view suggests that explicit attitudes are learned through a propositional process, which is non-automatic (i.e., conscious, resource-dependent, controllable, and motivated). 
-Implicit attitudes, on the other hand, are learned through associative processes, which are assumed to be automatic (i.e., unconscious, resource-independent, uncontrollable, and non-motivated).
-
-Perhaps because it takes the form of a simple association between an affective and a neutral stimulus, and also because this pairing may involve no lexical information (as in the classic picture-picture paradigm), EC was soon considered the best case for supporting an associative learning pathway [@de_houwer_verbal_1994] and actually still is today [@gawronski_associative_2006; @gawronski_associative-propositional_2014]. 
-This explains why the EC paradigm is so critical for supporting theoretical claims of the dual-process models of attitude learning, and why it generated such intense debates regarding its automaticity in general, and its dependence upon awareness in particular [for a discussion, see @sweldens_role_2014]. 
-It is noteworthy that the associative versus propositional debate on EC is not only central to attitude learning and social cognition, but also to implicit learning in general. 
-As a matter of fact, EC may represent “one of the simplest learning preparation imaginable” and “that conditioning does not occur without awareness would seem to place a very major question mark over the possibility of learning without awareness” [@shanks_implicit_2005].
-
-## Determinants of awareness
-
-Consciousness resarch has identified two major factors -- bottom-up stimulus strength and top-down attention -- that interact to determine whether a stimulus enters consciousness [@dehaene_conscious_2006]: 
+Consciousness research has identified two major factors – bottom-up stimulus strength and top-down attention – that interact to determine whether a stimulus enters consciousness [@dehaene_conscious_2006]: 
 A stimulus may enter consciousness if stimulation is sufficiently strong (i.e., supraliminal), and if it receives sufficient attention. 
 Sufficiently strong stimuli, when not attended, remain in what has been called a *preconscious* state; they will nevertheless be processed to a certain degree and may affect cognition and action. 
-Weak stimuli that remain below a certain threshold are called *subliminal*.
-These stimuli do not enter consciousness. 
-However, if they are attended, such subliminal stimuli have been shown to affect cognitive processes across a range of experimental paradigms [@van_den_bussche_mechanisms_2009].
+Weak stimuli that remain below a certain threshold are called *subliminal*. 
+Such stimuli do not enter consciousness. If attention is directed toward them (i.e., if participants attempt to perceive the stimulus, e.g., by focusing their gaze on the critical screen location), however, subliminal stimuli can affect cognitive processes across a range of experimental paradigms [@van_den_bussche_mechanisms_2009].
 
-The technique of subliminal presentation has often been used to study the automaticity of psychological processes.
-If participants are unaware of the identity of a stimulus, or even unaware of the fact that a stimulus has been presented, they are considered unable to consciously or strategically use stimulus information to inform their responses.
-Any effects of the subliminal stimuli can then be attributed to the operation of unconscious or automatic processes.
-This has also been the line of argument in research on EC. 
-If EC can be shown to operate for subliminal stimuli, then we can conclude that the learning process must be implicit.
-In EC, however, the critical stimulus is the *CS-US pairing*.
-Awareness of a CS-US-pairing can be prevented by presenting either the CS or the US stimuli subliminally.
-In the domain of evaluative learning, both variants of subliminal presentation have been used [@dijksterhuis_i_2004; @krosnick_subliminal_1992].
-However, the subliminal US and subliminal CS approaches are not equally straightforward for addressing the question of unaware evaluative learning.
+In the present study, we relied on an objective identification threshold: A stimulus presentation was considered subliminal if the stimulus was not correctly identified by the participant. 
+The use of an objective threshold ensures that the present studies constitute a strict test for EC in the absence of awareness. 
+It also implies that different operationalizations of awareness might yield different results; in particular, the present definition of awareness is not identical to a phenomenological definition of awareness [@reingold_using_1988]. 
+For instance, it may be the case that, even with above-chance identification performance, stimuli are not consciously experienced (e.g., when above-chance identification performance is driven by implicit processes). 
+In this case, stimuli are said to remain below a subjective threshold. 
+The question of EC with subjectively subliminal CSs is beyond the scope of the present study (we plan to address the possibility that EC may obtain in the absence of phenomenological awareness in future studies).
 
-For instance, @de_houwer_evaluative_1997 investigated EC effects with subliminally presented USs. 
-They found evidence for (albeit small) EC effects despite participants' inability to report the presence of the USs.
-These authors conclude that these EC effects are due to unconscious or implicit learning processes.
-An alternative account of these findings relies on the distinction between the US stimulus (of which participants were apparently unaware) and participants' response to this stimulus (which was not assessed and may have been consciously available). 
-In other words, participants may have consciously experienced a (pleasant or unpleasant) feeling in response to the subliminal (positive or negative) USs.
-As a matter of fact, it has been reported that participants may process the valence of subliminal stimuli [@nasrallah_murder_2009;@dijksterhuis_wildebeests_2003;@dijksterhuis_yes_2004].
-If they associated this evaluative feeling with the presentation of the CSs in a conscious manner, then the resulting EC effect cannot be attributed to implicit learning.
-In principle, this alternative account applies to all studies of EC effects that used subliminal presentation of US stimuli.
-Furthermore, the account is difficult to test because it requires not only to establish the subliminality of the US stimuli but also to reliably detect subtle fluctuations in participants' feelings that arise in response to these subliminal USs.
+The subliminal presentation method has often been used to study the automaticity of psychological processes. 
+If participants are unaware of the identity of a stimulus, or even unaware of the fact that a stimulus has been presented, they are considered unable to consciously or strategically use stimulus information to inform their responses. 
+Any effect of the subliminal stimuli can then be attributed to the operation of unconscious or automatic processes. 
+This has also been the line of argument in research on EC: 
+If EC can be shown to operate for subliminal stimuli, then we can conclude that the learning process must be implicit. 
+In EC, however, the critical stimulus is the CS-US pairing.
 
-Here, we chose to focus on the more straightforward approach of studying EC effects with subliminally presented CS stimuli.
-For the latter type of stimuli, in order to establish subliminality, it is sufficient to demonstrate that participants were unable to report or discriminate a given CS.
-If the CS has been presented subliminally, and has therefore not been consciously perceived, we can be sure that participants were not aware of the entire CS-US pairing. 
-The subliminal CS presentation approach therefore enables us to investigate whether EC may occur automatically, in the sense that it operates independently of awareness of CS identity, and therefore, of the CS-US pairing.
+Awareness of a CS-US-pairing can be prevented by presenting either the CS or the US stimulus subliminally. 
+In the domain of evaluative learning, both variants of subliminal presentation have been used  [@dijksterhuis_i_2004; @krosnick_subliminal_1992]. 
+However, the subliminal US and subliminal CS approaches are not equally straightforward for addressing the question of unaware evaluative learning. 
+As a matter of fact, recent empirical evidence challenges the view that subliminal affective stimuli may induce affective reactions [i.e., @lahteenmaki_affective_2015].
+As a result, an absence of EC effect in studies making use of subliminal USs may be attributed to a lack of affective reaction to the USs, instead of a lack of implicit learning per se. 
+The latter limitation does not apply when pairing supraliminal USs with subliminal CSs. 
+For the latter type of stimuli, it is sufficient to demonstrate that participants were unable to report or discriminate a given CS. 
+If the CS has been presented subliminally, and has therefore not been consciously perceived, we can be sure that participants were not aware of the entire CS-US pairing, despite being sensitive to the US affective value.
 If EC can be demonstrated for subliminal CSs, this would be strong evidence for unaware evaluative learning.
 
-## Evaluative learning with subliminal CSs
+## Evaluative learning with subliminal CSs 
 
-There is so far little evidence relevant to the question of whether EC can occur with subliminal CSs [@hofmann_evaluative_2010]. 
-The present research aims a extending the empirical basis in order to provide a more conclusive answer to the question of whether EC effects are robustly obtained with subliminal CSs. In this section, we first discuss the methodological requirements for demonstrating EC with subliminal CSs.
-Next, we apply these considerations in a brief discussion of the available evidence.
-We conclude by motivating the present choice of methods for investigating subliminal EC.
+In this section, we first discuss the methodological requirements for demonstrating EC with subliminal CSs and motivate the present choice of methods for investigating subliminal EC. 
+Next, we apply these considerations in a brief discussion of the available evidence. 
 
 ### Methodological considerations
 
-The EC effect can be assessed in two different ways: 
-It is typically assessed either by comparing, within-participants, the evaluation of CSs that were paired with positive USs to those paired with negative USs, or by comparing the evaluation of CSs before and after the pairing with a (positive or negative) US [@hofmann_evaluative_2010].
-The latter contrast requires a repeated measurement of the evaluation of the same CS within the same person. 
-Unfortunately, the initial measurement phase might alert participants to the central role of stimulus valence in the study.
-Because it is often desirable that participants do *not* attend to stimulus valence (see discussion below), we refrained from using this procedure and assessed EC effects as the difference between CSs paired with positive versus negative USs.
+In the present research, we used online, trial-based, and forced-choice assessments of CS identification to probe participants’ awareness. 
+This choice was motivated by the following reasons.
 
-Subliminality of stimulus presentation is considerably more difficult to assess.
-<!-- We assessed it using an alternative-forced-choice procedure that asked participants to identify, on each learning trial, the (briefly presented and masked) CS stimulus by selecting it from a set of candidate stimuli.
-As noted by @pleyers_aware_2007, CS identifiability must be assessed at the level of the individual CS.
-In addition, because each CS is presented repeatedly (and because repeated exposure during the course of the learning phase may increase the likelihood of conscious perception), subliminality of CS presentation must be assessed on every single learning trial [see also @atas_repeating_2013]. -->
-As argued by @shanks_characteristics_1994, it is important to assess whether participants were aware of the relevant information needed to produce the EC effect.
-In the present case, the relevant information is the identity of the CS, without which a CS-US association [or an equivalent proposition; see @mitchell_propositional_2009] cannot be formed.
-It is equally important that the awareness test is sensitive enough to fully assess this relevant knowledge;
-recall measures that require participants to reproduce their knowledge are typically less sensitive than recognition measures that require no reproduction [@shanks_characteristics_1994]. 
+As argued by @shanks_characteristics_1994, it is important to assess whether participants were aware of the relevant information needed to produce the EC effect. 
+In the present case, the relevant information is the identity of the CS, without which a memory trace for the CS-US pairing [or an equivalent proposition; see @mitchell_propositional_2009] cannot be formed. 
+It is equally important that the awareness test is sensitive enough to fully assess this relevant knowledge; recall measures that require participants to reproduce their knowledge are typically less sensitive than recognition measures that require no reproduction [@shanks_characteristics_1994]. 
 Furthermore, yes-no recognition tasks are sensitive to effects of decision criteria that may vary across participants and are typically conservative [e.g., @hirshman_decision_1995]; this problem can be avoided by using the forced-choice response format.
 
-Finally, @pratte_task-difficulty_2009 explain why assessment of visibility during learning is important:
-In research on the effects of subliminal stimulation (e.g., in subliminal priming studies), it is common to assess empirically whether the presentation conditions implemented in that study were in fact subliminal.
-This is typically done -- independently from the main task of interest -- in a separate visibility-check task in which the sequence of events is repeated but participants are no longer asked to perform the main task (e.g., ignore the subliminal prime and attend to the target); instead, they are asked to attend to and identify the subliminal stimuli (e.g., attend to the subliminal prime and ignore the target).
-In this approach, however, although stimulus presentation is held constant across the main task and the visibility-check task, other important aspects of the task may not be constant.
+Finally,  @pratte_task-difficulty_2009 explain why assessment of visibility during learning is important: 
+In research on the effects of subliminal stimulation (e.g., in subliminal priming studies), it is common to assess empirically whether the presentation conditions implemented in that study were in fact subliminal. 
+This is typically done – independently from the main task of interest – in a separate visibility-check task in which the sequence of events is repeated but participants are no longer asked to perform the main task (e.g., ignore the subliminal prime and attend to the target); instead, they are asked to attend to and identify the subliminal stimuli (e.g., attend to the subliminal prime and ignore the target). 
+In this approach, however, although stimulus presentation is held constant across the main task and the visibility-check task, other important aspects of the task may not be constant. 
 For instance, in the subliminal-priming example, task difficulty is much greater in the visibility-check task than in the main task (i.e., it is much harder to identify subliminal primes than it is to identify supraliminal targets).
-As a consequence of this task-difficulty difference, participants may be less motivated -- and therefore may be less able to identify subliminal stimuli -- in the visibility-check task as compared to the main task.
-The ability to identify subliminal stimuli in the main task may therefore be underestimated by performance in a separate visibility-check task.
+As a consequence of this task-difficulty difference, participants may be less motivated – and therefore may be less able to identify subliminal stimuli – in the visibility-check task as compared to the main task. 
+The ability to identify subliminal stimuli in the main task may therefore be underestimated by performance in a separate visibility-check task.	
 
-Taken together, the relevant knowledge about CS identity can be detected in a sensitive way by a forced-choice visibility check task in which participants are asked, on each learning trial, to indicate which CS stimulus they have just seen by selecting it from a set of candidate CS stimuli [@atas_repeating_2013; @pratte_task-difficulty_2009]. 
-If EC effects can be found under conditions under which CS identification, as measured using such a trial-by-trial assessment during learning, does not exceed chance levels, this would be strong evidence for unconscious evaluative learning.
+In sum, the relevant knowledge about CS identity can be detected in a sensitive way by a forced-choice visibility check task in which participants are asked, on each learning trial, to indicate which CS stimulus they have just seen by selecting it from a set of candidate CS stimuli [@atas_repeating_2013; @pratte_task-difficulty_2009]. 
+If EC effects can be found under conditions under which CS identification, as measured using such a trial-by-trial assessment during learning, does not exceed chance levels, this would be strong evidence for unconscious evaluative learning. 
+This is not to suggest that on-line assessments have only advantages relative to off-line assessments of awareness. 
+They may be more interfering, for instance by imposing a larger load on participants during task completion, or by directing participants’ attention towards different pieces of information. 
+Yet, online tasks offer a more sensitive and memory-free test for visibility, meaning that any subliminal effect found under online probing would be particularly convincing as it comes to investigating the role of pairing awareness in EC.
 
 ### Review of subliminal evaluative-learning studies
 
 If the above criteria are required for a compelling examination of EC effects with subliminal CSs, then one is left with no published study that convincingly supported such an effect. 
-As a matter of fact, most of the previously published “subliminal EC" studies involved one of the following features - and generally combined several of them [for a more detailed discussion, see @lovibond_role_2002; @pleyers_aware_2007; @sweldens_role_2014]: 
+As a matter of fact, most of the previously published "subliminal EC" studies involved one of the following features - and generally combined several of them [for a more detailed discussion, see @lovibond_role_2002; @pleyers_aware_2007; @sweldens_role_2014]: 
 (1) use of subliminal USs, not CSs [e.g., @krosnick_subliminal_1992; @rydell_two_2006;@rydell_understanding_2006], 
-(2) use of non-evaluative measures [e.g., motivational measures in @custers_positive_2005 - but for Study 2b, which is discussed below; semantic measures in @galli_unconscious_2011], 
+(2) use of non-evaluative measures [e.g., motivational measures in @custers_positive_2005; semantic measures in @galli_unconscious_2011], 
 (3) use of non-associative designs [e.g., incomplete designs or between-manipulations of US valence allowing alternative interpretations in terms of mere exposure or mood effects in @dijksterhuis_i_2004;@niedenthal_implicit_1990; @krosnick_subliminal_1992], 
-(4) <!-- use of relatively long (> 50 msecs) or unmasked CS presentations, and (5) --> absence of sensitive checks for subliminal exposures [e.g., @gawronski_understanding_2008].
+(4)  absence of sensitive checks for subliminal exposures [e.g., @gawronski_understanding_2008].
 
-In our view, the strongest available evidence for EC effects with subliminal CSs comes from studies by Custers and Aarts [-@custers_positive_2005, Exp. 2b] and Gawronski and LeBel [-@gawronski_understanding_2008, Exp. 2].
-The former authors conditioned participants' motivation to engage in mundane behaviors (e.g., drawing) with conditioning trials composed of a sequence of a 500 ms fixation point, a 500 ms pre-masking row of Xs, a 23 ms CS word (the to-be-conditioned behavior), a 100 ms postmasking row of Xs, and a 150 ms US word (a positive, neutral or negative word). 
-Evaluative ratings of the conditioned behavior were collected at the end of each trial on a likert-type of scale (on which behavior evaluations ranged from *1 = very negative* to *9 = very positive*). 
-This explicit evaluative measure proved sensitive to US valence, with ratings of the behavior linearly more positive for CS-US pairings involving negative, neutral and positive USs words, respectively. 
-No information is reported about a subliminality check in that particular study. 
-One may however infer that a subliminality check session took place (similar to that used in Study 1 and Study 2a reported in that paper). 
-Unfortunately, in these studies, the subliminality check apparently consisted of a debriefing procedure relying on introspective verbal recall, which, as we just discussed, lacks sensitivity (see also below).
-
-Turning to Gawronski and LeBel [-@gawronski_understanding_2008, Exp. 2], these authors used a lexical-decision task in which they conditioned the words 'Europe' or 'Asia' (i.e., the CSs) with positive or negative US adjectives. 
-The conditioning trials started with a 500 ms pre-masking row of Xs, immediately followed by a CS for 17 ms, which was in turn immediately followed by a positive or negative US adjective.
-Both direct and indirect [i.e., Implicit Association Test, IAT; see @greenwald_measuring_1998] evaluative measures were collected following the completion of the lexical-decision (i.e., conditioning) task. 
-The IAT measure was sensitive to the pairing procedure, with more positive IAT scores for "Europe" (as compared to "Asia") when "Europe" had been paired with positive adjectives and "Asia" with negative adjectives (and vice versa). 
-Likewise, explicit evaluations were consistent with the conditioning procedure, although this occurred when participants had been invited to focus on their feelings rather than on their knowledge about the CSs. 
-Although this pattern of findings is consistent with the possibility of subliminal CS effects, no subliminality check was involved in that study.
-
-A more comprehensive (and perhaps less biased) overview is based on Hofmann and colleagues' meta-analysis about EC in humans [@hofmann_evaluative_2010] and the subliminal-EC studies that were addressed in that article. 
-The meta-analytic review failed to find studies with subliminal (i.e., brief and masked) CS presentation that used the common self-report evaluative rating measure as dependent variable (although, in our view, the Custers and Aarts's study 2b we discussed above would qualify as such).
-However, a set of $k=8$ studies was identified that used indirect ('implicit') measures such as affective priming [@fazio_automatic_1986] or the IAT [@greenwald_measuring_1998].
+A comprehensive overview is based on Hofmann and colleagues’ meta-analysis about EC in humans [@hofmann_evaluative_2010] and the subliminal-EC studies that were addressed in that article. 
+The meta-analytic review failed to find studies with subliminal (i.e., brief and masked) CS presentation that used the common self-report evaluative rating measure as dependent variable.
+However, a set of $k=8$ studies was identified that used indirect ('implicit') measures such as affective priming [@fazio_automatic_1986] or the IAT [@greenwald_measuring_1998]. 
 The mean effect size obtained in this set of studies was of a magnitude comparable to the mean effect size of studies using supraliminal CSs [subliminal: $d = .49, SE = .14, k = 8$; supraliminal: $d = .46, SE = .03, k=201$; see @hofmann_evaluative_2010, p.19f].
 
-The meta-analysis classified studies as subliminal when the duration of CS presentation was below 50 ms.
-This criterion does not ensure, however, that processing of CSs during learning remained below the awareness threshold for every participant and CS stimulus.
-For instance, under certain conditions, participants are better than chance at identifying masked stimuli with presentation durations of only 12 ms [@pratte_task-difficulty_2009].
-Although this finding of above-chance identification does not necessarily imply that participants *consciously* perceived the 12ms stimuli, it leaves open the possibility that some participants may have consciously perceived the CSs on some trials.
-Such a partially conscious presentation could be sufficient to produce EC effects [see @pleyers_aware_2007].
-To conclude that the 'subliminal' EC effect obtained in the meta-analysis does in fact reflect the results of unconscious learning, it is necessary to carefully consider the methods -- and especially the results of subliminality checks -- of each of the included studies.
+The meta-analysis classified studies as subliminal when CS presentation duration was below 50 ms. 
+It is noteworthy that this criterion does not ensure that processing of CSs during learning remained below the awareness threshold for every participant and CS stimulus.
+For instance, under certain conditions, participants are better than chance at identifying masked stimuli with presentation durations of only 12 ms [@pratte_task-difficulty_2009]. 
+Although this finding of above-chance identification does not necessarily imply that participants consciously perceived the 12ms stimuli, it leaves open the possibility that some participants may have consciously perceived the CSs on some trials. 
+Such a partially conscious presentation could be sufficient to produce EC effects [see @pleyers_aware_2007]. 
+To conclude that the "subliminal" EC effect obtained in the meta-analysis does in fact reflect the results of unconscious learning, it is necessary to carefully consider the methods -- and especially the results of subliminality checks -- of each of the included studies.
 
-#### Review of studies included in Hofmann et al. (2010)'s meta-analysis
-
-A set of eight studies was identified from three articles that met the 50ms criterion [@custers_positive_2005;@dijksterhuis_i_2004;@gawronski_understanding_2008].
-Four of the six studies reported by @custers_positive_2005 (Expts. 1, 2A, 2B, 2C) were included in the meta-analysis.
-As mentioned above, the CSs were behavioral state words (e.g., study, write) that were presented for 23ms and pre- as well as post-masked by a row of Xs. 
-They were paired with subsequently presented positive or negative adjectives.
-To check for awareness, the authors report using an unspecified debriefing interview during which awareness of the subliminally presented words was assessed.
-Participants were reported to be unaware of the subliminal words during the debriefing interview.
-From this report it is unclear whether participants were aware of the CS stimuli during their presentation: 
-A debriefing interview at the end of a study has been argued to lack sensitivity for assessment of awareness;
-in fact, the presentation condition used in these studies were identified as clearly supraliminal in other studies [@pratte_task-difficulty_2009].
+A set of eight studies was identified from three articles that met the 50ms criterion [@custers_positive_2005; @dijksterhuis_i_2004; @gawronski_understanding_2008].
+Four of the six studies reported by @custers_positive_2005 (Expts. 1, 2A, 2B, 2C) were included in the meta-analysis. To check for awareness, the authors reported using an unspecified debriefing interview during which awareness of the subliminally presented words was assessed. 
+From this report, it is unclear whether participants were aware of the CS stimuli during their presentation: A debriefing interview at the end of a study has been argued to lack sensitivity for assessment of awareness. 
+As a matter of fact, the presentation conditions used in these studies were identified as clearly supraliminal in other studies [@pratte_task-difficulty_2009]. 
 We cannot conclude, therefore, that the findings rely on truly unaware CS presentations.
-
-More generally, we also have concerns about the rationale behind the inclusion of the @custers_positive_2005 studies (but for study 2B) in a review of EC effects.
-This is because the authors used non-evaluative measures as DVs.
-As a matter of fact, these authors claim [in line with @berridge_dissecting_2009], that their studies tap onto a motivational system that has to be distinguished from a liking system.
-This, by the way, led them to expect and find motivational effects only in the case of positive, not negative, shaping of the behaviors. 
-The idea behind the psychological and neurobiological dissociation between the liking and wanting systems is that the two systems are operating through separate brain circuits, so that one of the two psychological phenomena may be observed independently from the other (i.e., liking without wanting, or vice versa). 
-More specifically, where the liking system is assumed to involve declarative goals and to be 'largely mediated by cortical circuits', the wanting system is thought to require no cognitive elaboration and would be 'mediated by more subcortically weighted neural systems' [@berridge_dissecting_2009, p.67-68].
+More generally, we also have concerns about the rationale behind the inclusion of the @custers_positive_2005 studies in a review of EC effects. 
+This is because (with the exception of Study 2b) non-evaluative measures were used as dependent variables. 
 
 The first three of the six studies reported by @dijksterhuis_i_2004 were also included in the meta-analysis. 
-In these studies, EC effects on participants' self-esteem were investigated: the pronoun 'I' was used as CS and was paired with positive versus neutral words.
-During a lexical-decision task, the CS was presented for 17ms, it was pre-masked by a row of Xs, and post-masked by either a positive trait word or by a neutral object word.
-On other trials, the CS was replaced by a single X, and the target word was replaced by a nonword (i.e., a random letter string).
-Participants' task was to decide whether the final element of the sequence was a word or a non-word.
-After completion of the lexical-decision task, participants worked on an implicit measure of self-esteem (i.e., an initial-preference task, or a self-esteem IAT).
-Finally, the reported subliminality check consisted in a debriefing at the end of the experiment in which participants reported not having 'seen anything unusual during the lexical decision task', and reported not having seen any words other than the target words flashing on the screen.
-As argued by @shanks_characteristics_1994, the sensitivity of such a debriefing procedure at the end of the experiment may be too low to capture (full or partial) awareness of CSs during CS-US pairing.
-Given the lack of conclusive evidence for the subliminality of CS presentation in this study, along with evidence that a masked 17ms presentation as realized here was sufficient for above-chance processing at least under some conditions [e.g., @pratte_task-difficulty_2009], it is unclear whether the results reflect unconscious processes.
+The reported subliminality check consisted in a debriefing at the end of the experiment in which participants reported not having "seen anything unusual during the lexical decision task", and reported not having seen any words other than the target words flashing on the screen. 
+As argued by @shanks_characteristics_1994, the sensitivity of such a debriefing procedure at the end of the experiment may be too low to capture (full or partial) awareness of CSs during CS-US pairing. 
+Given the lack of conclusive evidence for the subliminality of CS presentation in this study, along with evidence that a masked 17ms presentation as realized here was sufficient for above-chance processing at least under some conditions [e.g., @pratte_task-difficulty_2009], it is unclear whether the results reflect unconscious processes. 
 Even more critically, due to problems in the designs used, it is unclear whether these findings reflect *learning* processes; the findings obtained in these studies may reflect mood effects [see @pleyers_aware_2007].
 
 Finally, Experiment 2 in @gawronski_understanding_2008 was included in the meta-analysis. 
-As already discussed, the study adapted the paradigm used by @dijksterhuis_i_2004 to study stereotype change (i.e., the CSs 'Europe' or 'Asia' were paired with either positive or negative adjectives).
-This study reports no debriefing results nor any other evidence regarding the subliminality of CS presentations.
+This study, however, reports no debriefing results nor any other evidence regarding the subliminality of CS presentations. 
 Thus, it is unclear whether and to which degree the CSs were consciously visible to participants.
 
-Although not covered by @hofmann_evaluative_2010's meta-analysis, we deem it relevant to discuss one final study. 
-Specifically, @verwijmeren_goal_2012 (Study 2) conditioned briefly presented (17 ms) and post-masked CS beverage brands with faces expressing either fear or disgust. 
-Among participants who reported being thirsty prior to the learning phase, disgusted (goal-relevant) but not fearful (goal-irrelevant) faces decreased choices for the conditioned brand.
-Furthermore, no similar effect was observed in conditioning brands when thirst was not controlled for. 
-This study involved an identification task, administered after the learning phase, to assess the subliminality of the brand (CS) presentations.
-In addition, effects on choices remained significant after removing participants who showed some awareness of the face-brand pairings.  
-This study provides relatively strong evidence for the possibility of EC effects with subliminal CS presentations. 
-However, four comments are in order. 
+Although not covered by the meta-analysis, we deem it relevant to discuss one final study. Specifically, @verwijmeren_goal_2012 (Study 2) conditioned briefly presented (17 ms) and post-masked CS beverage brands with faces expressing either fear or disgust. 
+Among participants who reported being thirsty prior to the learning phase, disgusted (goal-relevant) but not fearful (goal-irrelevant) faces decreased choices for the conditioned brand. 
+This study involved an identification task, administered after the learning phase, to assess the subliminality of the brand (CS) presentations. 
+In addition, effects on choices remained significant after removing participants who showed some awareness of the face-brand pairings.
+This study may be interpreted as bringing strong evidence for the possibility of an EC effect with subliminal CS presentations. 
+Four comments are in order, though. 
 First, effects were obtained on the choice measure, but the effect on the evaluative measure was not statistically significant. 
-It thus seems that this study speaks more to goal pursuit (i.e., the wanting system discussed above) than to evaluative conditioning (i.e., the liking system), although a conceptualization in terms of wanting would hardly explain effects of negative goal conditioning/shaping (see Custers & Aarts, 2010). 
-Second, because both facial-expression USs were negative, it is also unclear whether this finding reflects evaluative conditioning: The observed effects were derived from the semantic content of the US face (i.e., disgust vs. fear), not its valence. 
-Third, @stahl_respective_2009 showed that awareness checks tackling US valence have to be favored (because of their higher sensitivity) over measures of the US identity. 
-Again, this requirement could not be met in that study.
-Fourth, a stronger test of awareness would have required an on-line assessment of participants´ identification of the pairings during learning (rather than an off-line assessment in a different study phase after the learning phase). 
-^[In an unpublished pre-registered replication study that implemented such an on-line identifiation task, we found evidence for awareness of CSs during the learning phase under very similar stimulation conditions as were realized in the original study.]
+It thus seems that this study speaks more to goal pursuit (i.e., the wanting system) than to evaluative conditioning (i.e., the liking system), although a conceptualization in terms of wanting would hardly explain effects of negative goal conditioning/shaping [@custers_unconscious_2010]. 
+Second, because both facial-expression USs were negative, the observed effects were apparently driven by the semantic content of the US face (i.e., disgust vs. fear), not its valence. 
+Third, @stahl_respective_2009 showed that awareness checks tackling US valence have to be favored (because of their higher sensitivity) over measures of the US identity. Again, this requirement could not be met in that study. 
+Fourth, a stronger test of awareness would have required an on-line assessment of participants´ identification of the pairings during learning (rather than an off-line assessment in a different study phase after the learning phase).
+^[In an (unpublished) pre-registered replication study in our lab that implemented such an on-line identification task, we found evidence for awareness of CSs during the learning phase under similar stimulation conditions as were realized in the original study.]
 
-<!--
-From a theoretical perspective, it is also noteworthy that the studies discussed above relied (1) on sequential presentations of CS-US pairings and (2) on pairings involving higher salience of US than CS stimuli:
-According to a prominent model of the processes underlying implicit EC (i.e., implicit misattribution), both these factors are supposed to prevent rather than facilitate the emergence of implicit attitude learning in EC paradigms [e.g., @jones_evaluative_2010; @hutter_implicit_2012]. 
-Thus, even though subliminal CSs may elicit EC effects (instead of reflecting experimental issues or false positives), they would still remain to be explained. 
-We will come back to this point in the general discussion.  
--->
-
-In sum, this brief review suggests that when applying stringent qualification criteria for subliminal CS studies, this leave only questionable evidence for the existence of such EC effects.
+In sum, this brief review suggests that when applying stringent qualification criteria for subliminal CS studies, this leave only questionable evidence for the existence of such EC effects. 
 The present study aimed at generating more conclusive evidence to address the question whether EC can obtain in the absence of conscious CS identification during learning.
 
-## The present study
+## The present study 
 
-We investigated whether EC can be found when CSs are presented only briefly (i.e., for 30 ms) and masked, and whether EC effects under these conditions are comparable in magnitude to EC effects obtained with clearly visible CSs.
+We investigated whether EC can be found when CSs are presented only briefly (i.e., for 30 ms) and masked, and whether EC effects under these conditions are comparable in magnitude to EC effects obtained with clearly visible CSs. 
 In terms of the two factors that co-determine conscious perception, attention directed to the CS was held constant, whereas stimulus strength was manipulated (i.e., by varying either presentation duration or the presence versus absence of a post-mask). 
-Furthermore, we aimed at investigating the possibility of subliminal EC under a wide variety of conditions.
-Towards this end, we manipulated the intentional versus incidental nature of learning via the amount of attention directed toward the CS-US pairing (i.e., by administering different orienting instructions during learning).
+Furthermore, we aimed at investigating the possibility of subliminal EC under a wide variety of conditions. 
+Towards this end, we manipulated the intentional versus incidental nature of learning via the amount of attention directed toward the CS-US pairing (i.e., by administering different orienting instructions during learning). 
 Thus, the main goal was to experimentally manipulate CS visibility and to investigate, under a range of different conditions, whether EC can still be detected when CS visibility is at (or slightly above) chance.
 
-We sought to implement a strict and fair test of the hypothesis of EC for subliminal CSs. 
-A strict test of subliminal EC requires a sensitive detection of conscious perception of CSs. 
+We sought to implement a strict and fair test of the hypothesis of EC for subliminal CSs. A strict test of subliminal EC requires a sensitive detection of conscious perception of CSs. 
 The stricter the subliminality check, the stronger the evidence for subliminal EC, if it can be found.
-
 
 ### Sensitive assessment of visibility
 
 To be able to provide strong evidence for subliminal EC, we implemented a strict visibility check: 
 We tested CS visibility using an identification task in which participants were asked, on every trial, to select the just-presented CS from a list of candidate CSs. 
 To avoid methodological problems limiting previous research, we presented each participant with CSs under both clearly supraliminal and near-liminal conditions, and we performed a visibility check after each presentation trial during the learning phase. 
-This avoids potential motivational task-difficulty confounds [@pratte_task-difficulty_2009] in the visibility-check task because participants successfully identified the CS on at least half of the trials. 
+This avoids potential motivational task-difficulty confounds [@pratte_task-difficulty_2009]  in the visibility-check task because participants successfully identified the CS on at least half of the trials. 
 In addition, because visibility is tested on an item-by-item basis immediately after each presentation, we avoid confounds due to learning effects that increase visibility of subliminal CS after repeated presentations [@atas_repeating_2013].
-<!--We also avoided potential artifacts of aggregation across CSs as we assessed visibility for each presentation immediately, instead of assessing visibility at an aggregate level in a later phase of the experiment (as is often the case in previous work claiming subliminal presentation; see Pratte & Rouder, 2009; Vermeiren & Cleeremans, 2012).-->
-^[Assessing visibility of CS presentations on each trial allowed us to separate those CSs that were sometimes visible from those that were never seen [a parallel approach has recently been developed by @van_den_bussche_disentangling_2013].
-Subliminality, as well as EC effects, are typically assessed on an coarse level (i.e., aggregated across persons and items).
-The present trial-by-trial and CS-by-CS identification data would allow us to further dissect aggregated EC effects.
-Specifically, if we were to obtain EC for briefly presented and masked CSs, we could check for a given participant whether this effect was limited to those CSs associated with correct identification (and could therefore possibly be due to conscious processes), or whether it extended to CSs that were never correctly identified and therefore could not be explained as the result of conscious processing.
-However, these analyses were not reported for the research herein because we did not obtain significant EC for brief and masked CSs to begin with, so that there was no aggregate effect to analyze further.
-(Note also that -- in contrast to the experimental manipulation of visibility in the focus of the present study -- the classification of CSs as visible versus not-visible is post-hoc and analyses involving this post-hoc classification are merely correlational).]
 
+Assessing visibility of CS presentations on each trial allowed us to separate those CSs that were sometimes visible from those that were never seen [a parallel approach has recently been developed by @van_den_bussche_disentangling_2013]. 
+Subliminality, as well as EC effects, are typically assessed on a coarse level (i.e., aggregated across persons and items). 
+The present trial-by-trial and CS-by-CS identification data would allow us to further dissect aggregated EC effects. 
+Specifically, if we were to obtain EC for briefly presented and masked CSs, we could check for a given participant whether this effect was limited to those CSs associated with correct identification (and could therefore possibly be due to conscious processes), or whether it extended to CSs that were never correctly identified and therefore could not be explained as the result of conscious processing.
+^[Note that -– in contrast to the experimental manipulation of visibility that is in the focus of the present study –- the classification of CSs as visible versus not-visible is post-hoc and analyses involving this classification are merely correlational.]
 
 ### Experimental conditions supportive of implicit EC effects
 
-For a fair test, 
-<!-- we realized favorable conditions for subliminal processing as discussed below.
-As a first step, we excluded the trivial possibility that the CS stimuli were simply not sufficiently strong to affect *any type of cognitive processing*: ^[i.e., it is not informative to demonstrate the absence of EC effects when participants shut their eyes or turn their backs to the screen.]
-If CS identification levels are, on average, slightly above chance, this is evidence that stimulation was sufficiently strong to enable basic cognitive processing.
-Therefore -->
-we aimed at CS identification levels that were suboptimal but still, on average, slightly above chance, so as to realize conditions that would in principle allow for subliminal processing. 
-That is, we sought to realize conditions for which there was evidence for at least partially successful processing of at least some the CSs.
-If EC can be obtained at all under conditions of reduced or absent awareness, such effects therefore had a fair chance of manifesting themselves in the present study. 
-  
+For a fair test, we aimed at CS identification levels that were suboptimal but still, on average, slightly above chance, so as to realize conditions that would in principle allow for subliminal processing. 
+That is, we sought to realize conditions for which there was evidence for at least partially successful processing of at least some the CSs. 
+If EC can be obtained at all under conditions of reduced or absent awareness, such effects therefore had a fair chance of manifesting themselves in the present study.
 
 ### Investigating subliminal EC under intentional as well as incidental learning conditions
 
 Evaluative learning may occur under intentional as well as incidental learning conditions, and different learning processes may operate under both conditions. 
 For instance, it is possible that awareness-independent EC effects operate only under incidental learning conditions [e.g., @olson_implicit_2001], whereas awareness-dependent EC may be found also under intentional learning conditions [@gast_what_2011; @kattner_revisiting_2012]. 
-To address these possibilities, we investigated EC with subliminal CSs using a variety of orienting tasks. 
-In the present studies, we realized an intentional learning condition as well as three different types of incidental learning conditions.
-Importantly, however, all learning conditions were conceptually very similar to the surveillance paradigm reported by @olson_implicit_2001 in which participants were asked to attend to the stimuli in order to identify a pre-specified target CS by pressing a key:
-In the present experiments, participants were also asked to attend to and identify the CS stimuli; the only difference being that they were required to choose the identified stimulus from a list of options.
+This is suggested by the fact that EC effects have repeatedly been reported in the absence of memory for CS-US pairings in the incidental surveillance paradigm [@olson_implicit_2001], and the authors interpret these findings as the result of an implicit-misattribution process by which US valence is misattributed to the CS [@jones_implicit_2009]. 
 
-The (intentional versus incidental) nature of the learning task was varied by manipulating attention to the CS-US pair and to the valence feature (see Table 1 for an overview).
-In the context of EC, intentional learning implies processing the CS and US as a pair while attending to the valence dimension.
-We varied the intentionality of the orienting task in several steps.
-On the intentional end of the dimension, we used a *valence-focus* task (Experiments 2 & 3) in which participants were asked to attend to the valence of the CS-US stimulus pair [@gast_what_2011]. 
-In a more incidental *brightness-focus* task, we also asked participants to attend to and judge the CS-US stimulus pair, but the required judgment was on the perception of brightness instead of valence (Experiments 3 & 4).
-In another even more incidental orienting task, participants worked only on a stimulus *identification* task [similar to the surveillance paradigm by @olson_implicit_2001] in which they had to attend to both the CS and US stimuli because they were asked at the end of each trial which CS or US had been presented during the trial (Experiment 6).
+To address these possibilities, we investigated EC with subliminal CSs using a variety of orienting tasks. 
+In the present studies, we realized an (almost) intentional learning condition as well as three different types of incidental learning conditions. 
+Importantly, however, all learning conditions were conceptually very similar to the surveillance paradigm [@olson_implicit_2001] in which participants were asked to attend to the stimuli in order to identify a pre-specified target CS by pressing a key: 
+In the present experiments, participants were also asked to attend to and identify the CS stimuli; the only difference being that they were required to choose the identified stimulus from a list of options. 
+
+The (intentional versus incidental) nature of the learning task can be seen to vary along a continuum or dimension.
+On one end, in the context of EC, intentional learning means acquiring knowledge about the valence of the USs associated with a given CS; in addition to an explicit learning goal (which we did not realize here), it implies processing the CS and US as a pair while attending to the valence dimension.
+At the other end of the dimension, incidental learning in EC means unintentional registration of CS-US co-occurrences -- without attending to CS and US as a pair and perhaps even with only limited attention to the US [@jones_implicit_2009].
+By manipulating attention to the CS-US pair and to the valence feature, we varied the intentional versus incidental nature of the orienting task in several steps (see Table 1 for an overview). 
+On the intentional end of the dimension, we used a valence-focus task (Experiments 2 & 3) in which participants were asked to attend to the CS-US stimulus pair and to evaluate their affective response elicited by the stimulus pair [@gast_what_2011].
+In a more incidental brightness-focus task, we also asked participants to attend to and judge the CS-US stimulus pair, but the required judgment was on the perception of brightness instead of valence (Experiments 3 & 4). 
+In another even more incidental orienting task, participants worked only on a stimulus identification task [similar to the surveillance paradigm by @olson_implicit_2001] in which they had to attend to both the CS and US stimuli because they were asked at the end of each trial which CS or US had been presented during the trial (Experiment 6). 
 Finally, at the incidental end of the dimension, participants were asked only to identify the CSs, while the USs were introduced as background pictures and participants were free to ignore them (Experiments 1 & 5). 
 
 ```{r 'table_conditions', results='asis'}
@@ -278,34 +199,40 @@ apa_table(
 
 ### Effect size and statistical power
 
-To be able to reliably detect EC effects with subliminal CS presentation, using a one-tailed t-test, we set $\alpha = \beta = .05$ and realized sample sizes of $N \ge 50$ that were sufficient for detecting medium effect sizes as reported in the meta-analysis for implicit measures (i.e., $0.46 < d < 0.49$) with high statistical power (i.e., $1 - \beta \ge .95$).
-^[We assumed a correlation between measurements of $r=.5$, which is plausible given previous findings, and for which the effect size for dependent measures, $dz$, is equal to the familiar Cohen's $d$.]
-<!--Because EC effects on implicit measures ($d=.30$) are on average much smaller than those obtained on explicit measures [$d=.54$; @hofmann_evaluative_2010], the estimate for subliminal EC on implicit measures taken from the meta-analysis probably underestimates the subliminal EC effect that can be expected on the explicit measures used in the present study.-->
-The present studies are therefore adequately powered to detect the effects of interest.
-In addition, we report the results of a meta-analysis across all of our studies in order to estimate the magnitude of EC effects under the different presentation conditions.
-This allows us to investigate whether EC effects with subliminal CSs are indeed of the magnitude reported in previous studies, or whether they are smaller (or even non-existent) when strict visibility measures are used.
+To be able to reliably detect EC effects with subliminal CS presentation, using a one-tailed $t$-test, we set $\alpha = \beta = .05$ and realized sample sizes of $N \ge 50$ that were sufficient for detecting medium effect sizes as reported in the meta-analysis for implicit measures (i.e., $0.46 < d < 0.49$) with high statistical power (i.e.,  $1 - \beta \ge .95$).
+^[We assumed a correlation between measurements of $r=.5$, which is plausible given previous findings, and for which the effect size for dependent measures, $dz$, is equal to the commonly used Cohen's $d$.]
+The present studies are therefore adequately powered to detect the effects of interest. 
+In addition, we report the results of a meta-analysis across all six studies to estimate the magnitude of EC effects under the different presentation conditions. 
+This allows us to investigate whether EC effects with subliminal CSs are indeed of the magnitude reported in previous studies, or whether they are smaller (or even non-existent) when strict visibility measures are used. 
+ 
+## Overview of Experiments
 
-### Overview of Experiments
+In six experiments, briefly presented and masked CSs were repeatedly paired with clearly visible IAPS pictures of either positive or negative valence. 
+We varied (1) the orienting task participants performed during the learning phase, 
+(2) the presence versus absence of a response requirement in the orienting task, 
+(3) the presence versus absence of a visibility check (i.e., CS identification task), 
+(4) the visibility manipulation (presentation duration vs. masking), and 
+(5) the CS materials (nonwords, faces, product images). 
 
-In six experiments, briefly presented CSs were repeatedly paired with clearly visible IAPS pictures of either positive or negative valence. 
-We varied (1) the orienting task participants performed during the learning phase, (2) the presence versus absence of a response requirement in the orienting task, (3) the presence versus absence of a visibility check (i.e., CS identification task), (4) the visibility manipulation (presentation duration vs. masking), and (5) the CS materials (nonwords, faces, product images).
+In a first step, we realized a high-power attempt at obtaining a subliminal EC effect in an established paradigm, and tested whether the identification task that is central to our approach but has not been used in EC research so far interferes with evaluative conditioning: 
+In Experiment 1 we investigated EC for briefly presented and masked CSs in an incidental paradigm parallel to our previous work [@stahl_respective_2009] in which we reliably obtained EC effects. 
+In Experiment 2 we manipulated whether participants were asked to identify the CS on every trial, or whether they were merely asked to attend to the CS (without ever performing an identification task), and investigated whether EC effects were disrupted by the identification task. 
 
-In a first step, we realized a high-power attempt at obtaining a subliminal EC effect in an established paradigm, and tested whether the identification task that is central to our approach but has not been used in EC research so far interferes with evaluative conditioning:
-In Experiment 1 we investigated EC for briefly presented and masked CSs in an incidental paradigm parallel to our previous work (Stahl et al., 2009) in which we reliably obtained EC effects.
-In Experiment 2 we manipulated whether participants were asked to identify the CS on every trial, or whether they were merely asked to attend to the CS (without ever performing an identification task), and investigated whether EC effects were disrupted by the identification task.
+Experiments 3 and 4 then focused on the role of the orienting task: 
+We varied the intentional versus incidental nature of orienting task by comparing an orienting task that involved a valence judgment of the CS-US pair with an orienting task requiring a brightness judgment (Experiment 3). 
+We also varied the response requirement in the orienting task: 
+In the brightness judgment task, participants were either required to indicate their brightness judgments on every trial, or they were never asked to indicate their brightness judgments (Experiment 4). 
 
-Experiments 3 and 4 then focused on the role of the orienting task: We varied the intentional versus incidental nature of orienting task by comparing an orienting task that involved a valence judgment of the CS-US pair with an orienting task requiring a brightness judgment (Experiment 3). We also varied the response requirement in the orienting task: In the brightness judgment task, participants were either required to indicate their brightness judgments on every trial, or they were never asked to indicate their brightness judgments (Experiment 4).
-
-Experiments 5 and 6 attempt to generalize the findings to other stimuli and presentation conditions. We attempted to establish incidental EC effects for briefly presented and masked CSs by using faces and consumer products as CS materials (Experiment 5), and by realizing a close approximation to the @olson_implicit_2001's surveillance paradigm (Experiment 6).
-
-Table 1 gives an overview of the experiments. 
-To foreshadow, contrary to the current view that EC effects may emerge independent from CS-US contingency awareness, we did not find any evidence for EC with briefly presented and masked CSs.
+Experiments 5 and 6 attempt to generalize the findings to other stimuli and presentation conditions. 
+We attempted to establish incidental EC effects for briefly presented and masked CSs by using faces and consumer products as CS materials (Experiment 5), and by realizing a close approximation to @olson_implicit_2001’s surveillance paradigm (Experiment 6). 
+Table 2 gives an overview of the experiments. 
+To foreshadow, contrary to the current view that EC effects may emerge independent from CS-US contingency awareness, we did not find any evidence for EC with briefly presented and masked CSs. 
 
 ```{r 'table_experiments', results='asis'}
 overview <- cbind(data.frame(Exp=1:6)
+  , data.frame(Presentation=c("30ms vs. 100ms (masked)", "masked vs. nonmasked (30ms)", "masked vs. nonmasked (30ms)", "30ms, 50ms, 100ms (masked)", "30ms, 100ms, 1000ms (masked)", "30ms, 100ms, 900ms (masked)"), check.names = FALSE)
   , data.frame(Orienting=c("CS Identification", "Valence focus", "Valence/brightness focus", "Brightness focus", "CS Identification", "CS/US Identification"), check.names = FALSE)
   , data.frame("CS Materials"=c("Nonwords", "Nonwords", "Nonwords", "Nonwords", "Nonwords, Faces, Products", "Products"), check.names = FALSE)
-  , data.frame(Presentation=c("30ms vs. 100ms, masked", "masked vs. nonmasked, 30ms", "masked vs. nonmasked, 30ms", "30ms, 50ms, 100ms, masked", "30ms, 100ms, 1000ms, masked", "30ms, 100ms, 900ms, masked"), check.names = FALSE)
 )
 apa_table(
   overview
@@ -314,4 +241,3 @@ apa_table(
 )
 ```
 
-\clearpage
