@@ -1,4 +1,4 @@
-## Absence of evaluative conditioning with briefly presented conditioned stimuli even at above-chance identification levels
+## Subliminal evaluative conditioning? Above-chance CS identification may be necessary and insufficient for attitude learning
 
 ### Authors: Christoph Stahl, Julia Haaf, and Olivier Corneille
 
