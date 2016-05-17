@@ -21,6 +21,6 @@
   presented and masked CSs are either not robust, are very small, or are limited to
   specific conditions that remain to be identified (or any combination of these).
 
-This repository contains the <b> 8revised) manuscript (main.pdf, <a href="http://github.com/methexp/subliminal-EC/raw/master/main.pdf">click here to download</a>)</b>, as well as data, code, and materials necessary to reproduce the manuscript (<a href="https://github.com/methexp/subliminal-EC/archive/master.zip">download entire project</a> and open main.Rmd in RStudio).
+This repository contains the <b> (revised) manuscript (main.pdf, <a href="http://github.com/methexp/subliminal-EC/raw/master/main.pdf">click here to download</a>)</b>, as well as data, code, and materials necessary to reproduce the manuscript (<a href="https://github.com/methexp/subliminal-EC/archive/master.zip">download entire project</a> and open main.Rmd in RStudio).
 
 The (revised) manuscript is in press at JEP:General.
