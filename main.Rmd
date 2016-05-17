@@ -1,5 +1,6 @@
 ---
-title: Absence of evaluative conditioning with briefly presented conditioned stimuli even at above-chance identification levels
+title: Subliminal evaluative conditioning? Above-chance CS identification may be necessary
+  and insufficient for attitude learning
 author:
 - address: Herbert-Lewin-Str. 2, D-50931 Cologne, Germany
   affiliation: 1
@@ -14,7 +15,7 @@ affiliation:
 - id: 1
   institution: University of Cologne
 - id: 2
-  institution: Université Catholique de Louvain
+  institution: Université Catholique du Louvain
 output:
   pdf_document: papaja::apa6_pdf
   html_document: default
@@ -26,33 +27,33 @@ keywords: attitude acquisition, implicit learning, evaluative conditioning, auto
   awareness
 lang: english
 lineno: no
-note: "WORD COUNT: 18100\n\n Christoph Stahl and Julia Haaf, Department of Psychology,
-  University of Cologne. Olivier Corneille, Psychological Science Research Institute,
-  Université catholique de Louvain. Julia Haaf is now at the University of Missouri.\n\nCS,
-  JH, and OC planned the research and wrote the article. CS and JH implemented the
-  studies and analyzed results. \n\nThe research reported in this article was supported
-  by DFG grant 1269/3-1 to Christoph Stahl.\n\n Data, code, and materials necessary
-  to reproduce the article are available at https://github.com/methexp/subliminal-EC."
+note: "Christoph Stahl and Julia Haaf, Department of Psychology, University of Cologne.
+  Olivier Corneille, Psychological Sciences Research Institute, Université catholique
+  de Louvain. Julia Haaf is now at the University of Missouri.\n\nCS, JH, and OC planned
+  the research and wrote the article. CS and JH implemented the studies and analyzed
+  results. \n\nThe research reported in this article was supported by DFG grant 1269/3-1
+  to Christoph Stahl.\n\n Data, code, and materials necessary to reproduce the analyses
+  reported in the article are available at https://github.com/methexp/subliminal-EC."
 bibliography:
 - ./material/r-references.bib
 - ./material/methexp.bib
-
-shorttitle: Absence of EC with briefly presented CSs
+shorttitle: EC requires supraliminal CSs
 abstract: Previous research has claimed that evaluative conditioning (EC) effects
   may obtain in the absence of perceptual identification of conditioned stimuli (CSs).
-  A recent meta-analysis, based on a small body of evidence ($k = 8$ studies), suggested
-  similar effect sizes for supra- and subliminal CSs [@hofmann_evaluative_2010]. We
-  critically discuss this prior evidence, and then report and discuss six experimental
+  A recent meta-analysis suggested similar effect sizes for supra- and subliminal
+  CSs, but this was based on a small body of evidence [$k = 8$ studies; @hofmann_evaluative_2010].
+  We critically discuss this prior evidence, and then report and discuss six experimental
   studies that investigate EC effects for briefly presented CSs using more stringent
-  methods. Across these studies, we varied a number of parameters, namely CS duration,
-  the presence or absence of a masking procedure, the presence or absence of a visibility
-  check, CS material, and the orienting instructions communicated to participants.
-  Across studies, we were consistently unable to obtain evidence for briefly presented
-  and masked EC effects. In most studies, this pattern was observed despite above-chance
-  identification of the CSs. A meta-analysis conducted across the 27 experimental
-  conditions supports the conclusion that EC effects for briefly presented and masked
-  CSs are either not robust, are very small, or are limited to specific conditions
-  that remain to be identified (or any combination of these).
+  methods. Across these studies, we varied CS duration, the presence or absence of
+  masking, the presence or absence of a CS identification check, CS material, and
+  the instructions communicated to participants. EC effects for longer-duration CSs
+  were modulated by attention to the CS-US pairing. Across studies, we were consistently
+  unable to obtain EC for briefly presented CSs. In most studies, this pattern was
+  observed despite above-chance perceptual identification of the CSs. A meta-analysis
+  conducted across the 27 experimental conditions supported the null hypothesis of
+  no EC for perceptually unidentified CSs. We conclude that EC effects for briefly
+  presented and masked CSs are either not robust, are very small, or are limited to
+  specific conditions that remain to be identified (or any combination of these).
 ---
 
 

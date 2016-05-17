@@ -41,14 +41,14 @@ library(BayesFactor)
 
 # Experiment 1
 
-In Experiment 1, CSs were presented for either 30 or 100 ms and paired with multiple USs of the same valence, which were presented as background images during the pairing phase. 
+In Experiment 1, nonword CSs were presented for either 30 or 100 ms and paired with multiple USs of the same valence, which were presented as background images during the pairing phase. 
 After the pairing phase, participants evaluated the CSs on rating scales. 
 Participants were asked to pay attention to the briefly presented stimuli in the center of the screen, and to try to identify them. 
-Based on the results of a pre-test, we expected CS identification to be slightly above chance in the short (30ms masked) presentation condition.
+Based on the results of a pretest, we expected CS identification to be slightly above chance in the short (30ms masked) presentation condition.
 
 In addition to the non-words, we also used words of the German language as filler CSs. 
 This was done to further reduce the overall difficulty of the task of identifying the briefly flashed stimuli in order to keep up participants' motivation throughout the experiment. 
-The word data are not reported because they are irrelevant for our hypotheses.
+The word data are not reported as they are irrelevant for our hypotheses.
 
 ```{r 'exp1_prepare', warning = FALSE, message = FALSE, echo=FALSE}
 
@@ -121,11 +121,11 @@ We realized a 2 (US valence: positive vs. negative) x 2 (CS duration: 30 vs. 100
 ### Materials
 
 As CSs, we used 24 nonwords [taken from @brendl_how_2001; @stahl_respective_2009]. 
-In addition, 24 words were used as motivational filler stimuli, half being of positive and half of negative valence [taken from @klauer_priming_2007]. 
+In addition, 24 words were used as filler stimuli, half being of positive and half of negative valence [taken from @klauer_priming_2007]. 
 As USs, we used 25 positive ($M = `r uslist_val$PleasureM[uslist_val$Val=='Pos']`$) and 25 negative ($M = `r uslist_val$PleasureM[uslist_val$Val=='Neg']`$) IAPS pictures [@lang_international_2008]. 
 A list of IAPS stimuli is given in the Appendix.  
 
-Each CS (and motivational stimulus) was paired with 5 different US images of the same valence.
+Each CS stimulus (nonwords and filler words) was paired with 5 different US images of the same valence.
 Half of each of the sets of CS stimuli (24 nonwords, 12 positive words, 12 negative words) was paired with positive USs and the other half with negative USs; 
 half of each of these sets of pairings was presented in the 100 ms condition, and the other half was presented in the 30 ms condition. 
 Assignment of CS and US stimuli to experimental conditions was randomized for each participant anew. 
@@ -135,15 +135,14 @@ Forward and backward masks were generated randomly from the set of consonants fo
 
 The study was administered on a personal computer controlled by software written in C. 
 Participants were seated in a cubicle and instructed that they would see words and meaningless letter strings (nonwords) very briefly, and that they should try to identify them. 
-They were told that this is a difficult task that requires concentration, and that they would not always be able to identify the word or nonword; 
+They were told that the task is difficult and requires concentration, and that they would not always be able to identify the word or nonword; 
 in such cases, they were instructed to guess.
 
-We used simultaneous presentation of CS and US. 
+We realized simultaneous (i.e., temporally overlapping) presentations of CS and US. 
 A trial proceeded as follows: 
 First, the US picture was presented for 1500ms, covering the entire screen. 
 Then a small grey rectangle was presented centrally for 500 ms as an attentional cue and replaced by the forward mask, which was presented for another 500 ms and replaced by the CS. 
-In the supraliminal condition, CSs were presented for 100 ms; in the subliminal condition, they were presented for 30 ms. 
-The CS was replaced by a backward mask, which was presented either for 1400 ms (100 ms condition) or 1470 ms (30 ms condition), after which the screen was cleared. 
+CSs were presented for either 30 ms or 100 ms and replaced by a backward mask, which was presented either for 1400 ms (100 ms condition) or 1470 ms (30 ms condition), after which the screen was cleared. 
 The US remained on screen during the entire CS sequence. 
 Total trial duration was 4s. 
 In this and the following studies, US valence as well as CS duration varied on a trial-by-trial basis, and trial order was determined randomly for each participant anew.
@@ -165,7 +164,7 @@ Thus, in the studies in which three evaluative ratings were collected for each C
 ^[We used `r cite_r("./material/r-references.bib")` for analyses and reproducible reporting.]
 
 
-### Visibility
+### CS identification
 
 ```{r 'exp1_mean_visibility', echo=FALSE, warning=FALSE, message = FALSE}
 
@@ -201,7 +200,7 @@ t.abovechance.out <- apa_print(t.abovechance)
 ```
 
 Participants' mean proportions of correct CS identifications were analyzed in a repeated-measures ANOVA with CS duration (30 vs. 100ms) as the only factor. 
-Mean visibility was affected by CS presentation duration, `r glm.mean.vis$full$cs_duration`: 
+Mean CS identification was affected by CS presentation duration, `r glm.mean.vis$full$cs_duration`: 
 As illustrated in Figure 1, masked CSs presented for 30ms were identified less often ($M = `r round(visibility.1[2], 3)`$, $SD = `r vis.sd.1[2]`$) than those presented for 100ms ($M = `r round(visibility.1[1], 3)`$, $SD = `r vis.sd.1[1]`$). 
 Identification of masked CSs was better than chance (i.e., chance level: $1/48 = `r 1/48`$), `r t.abovechance.out$full`.
 
@@ -284,22 +283,21 @@ visdata.1h <- csdata.agg
 ```
 ## Discussion
 
-First, results showed that participants could identify nonwords above chance level even if they were presented for only 30 ms and masked.
+First, results showed that participants could identify nonwords above chance level even when they were presented for only 30 ms and masked.
 Although identification performance was low, it was clearly above chance, indicating that some CSs could be (at least) partially identified. 
-Previous work has shown that even clearly subliminal stimuli were able to affect cognitive processes [@van_den_bussche_mechanisms_2009], indicating that, under the present slightly supraliminal presentation conditions, an automatic process should be able to operate on the CSs. 
-We conclude that a necessary condition for EC to occur was therefore clearly met.
+Previous work has shown that even clearly subliminal stimuli were able to affect cognitive processes [@van_den_bussche_mechanisms_2009], indicating that, under the present slightly supraliminal presentation conditions, awareness-independent processes should be able to operate on the CSs. 
+A necessary condition for EC to occur was therefore clearly met.
 
 Experiment 1 nevertheless failed to yield an EC effect: 
 Participants' evaluation of the CSs did not vary as a function of US valence, even for clearly visible CSs.
-This suggests that EC is less robust and less automatic than is typically assumed:
+This suggests that EC is less robust than often assumed:
 EC was not obtained, despite the fact that the experimental paradigm was highly similar to that realized in our earlier studies in which we robustly obtained EC [e.g., @stahl_respective_2009].
 In sum, CS identification appears to be necessary but not sufficient for EC.
 
 We identify three potential causes for the lack of an EC effect.
-First, we suspected that the instructions' focus on the visibility check (e.g., instructions referred to identification of CSs as the main task; USs were characterized as background pictures) may have interfered with a more holistic default processing mode that is thought to be conducive to EC, or may simply have led to insufficient attention to the USs. 
-Second, in the present Experiment 1, participants were asked to evaluate both words and nonwords after the learning phase, using the same rating scale. The presence of words might have restricted the range of nonword evaluations, thereby masking potential EC effects.
+First, we suspected that the instructions' focus on the CS identification task (e.g., instructions referred to identification of CSs as the main task; USs were characterized as background pictures) may have interfered with a more holistic default processing mode that is thought to be conducive to EC, or may simply have led to insufficient attention to the USs. 
+Second, as participants were asked to evaluate both words and valenced nonwords after the learning phase using the same rating scale, the presence of words might have restricted the range of nonword evaluations, thereby masking potential EC effects.
 Third, the requirement to work on the CS identification task during the learning phase may have interfered with evaluative learning.
-
 
 # Experiment 2
 
@@ -307,10 +305,10 @@ In Experiment 2, we modified three features of the procedure that may have been 
 First, to increase the amount of attention paid to the US, we explored whether EC for 30ms masked stimuli can be found when a valence focus is induced, as EC effects may depend on an attentional focus on valence during learning [@gast_what_2011]. 
 In the valence-focus orienting task, USs were no longer described as background pictures but were to be attended together with the CSs, and participants were instructed, on each trial, to evaluate the pleasantness of the stimulus pair.
 Second, words were no longer used as filler CSs.
-Third, and most importantly, to investigate whether the absence of EC in Experiment 1 was due to interference from the visibility check, we manipulated the presence versus absence of the visibility check.
-Thus, the visibility check served as a manipulation in this experiment, not as manipulation check:
-If it interfered with EC, we should observe an EC effect for 30ms masked stimuli only for participants who did not perform this check during the learning phase.
-Finally, Experiment 2 also used a different visibility manipulation: 
+Third, and most importantly, to investigate whether the absence of EC in Experiment 1 was due to interference from the CS identification task, we manipulated the presence versus absence of that task.
+Thus, the CS identification task served as a manipulation in this experiment, not as manipulation check:
+If it interfered with EC, we should observe an EC effect for 30ms masked stimuli only for participants who did not perform this task during the learning phase.
+Finally, Experiment 2 also used a different stimulus-strength manipulation: 
 Instead of manipulating presentation duration, we kept duration constant at 30 ms and manipulated the presence versus absence of the forward and backward masks.
 
 ```{r 'exp2_prepare', warning = FALSE, message = FALSE}
@@ -366,8 +364,8 @@ data.all <- rbind(data.all, data.all.2)
 ### Participants and design
 
 A total of $N = `r N_participants`$ students who had not participated in any of the other studies were recruited and received either a monetary compensation or partial course credit. 
-We implemented a 2 (US valence: positive vs. negative) x 2 (CS masking: present vs. absent) x 2 (visibility check: present vs. absent), with repeated measures on the first two factors. 
-Half of participants were randomly assigned to the visibility-check condition, the other half did not perform the visibility check. 
+We implemented a 2 (US valence: positive vs. negative) x 2 (CS masking: present vs. absent) x 2 (CS identification task: present vs. absent) design, with repeated measures on the first two factors. 
+Half of participants were randomly assigned to the CS-identification condition, the other half did not perform the CS identification task. 
 
 ### Materials
 
@@ -379,22 +377,21 @@ Forward and backward masks were generated randomly from the set of consonants fo
 
 ### Procedure
 
-Participants were told that they would see pictures and words from an unknown language. 
+Participants were told that they would see pictures and words from an unfamiliar language. 
 They were told that words would be presented very briefly, and that they would be hidden by random letter strings on some occasions. 
-They were instructed to attend to pictures and words and that we were interested in their overall impression of both. 
+They were instructed to attend to pictures and words and told that we were interested in their overall impression of both. 
 As an orienting task, we induced a valence focus: 
 After each pairing, participants were asked to indicate whether they had a pleasant or an unpleasant impression of the picture-nonword pair. 
 
-To test whether the visibility check during learning affected EC, it was administered only to one half of participants. 
+To test whether the CS identification task during learning affected EC, it was administered only to one half of participants. 
 These participants were asked to identify the nonword they had just seen by selecting it from a list of all 24 nonwords. 
-For the other half of participants, visibility was never tested, and the next trial commenced after the valence rating.
+For the other half of participants, CS identification was never tested.
 
 Trials were similar to Experiment 1, with the exception that presentation duration was constant at 30ms (and the duration of the backward mask was thus constant at 1470ms in the masked condition). 
 Instead of presentation duration, the presence (vs. absence) of forward and backward masks was varied. 
-After each trial, the valence task was presented. 
-In the visibility-check group, it was followed by the visibility task. 
+After each trial, the valence task was presented; in the CS-identification group, it was followed by the CS identification task. 
 After an inter-trial interval of 1000ms, the next trial started. In total, 10 blocks of 24 trials were administered (i.e., each CS-US pair was presented twice). 
-^[Due to a programming error, identification performance in the first five blocks was overwritten by the computer program. 
+^[Due to a programming error, identification performance in the first five blocks was lost. 
 The remaining data from the second half of the learning phase are therefore a somewhat noisy estimate of overall CS identification performance.
 They may also represent a biased estimate, if CS identification increases over time due to learning, or if it decreases over time due to fatigue or decreasing motivation.
 However, we consider such a bias unlikely because the number of presentations (6 or 12) did not affect CS identification performance in Experiment 6 (see below).]
@@ -436,11 +433,11 @@ t.abovechance.out <- apa_print(t.abovechance)
 
 ```
 
-### Visibility
+### CS identification
 
-Using the data from the visibility-check group, mean proportion of correctly identified CSs was analyzed in a repeated-measures ANOVA with masking (mask present vs. absent) as the only factor. 
+Using the data from the CS-identification group, the mean proportion of correctly identified CSs was analyzed in a repeated-measures ANOVA with masking (mask present vs. absent) as the only factor. 
 The results are illustrated in Figure 1.
-Mean visibility was affected by the mask, `r glm.mean.vis$full$masking`: masked items were identified less often ($M = `r visibility.2[2]`, SD = `r vis.sd.2[2]`$) than unmasked items ($M = `r visibility.2[1]`, SD = `r vis.sd.2[1]`$). 
+Mean CS identification was affected by the mask, `r glm.mean.vis$full$masking`: masked items were identified less often ($M = `r visibility.2[2]`, SD = `r vis.sd.2[2]`$) than unmasked items ($M = `r visibility.2[1]`, SD = `r vis.sd.2[1]`$). 
 Identification of masked CSs was descriptively but only marginally better than chance (chance level: $1/24 = `r 1/24`$), `r t.abovechance.out$full`.
 
 ```{r 'exp2_ec_by_presentation', warning = FALSE, echo=FALSE, message=FALSE}
@@ -501,8 +498,8 @@ ec.masked <- apa_print(ec.masked$aov)
 
 ### Evaluative conditioning
 
-Evaluative ratings were analyzed in an ANOVA with visibility-check group as between-participants factor, and with masking and US valence as repeated-measures factors. 
-The between-participants visibility-check factor was not significant, `r ec.duration$full$condition`, and did not enter any significant interactions. 
+Evaluative ratings were analyzed in an ANOVA with CS-identification group as between-participants factor, and with masking and US valence as repeated-measures factors. 
+The between-participants CS-identification factor was not significant, `r ec.duration$full$condition`, and did not enter any significant interactions. 
 We obtained main effects of masking, `r ec.duration$full$masking`, and of US valence, `r ec.duration$full$us_valence`, as well as an interaction between them, `r ec.duration$full$us_valence_masking`. 
 
 The main effect of masking reflects the finding that masked CSs were rated less positively, $M=`r ec.mean.me[2]`$, $SD=`r ec.sd.me[2]`$, than nonmasked CSs, $M=`r ec.mean.me[1]`$, $SD=`r ec.sd.me[1]`$. 
@@ -542,19 +539,19 @@ visdata.2h <- csdata.agg
 ```
 ## Discussion
 
-In this experiment, visibility was high for unmasked CSs and was slightly but not significantly above chance for masked CSs (note here that the power of the visibility test was lower than that of the test for  EC, as only half of the participants entered the former analysis).
-A robust EC effect was obtained for unmasked and clearly visible CSs; this finding support the view that inducing a valence focus promotes EC for visible CSs.
+In this experiment, CS identification was high for unmasked CSs and was slightly but not significantly above chance for masked CSs (note here that the power of the CS identification test was lower than that of the test for EC, as only half of the participants entered the former analysis).
+A robust EC effect was obtained for unmasked and clearly identifiable CSs; this finding support the view that inducing a valence focus promotes EC for identifiable CSs.
 In contrast, there was no evidence for EC in the masked condition. 
-Hence, under valence-focus instructions EC seems to vanish when reaching the boundaries of conscious perception. 
-Perhaps most importantly, this study revealed that the visibility check/identification task did not affect EC: 
-the two groups had comparable levels of EC for unmasked CSs. 
+Hence, under valence-focus instructions EC appears to vanish when reaching the boundaries of conscious perception. 
+Perhaps most importantly, this study revealed that the CS identification task did not affect EC: 
+both groups had comparable levels of EC for unmasked CSs. 
 
 #Experiment 3
 
-Experiment 3 realizes another attempt to demonstrate EC for subliminal CSs, and to test whether such an EC effect is modulated by processing goals.
-We examined the role of processing goals in EC by directly manipulating this factor. 
-That an EC effect was obtained under valence-focus instructions in Experiment 2 but was not obtained under CS-identification instructions in Experiment 1 is consistent with the view that EC depends on processing goals [@corneille_beyond_2009; @gast_what_2011]. 
-Experiment 3 moves one step towards incidental learning conditions by comparing the valence-focus instruction to a brightness-judgment orienting task. 
+Experiment 3 realizes another attempt at demonstrating EC for briefly presented and masked CSs, and to test whether such an EC effect is modulated by processing goals or, put differently, the attentional requirements of the orienting task.
+That an EC effect was obtained under valence-focus instructions in Experiment 2 but was not obtained under CS-identification instructions in Experiment 1 is consistent with the view that EC depends on the goal of processing US valence [@corneille_beyond_2009; @gast_what_2011]. 
+We examined the role of processing goals in EC by directly manipulating this factor:
+Experiment 3 compared the valence-focus instruction to a brightness-judgment orienting task. 
 In the brightness-focus condition, we eliminated the valence-processing requirement of the orienting task while maintaining the requirement that attention be directed toward the CS and US as a pair.
 
 ```{r 'exp3_prepare', warning = FALSE, message = FALSE}
@@ -610,7 +607,7 @@ Half of participants were randomly assigned to the valence orienting task, the o
 
 The same materials were used as in Experiment 2.  
 Procedure was largely identical to that used in Experiment 2, with the following exceptions: 
-Participants were told to attend to the picture-word pair and that we were interested in their perceptual impression. 
+Participants were instructed to attend to the picture-word pair and told that we were interested in their perceptual impression. 
 Half of participants performed the valence-focus task (i.e., after each pairing, they were asked to indicate whether they had a pleasant or an unpleasant impression of the stimulus pair). 
 The other half performed a brightness task: They were asked to indicate whether their perceptual impression of the pair was better described as 'bright' or as 'dark'. 
 After the perceptual-impression orienting task, all participants were asked, on every trial, to identify the nonword they had seen by selecting it from a list of all `r nCS` nonwords.
@@ -618,7 +615,7 @@ After the perceptual-impression orienting task, all participants were asked, on 
 
 ## Results
 
-### Visibility
+### CS identification
 
 ```{r 'exp3_mean_visibility', echo=FALSE, warning=FALSE, message = FALSE}
 
@@ -684,9 +681,9 @@ t.abovechance.bri <- apa_print(t.abovechance)
 ```
 
 Mean proportion of correct CS identifications was analyzed in a masking (mask present vs. absent) by orienting task (valence vs. brightness) ANOVA with repeated measures on the first factor. 
-Mean visibility was affected by the mask, `r glm.mean.vis$full$masking`, but neither by orienting task, `r glm.mean.vis$full$condition`, nor the interaction, `r glm.mean.vis$full$condition_masking`. 
+Mean CS identification was affected by the mask, `r glm.mean.vis$full$masking`, but neither by orienting task, `r glm.mean.vis$full$condition`, nor the interaction, `r glm.mean.vis$full$condition_masking`. 
 The main effect of masking is illustrated in Figure 1; it reflected the fact that masked CSs were identified less often ($M = `r round(visibility.3[2],2)`, SD = `r visibility.sd.3[2]`$) than non-masked CSs ($M = `r round(visibility.3[1],2)`, SD = `r round(visibility.sd.3[1],2)`$).
-In both groups, identification of masked CSs was above chance (i.e., valence-focus: `r t.abovechance.val$full`; brightness-focus: `r t.abovechance.bri$full`).
+In both groups, identification of masked CSs was above chance; valence-focus: `r t.abovechance.val$full`; brightness-focus: `r t.abovechance.bri$full`.
 
 ```{r 'exp3_ec_by_presentation', warning = FALSE}
 
@@ -774,7 +771,7 @@ We obtained main effects of masking, `r ec.duration$full$masking`, and of US val
 The main effect of masking again reflected a preference for unmasked CSs ($M=`r ec.mean.me[1]`, SD=`r ec.sd.me[1]`$) over masked CSs ($M=`r ec.mean.me[2]`, SD=`r ec.sd.me[2]`$). 
 The main effect of US valence (i.e., the EC effect, reflecting more positive ratings for CSs paired with positive than with negative USs) was qualified by the interaction with masking: 
 As shown in Figure 1, an EC effect was obtained for unmasked CSs, `r ec.unmasked$full$us_valence`, but not for masked CSs, `r ec.masked$full$us_valence`.
-The lack of an EC effect for masked CSs also holds when analyzed separately for the orientation task groups (valence: `r ec.masked.v$full$us_valence`; brightness: `r ec.masked.b$full$us_valence`).
+The lack of an EC effect for masked CSs also holds when analyzed separately for the orientation task groups; valence: `r ec.masked.v$full$us_valence`; brightness: `r ec.masked.b$full$us_valence`.
 
 ```{r 'exp3_ec_by_identification', warning = FALSE}
 
@@ -812,14 +809,14 @@ visdata.3h <- csdata.agg
 ## Discussion 
 
 The brightness task was successful in inducing an EC effect for unmasked CSs. 
-We replicated the finding that EC does not occur under conditions of reduced identification: 
+We replicated the finding that EC does not occur under conditions of reduced CS identification: 
 Whereas EC was observed for unmasked stimuli, we did not find EC for masked stimuli. 
-The type of learning instruction did not matter: Identical patterns were obtained under both intentional (valence) and incidental (brightness) orientation conditions.
-This finding is consistent with previous findings suggesting that stimulus valence may be processed unintentionally [@olson_implicit_2009].
+The type of learning instruction did not matter: Identical patterns were obtained under both orientation conditions, suggesting that attention to the valence dimension is not required for EC to obtain.
+This finding is consistent with previous findings suggesting that stimulus valence may be processed spontaneously [@olson_implicit_2009].
 
 # Experiment 4
 
-In Experiment 4, we attempted to further generalize the findings to the visibility manipulation used in Experiment 1, that is, by manipulating presentation duration instead of masking.
+In Experiment 4, we attempted to further generalize the findings to the stimulus-strength manipulation used in Experiment 1, that is, by manipulating presentation duration instead of masking.
 The CSs were presented either for 30, 50, or 100 ms, and all CSs were masked. 
 
 We also attempted to reduce the orienting task's potential for interference with EC: 
@@ -948,11 +945,11 @@ t.abovechance.noresp <- apa_print(t.abovechance)
 
 ```
 
-### Visibility
+### CS identification
 
 Participants' mean proportion of correctly identified CSs was analyzed in a CS duration (30, 50, 100 ms) by orienting response (present vs. absent) ANOVA with repeated measures on the first factor. 
 Results are depicted in Figure 2.
-Mean visibility was affected by duration, `r glm.mean.vis$full$cs_duration`, but not by orienting response, `r glm.mean.vis$full$condition`, nor their interaction, `r glm.mean.vis$full$condition_cs_duration`.
+Mean CS identification was affected by duration, `r glm.mean.vis$full$cs_duration`, but not by orienting response, `r glm.mean.vis$full$condition`, nor their interaction, `r glm.mean.vis$full$condition_cs_duration`.
 Masked CSs presented for 30ms were identified in less than one out of ten trials ($M=`r round(visibility.4[1],2)`, SD=`r round(visibility.sd.4[1],2)`$), reflecting above-chance (i.e., $1/24=`r 1/24`$) performance in both the response-present and response-absent groups, `r t.abovechance.resp$stat`, and `r t.abovechance.noresp$stat`, respectively.
 The CSs presented for 50ms were identified in one out of four trials ($M=`r visibility.4[2]`, SD=`r visibility.sd.4[2]`$), 
 and those presented for 100 ms were identified in approximately four out of five trials ($M=`r visibility.4[3]`, SD=`r visibility.sd.4[3]`$).
@@ -1023,9 +1020,9 @@ ec.100 <- apa_print(ec.100$aov)
 
 Evaluative ratings were analyzed in an ANOVA with orienting response as between-participants factor, and with CS duration as well as US valence as repeated-measures factors. 
 We obtained a main effect of CS duration, `r ec.duration$full$cs_duration`,
-a non-significant effect of US valence, `r ec.duration$full$us_valence`, 
+a non-significant main effect of US valence, `r ec.duration$full$us_valence`, 
 as well as their significant interaction, `r ec.duration$full$us_valence_cs_duration`. 
-The presence vs. absence of an orienting response did not affect ratings, `r ec.duration$full$condition`, nor did it interact with US valence, `r ec.duration$full$condition_us_valence`, or CS duration, `r ec.duration$full$condition_cs_duration`; the three-way interaction was also not significant, `r ec.duration$full$condition_us_valence_cs_duration`.
+The presence versus absence of an orienting response did not affect ratings, `r ec.duration$full$condition`, nor did it interact with US valence, `r ec.duration$full$condition_us_valence`, or CS duration, `r ec.duration$full$condition_cs_duration`; the three-way interaction was also not significant, `r ec.duration$full$condition_us_valence_cs_duration`.
 
 The main effect of CS duration reflected the finding that CSs presented for 30 and 50 ms ($M=`r ec.mean.me[1]`, SD=`r ec.sd.me[1]`$, and $M=`r ec.mean.me[2]`, SD=`r ec.sd.me[2]`$, respectively) were rated less positively than CSs presented for 100 ms ($M=`r ec.mean.me[3]`, SD=`r ec.sd.me[3]`$). 
 The main effect of US valence (i.e., the EC effect) was qualified by the interaction with CS duration: 
@@ -1070,10 +1067,10 @@ visdata.4h <- csdata.agg
 ```
 ## Discussion 
 
-We again obtained EC effects only for clearly visible CSs but failed to find EC for briefly presented CSs. 
-This extends our previous findings, which relied on manipulations of the presence versus absence of a mask, to a manipulation of CS duration when all stimuli were masked. 
-In contrast to the notion that a response in the orienting task interferes with EC, we found no effect of manipulating the presence versus absence of the response requirement in the orientation task on visibility or EC.
-Given this finding, it seems unlikely that orienting responses interfered with visibility or EC effects in the present studies.
+We again obtained EC effects only for clearly identifiable CSs but failed to find EC for briefly presented and unidentified CSs. 
+This extends our previous findings, which relied on manipulations of the presence versus absence of a mask, to a stimulus-strength manipulation of CS duration when all stimuli were masked. 
+In contrast to the notion that a response in the orienting task interferes with EC, we found no effect of manipulating the presence versus absence of the response requirement in the orientation task on CS identification or EC.
+Given this finding, it seems unlikely that orienting responses interfered with CS identification or EC effects in the present studies.
 
 #Experiment 5
 
@@ -1126,7 +1123,7 @@ We implemented a 3 (CS duration: 30, 100, 1000 ms) by 3 (CS material: nonwords, 
 
 ### Materials
 
-We used a new set of 24 pronouncable nonwords that were generated from entries of the CELEX database by replacing the vowels; 24 faces were taken from previous work [e.g., @hutter_dissociating_2012]; 24 unknown product images were generated from existing but unfamiliar products by erasing brand names and logos. 
+We used a new set of 24 pronouncable nonwords that were generated from entries of the CELEX database by replacing the vowels; 24 faces were taken from previous work [e.g., @hutter_dissociating_2012]; 24 unknown product images were generated from existing but unfamiliar consumer products by erasing brand names and logos. 
 Contrast settings for all stimuli were adjusted and pretested in order to obtain low visibility in the 30ms condition but high visibility in the 100ms condition. 
 The same IAPS pictures (USs) were used as in the previous experiments.
 Each of the 72 CSs was paired with 4 different USs of the same valence, resulting in a learning phase of 4 blocks of 72 trials each.
@@ -1135,9 +1132,9 @@ As masks, we presented four different random checkerboard patterns.
 ### Procedure
 
 Participants were instructed to attend to and try to identify the centrally presented CS stimulus. 
-As in Experiment 1, they did not receive specific instructions regarding the background pictures (USs). 
+As in Experiment 1, they did not receive specific instructions regarding the background pictures (i.e., USs). 
 CS material was varied on a trial-by-trial basis (i.e., all trials were presented in a new random order for each participant).
-All participants performed the identification task on all trials; 
+All participants performed the CS identification task on all trials: 
 they were to select the CS from a list of 12 options (taken from the same material as the CS on that trial). 
 In contrast to previous experiments, CS stimuli were only post-masked in this study (with post-mask duration determined as 1500 ms minus CS duration; the US, presented in the background, served as a pre-mask), and a single evaluative rating was collected on a continuous scale ranging from -100 to +100 (internally, the scale was coded as ranging from 0 to 200).
 
@@ -1217,14 +1214,14 @@ t.abovechance.out <- apa_print(t.abovechance)
 
 ```
 
-### Visibility
+### CS identification
 
 Mean proportion of correctly identified CSs was analyzed in a CS duration (30, 100, 1000 ms) by CS material (nonword, face, product) repeated-measures ANOVA. 
-Mean visibility was affected by duration, `r glm.mean.vis$full$cs_duration`,
+Mean CS identification was affected by duration, `r glm.mean.vis$full$cs_duration`,
 and by material, `r glm.mean.vis$full$cs_material`,
 as well as their interaction, `r glm.mean.vis$full$cs_duration_cs_material`.
 
-The main effect of duration is illustrated in Figure 2; it reflects the finding that the CSs presented for 30ms were identified less frequently ($M=`r visibility.5[1]`, SD=`r vis.sd.5[1]`$) than those presented for 100ms ($M=`r visibility.5[2]`, SD=`r vis.sd.5[2]`$) and those presented for 1000 ms ($M=`r visibility.5[3]`, SD=`r vis.sd.5[3]`$). 
+The main effect of CS duration is illustrated in Figure 2; it reflects the finding that the CSs presented for 30ms were identified less frequently ($M=`r visibility.5[1]`, SD=`r vis.sd.5[1]`$) than those presented for 100ms ($M=`r visibility.5[2]`, SD=`r vis.sd.5[2]`$) and those presented for 1000 ms ($M=`r visibility.5[3]`, SD=`r vis.sd.5[3]`$). 
 The main effect of material reflects the fact that faces ($M=`r vis.mean.mat[2]`, SD=`r vis.sd.mat[2]`$) were better identified than the other two materials (nonwords: $M=`r vis.mean.mat[1]`, SD=`r vis.sd.mat[1]`$, products: $M=`r vis.mean.mat[3]`, SD=`r vis.sd.mat[3]`$). 
 The interaction reflected the finding that this face advantage was especially prominent in the 30ms condition (faces: $M=`r vis.mean.mat.me[2,1]`$, nonwords: $M=`r vis.mean.mat.me[1,1]`$, products: $M=`r vis.mean.mat.me[3,1]`$),
 and attenuated in the 100ms (faces: $M=`r vis.mean.mat.me[2,2]`$, nonwords: $M=`r vis.mean.mat.me[1,2]`$, products: $M=`r vis.mean.mat.me[3,2]`$) and 1000ms conditions (faces: $M=`r vis.mean.mat.me[2,3]`$, nonwords: $M=`r vis.mean.mat.me[1,3]`$, products: $M=`r vis.mean.mat.me[3,3]`$).  
@@ -1326,8 +1323,8 @@ EC was obtained only for CSs presented for 1000 ms, `r ec.1000$full$us_valence`,
 but not for CSs presented for 30 ms, `r ec.30$full$us_valence`, or 100 ms, `r ec.100$full$us_valence`.
 The EC effect was not modified by the material factor, `r ec.duration$full$us_valence_cs_material`.
 
-The main effect of material reflects the fact that, overall, products ($M=`r ec.mean.mat[3]`, SD=`r ec.sd.mat[3]`$) were rated more positively than faces ($M=`r ec.mean.mat[2]`, SD=`r ec.sd.mat[2]`$), which were in turn rated more positively than nonwords ($M=`r ec.mean.mat[1]`, SD=`r ec.sd.mat[1]`$).
-The two-way interaction between material and CS duration, `r ec.duration$ful$cs_duration_cs_material`,
+The main effect of CS material reflects the fact that, overall, products ($M=`r ec.mean.mat[3]`, SD=`r ec.sd.mat[3]`$) were rated more positively than faces ($M=`r ec.mean.mat[2]`, SD=`r ec.sd.mat[2]`$), which were in turn rated more positively than nonwords ($M=`r ec.mean.mat[1]`, SD=`r ec.sd.mat[1]`$).
+The two-way interaction between CS material and CS duration, `r ec.duration$ful$cs_duration_cs_material`,
 was also significant and reflected the finding that the preference differences across levels of the material factor were attenuated in the 30ms condition in which the latter two materials were evaluated similarly (faces: $M=`r ec.mean.mat.me[2,1]`, SD=`r ec.sd.mat.me[2,1]`$, nonwords: $M=`r ec.mean.mat.me[1,1]`, SD=`r ec.sd.mat.me[1,1]`$). 
  
 
@@ -1369,26 +1366,27 @@ visdata.5h <- csdata.agg
  
 ## Discussion
 
-The absence of EC for subliminal CSs was replicated for a different set of nonwords, as well as extended to faces and product images. 
-CS visibility was greater in this study due to the different presentation conditions (i.e., images instead of words, pixel pattern masks instead of random consonant strings, only backward-masking); 
-however, there were again no EC effects in the 30ms and 100ms conditions. 
+The absence of EC for briefly presented and masked CSs was replicated for a different set of nonwords, as well as extended to faces and product images. 
+CS identification was greater in this study due to the different presentation conditions (i.e., images instead of words, pixel pattern masks instead of random consonant strings, only backward-masking); 
+however, there were again no EC effects in the 30ms masked condition. 
 
-Under similar conditions as in Experiment 1, Experiment 5 obtained an EC effect for CSs presented for longer durations (i.e., 1000ms) that are typical of EC studies.
-The study therefore replicates the finding from Experiment 1 that, when participants are instructed to focus on CS identification, the valence of irrelevant background pictures is not automatically registered and associated with CSs, even if those CSs are clearly visible in many cases (i.e., in the 100ms condition). 
-This finding suggests that CS identification is not sufficient for EC to occur under incidental learning conditions, but that some minimal amount of attentional processing to the USs is necessary.
-
+Experiment 5 did obtain an EC effect for CSs presented for longer durations (i.e., 1000ms) that are typical of EC studies.
+However, as in Experiment 1, there was no EC in the 100ms condition.
+This difference in findings between the 100ms and 1000ms conditions may be explained by the notion that 100ms CS presentations may have resulted, under the current presentation conditions, in a weaker memory trace of the CS-US episode, which subsequently failed to support evaluative learning.
+Alternatively, EC may have failed to obtain for the 100ms conditions in Experiments 1 and 5 because the difference in presentation onset of CS and US did not allow for implicit misattribution effects to operate.
+We addressed this possibility in a final study.
 #Experiment 6
 
-In a final study, we attempted to realize an incidental learning situation similar to the surveillance paradigm [@olson_implicit_2001]. 
+In a final study, we attempted to realize an incidental learning situation closely resembling the surveillance paradigm [@olson_implicit_2001]. 
 In this paradigm, participants are typically told to view a (supposedly random) stream of stimuli and are instructed to pay attention to the identity of all of the stimuli. 
-This is an incidental learning instruction in that it does not focus on valence or on pairings; yet, it ensures that both CS and US stimuli are attended. 
+This is an incidental learning instruction in that it does not focus participants` attention on valence or on pairings; yet, it ensures that both CS and US stimuli are attended. 
 In this paradigm, EC effects have repeatedly been obtained in the absence of memory for CS-US pairings, and these findings have been interpreted as the result of an implicit-misattribution process by which the affective response elicited by the US is misattributed as being caused by the CS [@jones_evaluative_2010].
 According to this account, an EC effect in the absence of awareness should occur when source confusability for the evaluative response to the US is maximized; 
-procedural features thought to maximize source confusability (and, by implication, an unaware EC effect) are simultaneous presentation onset of CS and US, spatial contiguity or proximity of CS and US, the pairing of a CS with (a sufficient number of) different USs, and high CS (relative to US) salience. 
+procedural features thought to maximize source confusability (and, by implication, an awareness-independent EC effect) are simultaneous presentation onset of CS and US, spatial contiguity or proximity of CS and US, the pairing of a CS with (a sufficient number of) different USs, and high CS (relative to US) salience. 
 These features were realized in Experiment 6, in which we focused participants' attention on both the CS and the US by asking them to identify the CS on some trials and to identify the US on other trials, with participants not knowing until after the trial which stimulus they would have to identify. 
 We also realized a common presentation onset of CS and US.
-To increase CS salience, participants were asked to attend to the CS, which was presented centrally and cued by the forward mask.
-CS and US stimuli were approximately of the same size, which should also increase CS saliency compared to the previous experiments. 
+To increase CS salience, participants were asked to always attend to the CS first, which was presented centrally and cued by the forward mask.
+CS and US stimuli were approximately of the same size, which also increased CS salience compared to the previous experiments. 
 As in previous studies, we paired each CS with several different USs of the same valence.
 
 
@@ -1467,12 +1465,15 @@ On the trials with a valent (positive or negative) US, they were later asked to 
 In about one third of trials, CSs were presented with neutral USs; in these trials, participants were asked to identify the US from a list of six options at the end of the trial. 
 In other words, participants were informed about which stimulus they had to identify on that trial only when the set of identification options was presented, so they had to pay attention to both stimuli.
 
-According to @jones_evaluative_2010, a small number of pairings of a CS with different USs may not be sufficient to produce an unaware EC effect. 
+According to @jones_evaluative_2010, a small number of pairings of a CS with different USs may not be sufficient to produce an awareness-independent EC effect. 
 Therefore, we manipulated the number of pairings for a given CS: Of the 16 CSs which were presented for a duration of 30ms, eight were paired with six different USs during learning (i.e., 48 trials), and another set of eight CSs were paired with 12 USs (i.e., 96 trials). 
 In addition, there were four CSs (two for each US valence) that were presented for 100ms and 900ms, respectively; each was paired with 12 USs (resulting in another 96 trials).
 This also implies that, assuming comparable variability, statistical power was greater for detecting EC effects for the (larger number of) briefly presented CSs than for the (smaller number of) CSs presented for longer durations.
 
-Each trial consisted of the presentation of CS and US with a common onset and the identification task in which either CS or US had to be identified. 
+Each trial started with a 500ms preparation period, followed by a pre-mask stimulus that was presented for 500ms and served as a fixation goal.
+It was replaced by the joint presentation of CS and US that shared a common onset.
+The CS was replaced by a post-mask stimulus, which was presented together with the US for a total duration of 1000ms.
+It was followed by the identification task in which either CS or US had to be identified. 
 In total, there were 336 trials, divided into six blocks of 56 trials each. 
 In between blocks, participants were asked to take a break and to press a key to resume the experiment as soon as they were ready.
 After the presentation phase, evaluative ratings were collected on a 19-point rating scale with endpoints labelled as ‘unpleasant' (0) and ‘pleasant' (18).
@@ -1521,10 +1522,10 @@ t.abovechance.2 <- apa_print(t.abovechance)
 
 ```
 
-### Visibility
+### CS identification
 
 Mean proportion of correct CS identifications was analyzed in an ANOVA with CS type (30ms/6 pairings, 30ms/12 pairings, 100ms, 900ms) as repeated-measures factor.
-Figure 2 shows that, as expected, mean visibility was affected by CS duration, `r glm.mean.vis$full$condition`.
+Figure 2 shows that, as expected, mean CS identification was affected by CS duration, `r glm.mean.vis$full$condition`.
 The identification performance for briefly presented (i.e., 30ms) CSs was clearly above chance (chance-level: 1/6) and comparable for the CSs with 6 pairings, `r t.abovechance.1$full`, and those with 12 pairings, `r t.abovechance.2$full`, indicating that increasing the number of CS-US pairings did not affect CS identification.
 CS identification was very good in the 100ms condition ($M=`r visibility.6[1]`, SD=`r vis.sd.6[1]`$) and nearly perfect in the 900ms condition ($M=`r visibility.6[4]`, SD=`r vis.sd.6[4]`$).
 
@@ -1593,7 +1594,7 @@ but only a marginally significant effect of US valence, `r ec.duration$full$us_v
 The EC effect also did not interact with CS type, `r ec.duration$full$us_valence_condition`. 
 The main effect of CS type reflected the finding that briefly presented CSs (30ms/6 pairings: $M=`r ec.mean.me[3]`, SD=`r ec.sd.me[3]`$, 30ms/12 pairings: $M=`r ec.mean.me[2]`, SD=`r ec.sd.me[2]`$) were evaluated less positively than clearly visible items (100ms: $M=`r ec.mean.me[1]`, SD=`r ec.sd.me[1]`$; 900ms: $M=`r ec.mean.me[4]`, SD=`r ec.sd.me[4]`$).
 
-Replicating previous findings, there was again a significant EC effect for CSs presented for longer durations (100 or 900ms), `r ec.g30$full$us_valence`, but no EC effect for briefly presented CSs (30ms, 6 or 12 pairings), `r ec.30$full$us_valence`.
+Most importantly, there was again a significant EC effect for CSs presented for longer durations (100 or 900ms), `r ec.g30$full$us_valence`, but no EC effect for briefly presented CSs (30ms, 6 or 12 pairings), `r ec.30$full$us_valence`.
 
 
 ```{r 'exp6_ec_by_identification', warning=FALSE, message=FALSE, echo=FALSE}
@@ -1631,10 +1632,9 @@ visdata.6h <- csdata.agg
 ```
 ## Discussion
 
-Experiment 6 realized an incidental-learning paradigm for which EC effects in the absence of awareness (assessed as memory for CS-US pairings) have been repeatedly reported.
-Using this paradigm, we investigated the notion that the processes underlying such unaware EC effects may also produce EC under subliminal presentation conditions.
-Replicating previous findings in the present study, we obtained small EC effects for longer CS presentation durations.
-However, we again failed to obtain an EC effect for briefly presented and masked CSs.
+Experiment 6 realized an incidental-learning paradigm for which EC effects in the absence of awareness, when operationalized as memory for CS-US pairings, have been repeatedly reported.
+Using this paradigm, we investigated the notion that the processes underlying these EC effects may also produce EC under brief and masked CS presentation conditions.
+Replicating results of our previous experiments, we obtained (small) EC effects for longer CS presentation durations, but failed to obtain an EC effect for briefly presented and masked CSs.
 
 ```{r 'prepare aggregated data', eval=TRUE, warning=FALSE}
 
@@ -1725,7 +1725,7 @@ data.agg$group[data.agg$cs_duration == '50ms'] <- n
 
 ```
 
-```{r 'fig_each_exp_1', fig.width=6, fig.height=8, fig.cap="EC effects (left panels, a) and visibility (right panels, b) for Experiments 1-3. Violin plots (background) show EC effects for individual participants (i.e., the width of the violin plot reflects the density of the distribution of EC effects). Group means (and 95% CIs) are superimposed in black."}
+```{r 'fig_each_exp_1', fig.width=6, fig.height=8, fig.cap="EC effects (left panels, a) and CS identification (right panels, b) for Experiments 1 (top), 2 (middle), and 3 (bottom). Violin plots (background) show distribution of EC effects (i.e., the width of the violin plot reflects the density of the distribution of EC effects across participants). Group means (and 95% CIs) are superimposed in black."}
 
 data.1 <- data.all.1
 data.2 <- data.all.2
@@ -1737,14 +1737,14 @@ par(mfrow = c(3, 2))
 # plot ec
 durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data.1, FUN= mean)
 durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
-durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms"))
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms"), labels = c("30 ms", "100 ms"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 ncond <- length(unique(durationdata$condition))
 par(mar=c(3,4,3,1))
 par(las = 1)
 simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
-  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
-  , border = c(gray(0.6), gray(0.3)), ylim = c(-3,3))
+  , col = c(gray(0.8), gray(0.3)), pch = 21, bg = c(gray(0.9), gray(0.4)), xlab = "", ylab = ""
+  , border = c(gray(0.7), gray(0.3)), ylim = c(-3,3))
 title(main = "1a")
 
 abline(h = 0, col = "gray70")
@@ -1757,7 +1757,7 @@ plotCI(1:ncond, conf[,2], ui = conf[,1], li = conf[,3]
 
 # plot visibility
 visdata <- aggregate(vis.correct~vpnr+cs_duration, data=data.1, FUN= mean)
-visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms"))
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms"), labels=c("30 ms", "100 ms"))
 visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
 conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -1783,13 +1783,13 @@ offset=.075
 # plot ec violin for all conditions
 durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.2, FUN= mean)
 durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
-durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"), labels = c("Mask", "No mask"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 ncond <- length(unique(durationdata$condition))
 par(mar=c(3,4,3,1))
 par(las = 1)
 simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
-  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
+  , col = c(gray(0.8), gray(0.3)), pch = 21, bg = c(gray(0.9), gray(0.4)), xlab = "", ylab = ""
   , border = c(gray(0.6), gray(0.3)), ylim = c(-3,3))
 title(main = "2a")
 
@@ -1799,7 +1799,7 @@ mtext("EC Effect", side=2, line=2.5, las = 3)
 # Ci only for one
 durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.2, subset=data.2$condition=="vischeck", FUN= mean)
 durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
-durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"), labels = c("Mask", "No mask"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 conf <- tapply(durationdata$ec, durationdata$condition, CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -1808,13 +1808,13 @@ plotCI(x=1:ncond-offset, y=conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, p
 
 durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.2, subset=data.2$condition=="nocheck", FUN= mean)
 durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
-durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"), labels = c("Mask", "No mask"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 17, lwd = 1.2)
 
 # plot visibility
 visdata <- aggregate(vis.correct~vpnr+masking, data=data.2, subset=data.2$condition=="vischeck", FUN= mean)
-visdata$condition <- factor(visdata$masking, levels = c("mask", "nomask"))
+visdata$condition <- factor(visdata$masking, levels = c("mask", "nomask"), labels = c("Mask", "No mask"))
 visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
 conf <- tapply(visdata$vis.correct, visdata$condition, CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -1832,7 +1832,7 @@ axis(4, at = seq(0, 1 , .2), las = 2)
 mtext("Accuracy", side=4, line=2.5, las = 3)
 plotCI(1:ncond, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lwd = 1.2)
 
-legend("topleft", legend=c("Visibility check", "No visibility check"), pch=c(19,17), bty="n")
+legend("topleft", legend=c("With CS identification", "Without CS identification"), pch=c(19,17), bty="n")
 
 ## exp3
 
@@ -1841,13 +1841,13 @@ offset=.075
 # plot ec violin for all
 durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.3, FUN= mean)
 durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
-durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"), labels = c("Mask", "No mask"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 ncond <- length(unique(durationdata$condition))
 par(mar=c(3,4,3,1))
 par(las = 1)
 simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
-  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
+  , col = c(gray(0.8), gray(0.3)), pch = 21, bg = c(gray(0.9), gray(0.4)), xlab = "", ylab = ""
   , border = c(gray(0.6), gray(0.3)), ylim = c(-3,3))
 title(main = "3a")
 
@@ -1857,7 +1857,7 @@ mtext("EC Effect", side=2, line=2.5, las = 3)
 # ci only for one condition
 durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.3, subset=data.3$condition=="valence", FUN= mean)
 durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
-durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"), labels = c("Mask", "No mask"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -1866,7 +1866,7 @@ plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch =
 # and the other
 durationdata <- aggregate(rating ~ vpnr + us_valence + masking, data.3, subset=data.3$condition=="brightness", FUN= mean)
 durationdata <- dcast(durationdata, vpnr + masking ~ us_valence)
-durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"))
+durationdata$condition <- factor(durationdata$masking, levels = c("mask", "nomask"), labels = c("Mask", "No mask"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -1874,7 +1874,7 @@ plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch =
 
 # plot visibility
 visdata <- aggregate(vis.correct~vpnr+masking, data=data.3, subset=data.3$condition=='valence', FUN= mean)
-visdata$condition <- factor(visdata$masking, levels = c("mask", "nomask"))
+visdata$condition <- factor(visdata$masking, levels = c("mask", "nomask"), labels = c("Mask", "No mask"))
 visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
 conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -1895,7 +1895,7 @@ plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch =
 #2nd condition
 visdata <- aggregate(vis.correct~vpnr+masking, data=data.3,
                      subset=data.3$condition=='brightness', FUN= mean)
-visdata$condition <- factor(visdata$masking, levels = c("mask", "nomask"))
+visdata$condition <- factor(visdata$masking, levels = c("mask", "nomask"), labels = c("Mask", "No mask"))
 visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
 conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -1903,11 +1903,11 @@ lines(x = 1:ncond+offset, y=conf[,2], lty=2)
 plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 17, lwd = 1.2, gap=TRUE)
 
 # solid/circles=valence, dashed/triangles=brightness
-legend("topleft", legend=c("Valence focus", "Brightness focus"), pch=c(19,17), bty="n")
+legend("topleft", legend=c("Valence judgment", "Brightness judgment"), pch=c(19,17), bty="n")
 
 ```
 
-```{r 'fig_each_exp_2', fig.width=6, fig.height=8, fig.cap="EC effects (left panels, a) and visibility (right panels, b) for Experiments 4-6. Violin plots (background) show EC effects for individual participants (i.e., the width of the violin plot reflects the density of the distribution of EC effects). Group means (and 95% CIs) are superimposed in black."}
+```{r 'fig_each_exp_2', fig.width=6, fig.height=8, fig.cap="EC effects (left panels, a) and CS identification (right panels, b) for Experiments 4 (top), 5 (middle), and 6 (bottom). Violin plots (background) show distribution of EC effects (i.e., the width of the violin plot reflects the density of the distribution of EC effects across participants). Group means (and 95% CIs) are superimposed in black."}
 data.4 <- data.all.4
 data.5 <- data.all.5
 data.6 <- data.all.6
@@ -1919,13 +1919,13 @@ offset=.075
 # plot ec violin for all
 durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.4, FUN= mean)
 durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
-durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "50ms", "100ms"))
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "50ms", "100ms"), labels = c("30 ms", "50 ms", "100 ms"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 ncond <- length(unique(durationdata$condition))
 par(mar=c(3,4,3,1))
 par(las = 1)
 simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
-  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
+  , col = c(gray(0.8), gray(0.3)), pch = 21, bg = c(gray(0.9), gray(0.4)), xlab = "", ylab = ""
   , border = c(gray(0.6), gray(0.3)), ylim = c(-3,3))
 title(main = "4a")
 
@@ -1934,7 +1934,7 @@ mtext("EC Effect", side=2, line=2.5, las = 3)
 
 durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.4, subset=data.4$condition=="response", FUN= mean)
 durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
-durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "50ms", "100ms"))
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "50ms", "100ms"), labels = c("30 ms", "50 ms", "100 ms"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -1943,7 +1943,7 @@ plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch =
 # ec 2nd condition
 durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.4, subset=data.4$condition=="noresponse", FUN= mean)
 durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
-durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "50ms", "100ms"))
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "50ms", "100ms"), labels = c("30 ms", "50 ms", "100 ms"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -1952,7 +1952,7 @@ plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch =
 
 # plot visibility
 visdata <- aggregate(vis.correct~vpnr+cs_duration, data=data.4, subset=data.4$condition=="response", FUN= mean)
-visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "50ms", "100ms"))
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "50ms", "100ms"), labels = c("30 ms", "50 ms", "100 ms"))
 visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
 conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -1973,7 +1973,7 @@ plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch =
 
 #vis 2nd condition
 visdata <- aggregate(vis.correct~vpnr+cs_duration, data=data.4, subset=data.4$condition=="noresponse", FUN= mean)
-visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "50ms", "100ms"))
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "50ms", "100ms"), labels = c("30 ms", "50 ms", "100 ms"))
 visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
 conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -1990,13 +1990,13 @@ offset=.15
 # plot ec
 durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.5, FUN= mean)
 durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
-durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"), labels = c("30 ms", "100 ms", "1000 ms"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 ncond <- length(unique(durationdata$condition))
 par(mar=c(3,4,3,1))
 par(las = 1)
 simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
-  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
+  , col = c(gray(0.8), gray(0.3)), pch = 21, bg = c(gray(0.9), gray(0.4)), xlab = "", ylab = ""
   , border = c(gray(0.6), gray(0.3)), ylim = c(-50,50))
 title(main = "5a")
 
@@ -2005,7 +2005,7 @@ mtext("EC Effect", side=2, line=2.5, las = 3)
 
 durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.5, subset=data.5$cs_material=="nonwords", FUN= mean)
 durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
-durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"), labels = c("30 ms", "100 ms", "1000 ms"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -2015,7 +2015,7 @@ plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch =
 #ec 2nd
 durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.5, subset=data.5$cs_material=="photos", FUN= mean)
 durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
-durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"), labels = c("30 ms", "100 ms", "1000 ms"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -2025,7 +2025,7 @@ plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch =
 #ec 3rd
 durationdata <- aggregate(rating ~ vpnr + us_valence + cs_duration, data=data.5, subset=data.5$cs_material=="products", FUN= mean)
 durationdata <- dcast(durationdata, vpnr + cs_duration ~ us_valence)
-durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+durationdata$condition <- factor(durationdata$cs_duration, levels = c("30ms", "100ms", "1000ms"), labels = c("30 ms", "100 ms", "1000 ms"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 conf <- tapply(durationdata$ec, durationdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -2035,7 +2035,7 @@ plotCI(1:ncond, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 15, lw
 # plot visibility
 
 visdata <- aggregate(vis.correct~vpnr + cs_duration, data=data.5, subset=data.5$cs_material=="nonwords", FUN= mean)
-visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms", "1000ms"), labels = c("30 ms", "100 ms", "1000 ms"))
 visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
 conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -2056,7 +2056,7 @@ plotCI(1:ncond+offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch =
 
 # 2nd condition: faces
 visdata <- aggregate(vis.correct~vpnr + cs_duration, data=data.5, subset=data.5$cs_material=="photos", FUN= mean)
-visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms", "1000ms"), labels = c("30 ms", "100 ms", "1000 ms"))
 visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
 conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -2065,7 +2065,7 @@ plotCI(1:ncond-offset, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch =
 
 # 3nd condition: products
 visdata <- aggregate(vis.correct~vpnr + cs_duration, data=data.5, subset=data.5$cs_material=="products", FUN= mean)
-visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms", "1000ms"))
+visdata$condition <- factor(visdata$cs_duration, levels = c("30ms", "100ms", "1000ms"), labels = c("30 ms", "100 ms", "1000 ms"))
 visdata$condition <- relevel(visdata$condition, levels(durationdata$condition)[1])
 conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
@@ -2082,12 +2082,13 @@ durationdata <- aggregate(rating ~ vpnr + us_valence + condition, data=data.6, F
 durationdata <- dcast(durationdata, vpnr + condition ~ us_valence)
 durationdata$condition <- relevel(durationdata$condition, "30ms/12")
 durationdata$condition <- relevel(durationdata$condition, "30ms/6")
+durationdata$condition <- factor(durationdata$condition, levels=c("30ms/6", "30ms/12", "100ms","900ms"), labels=c("30 ms (6)", "30 ms (12)", "100 ms", "900 ms"))
 durationdata$ec <- durationdata$pos - durationdata$neg
 ncond <- length(unique(durationdata$condition))
 par(mar=c(3,4,3,1))
 par(las = 1)
 simple.violinplot(ec ~ condition, data = durationdata, names=levels(durationdata$condition)
-  , col = c(gray(0.6), gray(0.3)), pch = 21, bg = c(gray(0.7), gray(0.4)), xlab = "", ylab = ""
+  , col = c(gray(0.8), gray(0.3)), pch = 21, bg = c(gray(0.9), gray(0.4)), xlab = "", ylab = ""
   , border = c(gray(0.6), gray(0.3)), ylim = c(-6,6))
 title(main = "6a")
 
@@ -2100,8 +2101,10 @@ plotCI(1:ncond, conf[,2], ui = conf[,1], li = conf[,3], add = TRUE, pch = 19, lw
 
 # plot visibility
 visdata <- aggregate(vis.correct~vpnr+condition, data=data.6, FUN= mean)
+#visdata$condition <- factor(visdata$masking, levels = c("mask", "nomask"))
 visdata$condition <- relevel(visdata$condition, "30ms/12")
 visdata$condition <- relevel(visdata$condition, "30ms/6") 
+visdata$condition <- factor(visdata$condition, levels=c("30ms/6", "30ms/12", "100ms","900ms"), labels=c("30 ms (6)", "30 ms (12)", "100 ms", "900 ms"))
 conf <- tapply(visdata$vis.correct, visdata$condition, Rmisc::CI)
 conf <- matrix(unlist(conf), ncol = 3, byrow = TRUE)
  
@@ -2134,10 +2137,12 @@ Finally, we focus on the subset of briefly presented and masked CSs and analyze 
 
 ## Interpretability of the null finding of no EC for brief and masked CSs
 
-It could be argued that the article's central finding is based on a null effect (i.e., the absence of EC under suboptimal presentation conditions). 
-Actually, the central finding relates to the presence of significant interactions: Where EC was obtained under conditions that made it possible for participants to consciously process the CS-US pairings, it consistently vanished when approaching conscious perception boundaries (i.e., by using a masking procedure or by reducing CS presentation duration).
-In addition, CS identification was significantly above chance in almost all the experiments reported here, such that presentation conditions allowed for a detectable amount of cognitive processing of the CSs.
-Finally, the lack of an EC effect cannot be attributed to a lack of statistical power, as each of the individual experiments reported here was highly powered. 
+In Experiments 2-5, we obtained significant interactions between CS presentation manipulation and US valence: 
+Where EC was obtained under conditions that made it possible for participants to consciously process the CS-US pairings, it consistently vanished when approaching conscious perception boundaries (i.e., when using a masking procedure or by reducing CS presentation duration).
+Nevertheless, one might argue that the article's central finding is based on a null effect (i.e., the absence of EC under suboptimal presentation conditions), and that the studies may have lacked sufficient statistical power for obtaining an EC effect for subliminal CSs.
+We believe this is not the case, for empirical as well as statistical reasons. 
+First, CS identification was slightly but significantly above chance in almost all the experiments reported here, demonstrating that the studies allowed for detecting relatively small effects.
+Perhaps more importantly, the lack of an EC effect cannot be attributed to a lack of statistical power, as each of the individual experiments reported here was highly powered. 
 The power to detect an effect of the size suggested by the @hofmann_evaluative_2010 meta-analysis (i.e., $d = 0.46$) was high in every single study (i.e., $1 - \beta \ge .95$). 
 The present designs further demonstrated its sufficient power by obtaining significant EC effects in the long/unmasked presentation conditions that were often smaller than .46 (see below for a meta-analysis).
 Thus, if an EC effect of comparable magnitude would have occurred under suboptimal presentation conditions, we would have detected it in the present studies.
@@ -2220,7 +2225,7 @@ For briefly presented and masked CSs, the mean EC effect size was practically ze
 For longer presentations, the EC effect size was of medium size, $d=`r metaECduration$TE.random.w[1]`$ (95% CI: `r metaECduration$lower.random.w[1]`, `r metaECduration$upper.random.w[1]`), more comparable to the effects reported in the @hofmann_evaluative_2010 meta-analysis (i.e., $.46<d<.49$).
 Because the EC effect varied substantially across the long/unmasked conditions ($Q=`r metaECduration$Q.w[1]`, df=`r metaECduration$k.w[1]-1`, `r metaECduration_long_p`$), we included orientation task as a moderator for this subset of effects.
 
-```{r 'meta-analysis by orientation', fig.width=8, fig.height=8, fig.cap="Meta-analysis of EC effects in the present study (grouped by homogeneous subsets of experimental conditions)"}
+```{r 'meta-analysis by orientation', fig.width=8, fig.height=8, fig.cap="Results of random-effects meta-analysis of EC effects obtained in the present study, grouped by homogeneous subsets of experimental conditions. Effect size estimates and 95% confidence intervals are given for individual conditions as well as group means. The forest plot illustrates effect size estimates (squares represent individual conditions, with size indicative of precision and lines representing 95% CI; diamonds represent group means, with horizontal extent reflecting 95% CIs). "}
 ## by presentation and orientation; divide long-presentation into pair-focus (exp. 2, 3, 4) vs. rest
 v1 <- 'Long/unmasked CS; Attend individual CS (US)'
 v2 <- 'Long/unmasked CS; Attend CS-US pair'
@@ -2262,7 +2267,7 @@ metaEC_intent_p <- format_p(pchisq(q = metaECorientation$Q.w[2], df = metaECorie
 metaEC_incid_p <- format_p(pchisq(q = metaECorientation$Q.w[1],  df = metaECorientation$k.w[1]-1, lower.tail = FALSE))
 
 # forest plot
-meta::forest(metaECdur_orient, bylab=TRUE, print.byvar=FALSE, weight="random", ref=0, hetstat=FALSE, comb.random=TRUE,comb.fixed=FALSE,leftlabs=c("Study", "EC (d)", "95% CI"),leftcols=c("studlab","effect","ci"), rightcols=FALSE, overall=FALSE)
+meta::forest(metaECdur_orient, bylab=TRUE, print.byvar=FALSE, weight="random", ref=0, hetstat=FALSE, comb.random=TRUE,comb.fixed=FALSE,leftlabs=c("Study", "EC (d)", "95% CI"),leftcols=c("studlab","effect","ci"), rightcols=FALSE, overall=FALSE, xlab="EC effect", col.by="black")
 
 # ec mean effects for plots
 EC.30ms.masked <- data.agg[data.agg$cs_duration=='30ms' & data.agg$group==n,]
@@ -2294,29 +2299,29 @@ meta.30ms.unmasked.id <- meta::metagen(TE=EC.30ms.unmasked$ID.cohens.h, seTE=sqr
 
 ### A moderating role of orientation task
 
-The heterogeneity in longer/unmasked presentation conditions points to potential moderating effects of orienting task. We compared EC effects from intentional learning conditions -- in which attention was directed toward the CS-US pair (i.e., the valence and brightness focus conditions) -- to EC effects from incidental learning conditions in which participants' main orienting task was to identify the CSs.
+The heterogeneity in longer/unmasked presentation conditions points to potential moderating effects of orienting task. We compared EC effects from learning conditions in which attention was directed toward the CS-US pair (i.e., the valence and brightness focus conditions) to EC effects from incidental learning conditions in which participants' main orienting task was to identify the individual stimuli.
 
-Under more intentional learning conditions (i.e., for attended CS-US pairs) the mean EC effect size was medium-to-large, $d=`r metaECorientation$TE.random.w[2]`$ (95% CI: `r metaECorientation$lower.random.w[2]`, `r metaECorientation$upper.random.w[2]`); there was no evidence that the effect sizes in this subgroup were heterogeneous ($Q=`r metaECorientation$Q.w[2]`, df=`r metaECorientation$k.w[2]-1`, `r metaEC_intent_p`$).
-In contrast, EC under incidental (i.e.,  CS-identification orientation) conditions was small, $d=`r metaECorientation$TE.random.w[1]`$ (95% CI: `r metaECorientation$lower.random.w[1]`, `r metaECorientation$upper.random.w[1]`); the effect sizes in this subgroup were also homogeneous ($Q=`r metaECorientation$Q.w[1]`, df=`r metaECorientation$k.w[1]-1`, `r metaEC_incid_p`$).
+Under learning conditions that required attention to CS-US pairs, the mean EC effect size was medium-to-large, $d=`r metaECorientation$TE.random.w[2]`$ (95% CI: `r metaECorientation$lower.random.w[2]`, `r metaECorientation$upper.random.w[2]`); there was no evidence that the effect sizes in this subgroup were heterogeneous ($Q=`r metaECorientation$Q.w[2]`, df=`r metaECorientation$k.w[2]-1`, `r metaEC_intent_p`$).
+In contrast, EC was small when participants were not required to attend to the CS-US pair, $d=`r metaECorientation$TE.random.w[1]`$ (95% CI: `r metaECorientation$lower.random.w[1]`, `r metaECorientation$upper.random.w[1]`); the effect sizes in this subgroup were also homogeneous ($Q=`r metaECorientation$Q.w[1]`, df=`r metaECorientation$k.w[1]-1`, `r metaEC_incid_p`$).
 
 Taken together, EC effects were zero for subliminal (i.e., brief and masked) CS presentations; 
-they were small for supraliminal CSs under incidental learning conditions (i.e., when participants attended only to individual CS/US stimuli);
-and they were medium-to-large for supraliminal CSs under more intentional learning conditions (i.e., when participants attended to CS-US pairs). 
+they were small for supraliminal CSs under incidental learning conditions when participants attended only to individual CS/US stimuli;
+and they were medium-to-large for supraliminal CSs under incidental learning conditions that required attention to CS-US pairs. 
 Figure 3 summarizes the EC effects for the three homogeneous subgroups identified in the meta-analysis.
 
 ## EC and CS identification as a function of CS presentation duration
 
-One way to analyze whether EC effects can obtain in the absence of awareness is to investigate whether they occur in the absence of CS visibility.
+One way to analyze whether EC effects can obtain in the absence of awareness is to investigate whether they occur in the absence of CS identification.
 Figure 4 plots CS identification and EC effects (as well as their meta-analytic means and 95% CIs) as a function of CS presentation duration; it illustrates the point(s) on the duration axis at which EC and identification begin to exhibit non-zero effect sizes.
-If EC effects require little or no conscious CS visibility, then EC effect sizes should be greater than those for CS identification, especially at brief presentation durations.
+If EC effects require little or no CS identification, then EC effect sizes should be greater than those for CS identification, especially at brief presentation durations.
 In particular, EC effect sizes should be greater than zero when CS identification is zero.
-In contrast, if EC requires CSs to be consciously visible as a necessary precondition, then EC effect sizes should be smaller than those for CS identification.
+In contrast, if EC requires CSs to be identifiable as a necessary precondition, then EC effect sizes should be smaller than those for CS identification.
 Results support the later possibility: 
 CS identification was above chance already at 30ms, and clearly so at 100ms, showing large effects.
 In contrast, EC effects were zero at 30ms, and were only small at 100ms.
 Figure 4 shows that, across all levels of CS presentation duration, EC effect sizes were consistently smaller than those for CS identification, supporting the second interpretation.
 
-```{r 'fig1_ec_effects', fig.width=6, fig.height=4, fig.cap="CS identification (circles; solid line) and EC effects (triangles; dashed line) by CS duration. Symbols represent effects of individual studies; lines represent meta-analytic means (and 95% CIs). Brief non-masked presentation conditions ($k=3$) are not depicted."}
+```{r 'fig1_ec_effects', fig.width=6, fig.height=4, fig.cap="CS identification effects (circles; solid line) and EC effects (triangles; dashed line) by CS duration. Symbols represent effects of individual studies; lines represent meta-analytic means (with error bars showing 95% CIs). Brief non-masked presentation conditions ($k=3$) are not depicted."}
 
 subset.data <- subset(data.agg, masking != "nomask")
 subset.data$cs_duration <- as.numeric(substr( as.character(subset.data$cs_duration), 0, nchar(as.character(subset.data$cs_duration))-2))
@@ -2406,18 +2411,18 @@ If the process underlying EC effects is independent of awareness, a single-disso
 Figure 5 shows that this dual-process prediction was not confirmed: 
 nonzero EC effects were obtained only in the presence of medium-to-large CS identification effects.
 
-Another possible dissociation that could show up in this plot is the sensitivity dissociation [@schmidt_criteria_2006].
+Another possible dissociation that could show up in this plot is the sensitivity dissociation [@schmidt_criteria_2006;@reingold_using_1988].
 It assumes that the CS identification task is more sensitive to conscious processing than the EC effect.
-If this assumption holds, we can conclude that EC operates independently of conscious CS identification if EC effects are of greater magnitude than the respective CS identification effects. 
+If this assumption holds, we can conclude that EC operates independently of CS identification if EC effects are of greater magnitude than the respective CS identification effects. 
 ^[Such a comparison only makes sense if both effects are expressed in the same metric; as a caveat, although we have computed comparable effect size metrics, they are not strictly identical, and Cohen's $h$ can sometimes be difficult to interpret (e.g., perfect CS identification performance is equivalent to $h=1.05$ given a chance level of $1/2$, and to $h=1.4$ given a chance level of $1/6$).]
-In the figure, such a dissociation would be reflected by data points that lie above the main diagonal.
+In Figure 5, such a dissociation would be reflected by data points that lie above the main diagonal.
 Whereas some data points from individual experimental conditions seem to suggest that there is such evidence, all meta-analytic mean effect sizes lie below the main diagonal, indicating the absence of a sensitivity dissociation.
 
-To summarize, we have investigated the relation between conscious CS identification and EC effects in qualitative manner.
+To summarize, Figures 4 and 5 investigate the relation between  CS identification and EC effects in qualitative manner.
 Dual-process theories of evaluative learning predict that EC effects are possible in the absence of awareness.
-Contrasting this prediction, both figures show that EC effects depend on above-chance visibility of CS stimuli -- in fact, above-chance visibility is necessary yet insufficient for EC.
+Contrasting this prediction, both figures show that EC effects depend on above-chance identification of CS stimuli -- in fact, above-chance CS identification is necessary yet insufficient for EC.
 
-```{r 'fig2_state_trace_plot', fig.width=6, fig.height=4, fig.cap="EC effects as a function of CS identification (with meta-analytic means and 95% CIs; squares: 30ms; diamonds: 50ms; triangles: 100ms; circles: 900/1000ms; crosses: 30ms non-masked)."}
+```{r 'fig2_state_trace_plot', fig.width=6, fig.height=4, fig.cap="EC effect sizes (Cohen's d) as a function of CS identification effect sizes (Cohen's h) for individual conditions (open symbols) and meta-analytic means (filled symbols; error bars show 95% CIs). Symbol indicates CS presentation condition (squares: 30ms; diamonds: 50ms; triangles: 100ms; circles: 900/1000ms; crosses: 30ms non-masked)."}
 
 # EC effect sizes as a function of identification effect sizes (with meta-analytic means and 95% CIs)
 
@@ -2431,8 +2436,8 @@ unmasked <- subset(data.agg, masking == "nomask")
 plot(x = data.agg$ID.cohens.h
      , y = data.agg$EC.cohens.D
      , col = 0, xlim=c(-.1,1.6), ylim=c(-.1,1.6)
-     , xlab = "CS identification (Cohen's h)"
-     , ylab = "EC effect (Cohen's d)"
+     , xlab = "CS identification (h)"
+     , ylab = "EC effect (d)"
      , bty="n"
      )
 abline(h=0, lty='dotted')
@@ -2477,7 +2482,7 @@ arrows(x0 = vis.mean, y0 = d.mean,
 
 ## Correlation between CS identification and EC effects for the subset of briefly presented and masked CSs
 
-```{r 'hier', cache=TRUE}
+```{r 'hier', cache=TRUE, warning=FALSE}
 
 hout <- function(m){
   paste0("_{(df = ", m[2,7] ,")} = ", round(m[2,6], 2), ", p = ", round(m[2,8], 2))
@@ -2583,7 +2588,7 @@ hier6 <- anova(h6b, h6c)
 ```
 
 
-```{r 'fig_vis-by-rating', fig.width=8, fig.height=9, fig.cap="Evaluative ratings of only the briefly presented and masked CSs as a function of CS identification (horizontal axis) and US valence. Symbol represents US valence (plus: positive USs; minus: negative USs; symbols are jittered to avoid overplotting). Lines (solid: positive USs; dashed: negative USs) represent locally smoothed regression models (with 95% confidence bands).", warning=FALSE}
+```{r 'fig_vis-by-rating', fig.width=8, fig.height=9, fig.cap="Evaluative ratings of only the briefly presented (30ms) and masked CSs, plotted as a function of CS identification (horizontal axis) and US valence. Symbol type represents US valence (+: positive USs; -: negative USs; each symbol represents an individual CS rated by one participant; symbols are jittered to avoid overplotting). Lines (solid: positive USs; dashed: negative USs) depict locally smoothed regression models (with 95% confidence bands).", warning=FALSE}
 
 
 library(ggplot2)
@@ -2621,25 +2626,25 @@ grid.arrange(
 
 Although the previous analyses did not yield evidence for subliminal EC, they did not address the possibility that this might be due to a mixture of processes operating on the set of briefly presented and masked CSs.
 For instance, if a subliminal EC effect obtained for the subset of objectively unidentified CSs, but a contrast (or negative) EC effect obtained for another subset, namely those CSs that were identified correctly above chance, then aggregating over both types of CSs -- as we have done in our analyses of EC as a function of CS presentation -- would mask the presence of a subliminal EC effect.
-To investigate this possibility, we investigated the subset of briefly presented and masked CSs more closely; specifically, we investigated evaluative ratings as a function of US valence and CS identification performance.
+To investigate this possibility, we investigated the subset of briefly presented and masked CSs more closely; specifically, we investigated evaluative ratings of individual CSs as a function of US valence and CS identification performance.
 
 We analyzed the data for briefly presented and masked CSs using linear mixed models that are suitable for the present incomplete designs (i.e., for many participants, some of the possible CS-identification by US-valence combinations were not observed).
 CS evaluations were modelled as a function of US valence and CS identification performance as fixed factors.
 Random person and item factors were additionally included, with random intercepts as well as random slopes on both fixed factors.
 Additional factors in a given experiment (i.e., orienting task in Experiment 3, CS duration in Experiment 4, CS material in Experiment 5), as well as their interactions with US valence and CS identification, were also added as fixed factors.
-To evaluate the notion that EC was correlated with visibility even for briefly presented and masked CSs, we tested whether a model that included the US-valence by CS-identification interaction term was better able to account for the data than a model without such a term.
-^[We did not analyze Experiment 2 because of the incomplete CS-identification data. For the data from Experiments 1 & 3, model convergence was reached only when some (Exp.1) or all (Exp.3) random item slopes were dropped.]
+To evaluate the notion that EC was correlated with CS identification even for briefly presented and masked CSs, we tested whether a model that included the US-valence by CS-identification interaction term was better able to account for the data than a model without such a term.
+^[We did not analyze Experiment 2 because of the incomplete CS-identification data. For the data from Experiments 1 & 3, model convergence was reached only when random item slopes were dropped.]
 With the exception of Experiment 3, the model without an interaction term was preferred (i.e., omitting the term did not harm model fit) in 
-Exp.1, $\chi`r hout(hier1)`$; 
+Exp.1, $\chi_{(df = 2)} < .01, p > .99$; 
 Exp.4 (30ms), $\chi`r hout(hier304)`$; 
 Exp.4 (50ms), $\chi`r hout(hier504)`$; 
 Exp.5, $\chi`r hout(hier5)`$; 
 and Exp.6, $\chi`r hout(hier6)`$.
 In Experiment 3, a robust three-way interaction with orienting-task obtained, and separate analyses revealed that a correlation between CS identification and EC was present in the brightness-focus group, $\chi`r hout(hierb3)`$, but not in the valence-focus group, $\chi`r hout(hierv3)`$.
-In that group, as depicted in Figure 6, an EC effect tends to emerge for brief and masked CSs when they were correctly identified on 3 or more trials.
-While it might be worthwhile to follow up on this finding, perhaps using a subjective-threshold approach, this significant interaction should be interpreted with caution because (a) the effect is based on relatively few observations that had 3 or more correct CS identifications, (b) linear mixed models are prone to inflated Type I error rates when they do not include the maximal random effects structure [@barr_random_2013], and (c) the effect is in contrast with the nonsignificant interaction obtained in Experiment 4 which also used a brightness-focus task.
+In the former group, as depicted in Figure 6, an EC effect tends to emerge for brief and masked CSs when they were correctly identified on 3 or more trials.
+While it might be worthwhile to follow up on this finding (perhaps using a subjective-threshold approach) this significant interaction should be interpreted with caution because (a) the effect is based on relatively few observations that had 3 or more correct CS identifications, (b) linear mixed models are prone to inflated Type I error rates when they do not include the maximal random effects structure [@barr_random_2013], and (c) the effect is in contrast with the nonsignificant interaction obtained in Experiment 4 which also used a brightness-focus task.
 
-These results indicate the general lack of a correlation between CS visibility and EC in the set of briefly presented and masked CSs.
+These results indicate the general lack of a correlation between CS identification and EC in the set of briefly presented and masked CSs.
 This is also apparent from Figure 6, which illustrates evaluative ratings of brief and masked CSs as a function of CS identification performance and US valence. 
 The depicted regression lines (with confidence bands) overlap, showing the absence of an EC effect, and similar slopes for positive and negative USs indicate the absence of a US-valence by CS-identification interaction.
 Although this analysis is merely correlational (i.e., because CS identification performance was measured, not manipulated), it helps rule out the possibility that an EC effect for incorrectly identified CSs was masked by a contrastive or negative EC effect for supraliminal CSs.
